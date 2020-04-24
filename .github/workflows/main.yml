@@ -1,0 +1,56 @@
+name: Build and release
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'package.json'
+      - 'CHANGELOG.md'
+jobs:
+  buildStorybook:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v1
+      -
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+          registry-url: https://registry.npmjs.org/
+      -
+        name: Installing npm modules
+        run: npm install
+      -
+        name: Build storybook
+        run: npm run build-storybook
+      -
+        name: Add CNAME config
+        run: echo vuetiful.labor.tools > ./storybook-static/CNAME
+      -
+        name: Deploy storybook
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./storybook-static
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v1
+      -
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10
+          registry-url: https://registry.npmjs.org/
+      -
+        name: Create Changelog and bump release version
+        uses: labor-digital/conventional-release-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+      -
+        name: Publish library on npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+

@@ -1,0 +1,13 @@
+node_modules
+!.keep
+storybook-static
+
+# Don't commit compiled sources
+dist
+
+# IDEA Code Style
+.idea/*
+!.idea/copyright/
+!.idea/copyright/*
+!.idea/codeStyles/
+!.idea/codeStyles/*
