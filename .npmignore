@@ -3,3 +3,5 @@ node_modules
 src
 .github
 .gitignore
+stories
+.storybook
