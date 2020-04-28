@@ -19,7 +19,15 @@
 <template>
 	<div class="vuetifulHome">
 		<h1>Vuetiful - UI Skeletons</h1>
-		<a href="https://github.com/labor-digital/vuetiful" target="_blank">GitHub</a>
+		<div class="container">
+			<p>This is a library of Vue.js UI components. Contrary to what you find in most other libraries on the interwebs vuetiful aims to be "ugly".</p>
+			<p>Wait what? Yes, we want to provide the implementation of components without any unnecessary styling. The components are provided as skeletons with only the required
+				css you need for them to function. All other theming has to be done by yourself.</p>
+			<p>But why? Because for highly customized projects it is always a hassle to use a material/bootstrap library
+				and convert the styles to match your designer's layouts.
+			</p>
+		</div>
+		<a href="https://github.com/labor-digital/vuetiful" target="_blank">Find the code on GitHub</a>
 	</div>
 </template>
 
@@ -33,6 +41,9 @@
 	.vuetifulHome
 		line-height: 1.4
 		font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif
+		
+		.container
+			max-width: 600px
 		
 		a
 			color: #1e3c5a

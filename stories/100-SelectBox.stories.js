@@ -18,6 +18,7 @@
 
 import {withKnobs} from "@storybook/addon-knobs";
 import SelectBox from "../src/Components/SelectBox/SelectBox";
+import "../src/Components/SelectBox/Storybook.sass";
 
 // Global configuration of your component
 export default {
@@ -30,7 +31,17 @@ export default {
 export const Default = () => {
 	return ({
 		components: {SelectBox},
-		template: "<select-box></select-box>",
+		template: "<select-box :items='items'></select-box>",
+		data() {
+			return {
+				v: "",
+				items: [
+					{label: "Test A", value: "a"},
+					{label: "Test B", value: "b"},
+					{label: "Test C", value: "c"}
+				]
+			};
+		},
 		props: {}
 	});
 };

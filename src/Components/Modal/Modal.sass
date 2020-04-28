@@ -1,0 +1,166 @@
+/*!
+ / Copyright 2020 LABOR.digital
+ /
+ / Licensed under the Apache License, Version 2.0 (the "License");
+ / you may not use this file except in compliance with the License.
+ / You may obtain a copy of the License at
+ /
+ /     http://www.apache.org/licenses/LICENSE-2.0
+ /
+ / Unless required by applicable law or agreed to in writing, software
+ / distributed under the License is distributed on an "AS IS" BASIS,
+ / WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ / See the License for the specific language governing permissions and
+ / limitations under the License.
+ /
+ / Last modified: 2019.07.31 at 15:54
+ /
+
+// Set this to false to disable the breakpoint handling for the modal
+$modal-use-breakpoints: true !default
+
+// The widths of the modal on certain breakpoints
+$modal-width: 1110px !default
+$modal-width-lg: 970px !default
+$modal-width-md: 80% !default
+$modal-width-sm: auto !default
+$modal-min-width-sm: 80% !default
+$modal-width-xs: auto !default
+$modal-min-width-xs: 100% !default
+
+// The widths of the small version on certain breakpoints
+$modal-small-width: 800px !default
+$modal-small-width-md: 60% !default
+$modal-small-width-sm: auto !default
+$modal-small-min-width-xs: 100% !default
+
+// Try to get the breakpoints from the sassy package or use the built-in defaults
+$_modal-bp-list: (lg: 1200px, md: 992px, sm: 768px, xs: 550px) !default
+@if variable_exists(sassyBreakpointXlMin)
+  $_modal-bp-list: (lg: $sassyBreakpointXlMin, md: $sassyBreakpointLgMin, sm: $sassyBreakpointMdMin, xs: $sassyBreakpointSmMin)
+$modal-bp-lg: map-get($_modal-bp-list, lg) !default
+$modal-bp-md: map-get($_modal-bp-list, md) !default
+$modal-bp-sm: map-get($_modal-bp-list, sm) !default
+$modal-bp-xs: map-get($_modal-bp-list, xs) !default
+
+// The base padding around the content -> Also used as base for margins
+$modal-padding: 30px !default
+// The backdrop background color between the page and the modal
+$modal-background-color: fade_out(#000, 0.5) !default
+// The color of the modal window itself
+$modal-content-bg-color: #fff !default
+// The time the fade in animation should take
+$modal-animation-time: 0.3s !default
+
+.modal
+  $block: &
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  cursor: default
+  z-index: 5000
+  background-color: transparent
+  box-sizing: border-box
+  
+  &--small
+    & .modal__content
+      width: $modal-small-width
+      
+      @if $modal-use-breakpoints
+        @media (max-width: $modal-bp-md)
+          width: $modal-small-width-md
+        @media (max-width: $modal-bp-sm)
+          width: $modal-small-width-sm
+          min-width: $modal-small-min-width-xs
+  
+  &--centerV
+    & .modal__content
+      @media (min-width: $modal-bp-sm) and (min-height: 500px)
+        margin: 0
+        top: 50%
+        -webkit-transform: translateY(-50%)
+        -moz-transform: translateY(-50%)
+        -ms-transform: translateY(-50%)
+        -o-transform: translateY(-50%)
+        transform: translateY(-50%)
+  
+  &__background
+    display: block
+    position: fixed
+    top: 0
+    left: 0
+    background-color: $modal-background-color
+    width: 100%
+    height: 100%
+  
+  &__close
+    cursor: pointer
+    position: absolute
+    top: 0
+    right: -40px
+    
+    @media (max-width: $modal-bp-sm)
+      right: $modal-padding / 2
+      top: -40px
+    
+    &Icon:after
+      color: #fff
+  
+  &__content
+    box-sizing: border-box
+    position: relative
+    display: table
+    background-color: $modal-content-bg-color
+    padding: $modal-padding * 2
+    padding-bottom: $modal-padding * 3
+    top: 0
+    margin: $modal-padding * 3 0 $modal-padding * 2 0
+    width: $modal-width
+    
+    @if $modal-use-breakpoints
+      @media (max-width: $modal-bp-lg)
+        width: $modal-width-lg
+      @media (max-width: $modal-bp-md)
+        width: $modal-width-md
+      @media (max-width: $modal-bp-sm)
+        padding: $modal-padding
+        padding-bottom: $modal-padding * 2
+        width: $modal-width-sm
+        min-width: $modal-min-width-sm
+        left: $modal-padding / 2
+        margin-right: $modal-padding
+      @media (max-width: $modal-bp-xs)
+        width: $modal-width-xs
+        min-width: $modal-min-width-xs
+        padding: $modal-padding $modal-padding / 2 $modal-padding * 2 $modal-padding / 2
+        left: 0
+        margin-right: 0
+  
+  &__scrollWrapper
+    position: absolute
+    display: flex
+    justify-content: center
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow: hidden
+    overflow-y: auto
+
+// Animation
+.fade-enter, .fade-leave-active
+  transition: all $modal-animation-time
+  opacity: 0
+  
+  .modal__content
+    transition: all $modal-animation-time
+    margin-top: 50px
+
+.fade-enter-active, .fade-leave
+  transition: all $modal-animation-time
+  
+  .modal__content
+    transition: all $modal-animation-time
+  
