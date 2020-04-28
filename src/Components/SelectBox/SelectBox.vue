@@ -254,7 +254,8 @@
 			 * A static array of suggestions (data fetched from backend, etc)
 			 */
 			items: {
-				type: [Array, String],
+				type: Array,
+				default: () => [],
 				required: false,
 				note: "array of suggestions (data fetched from backend, etc)."
 			},
