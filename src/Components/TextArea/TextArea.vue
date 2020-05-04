@@ -39,6 +39,8 @@
 </template>
 
 <script lang="ts">
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+
 	export default {
 		name: "TextArea",
 		props: {
@@ -93,8 +95,8 @@
 				return {
 					"textArea__input--required": this.required,
 					"textArea__input--disabled": this.disabled,
-					"textArea_input--readonly": this.readOnly,
-					"textArea__input--error": this.error !== ""
+					"textArea__input--readonly": this.readOnly,
+					"textArea__input--error": this.error !== "" || !isUndefined(this.error)
 				}
 			}
 		},

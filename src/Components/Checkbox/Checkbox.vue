@@ -38,6 +38,7 @@
 
 <script lang="ts">
 	import {CheckboxInputs} from "./Checkbox";
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 
 	export default {
 		name: "Checkbox",
@@ -71,14 +72,14 @@
 		},
 		methods: {
 			hasLabel(v): boolean {
-				return v !== undefined || v !== ""
+				return !isUndefined(v) || v !== ""
 			},
 			classes(item): Object {
 				return {
 					"checkbox__input--required": item.required,
 					"checkbox__input--disabled": item.disabled,
 					"checkbox__input--readonly": item.readOnly,
-					"checkbox__input--error": item.error !== ""
+					"checkbox__input--error": item.error !== "" || !isUndefined(this.error)
 				}
 			},
 			updateValue(index, e) {

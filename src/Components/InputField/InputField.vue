@@ -40,6 +40,8 @@
 </template>
 
 <script lang="ts">
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+
 	export default {
 		name: "InputField",
 		props: {
@@ -107,7 +109,7 @@
 					"inputField__input--required": this.required,
 					"inputField__input--disabled": this.disabled,
 					"inputField__input--readonly": this.readOnly,
-					"inputField__input--error": this.error !== ""
+					"inputField__input--error": this.error !== "" || !isUndefined(this.error)
 				}
 			}
 		},

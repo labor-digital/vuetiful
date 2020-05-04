@@ -38,6 +38,7 @@
 
 <script lang="ts">
 	import {RadioInputs} from "./Radio";
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 
 	export default {
 		name: "Radio",
@@ -75,14 +76,14 @@
 		},
 		methods: {
 			hasLabel(v): boolean {
-				return v !== undefined || v !== ""
+				return !isUndefined(v) || v !== ""
 			},
 			classes(item): Object {
 				return {
 					"radio__input--required": item.required,
 					"radio__input--disabled": item.disabled,
 					"radio__input--readonly": item.readOnly,
-					"radio__input--error": item.error !== ""
+					"radio__input--error": item.error !== "" || !isUndefined(this.error)
 				}
 			},
 			updateValue(index, e) {
