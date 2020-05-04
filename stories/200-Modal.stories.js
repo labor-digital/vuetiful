@@ -35,10 +35,11 @@ Vue.set(bus, "isOpen", true);
 export const Default = () => {
 	return ({
 		components: {Modal},
-		template: `<modal v-model="isOpen" :isSmall="isSmall"
-			:isVerticallyCentered='isVerticallyCentered'>
-			<span v-html="contentHtml"></span>
-		</modal>`,
+		template: `
+			<modal v-model="isOpen" :isSmall="isSmall"
+					:isVerticallyCentered='isVerticallyCentered'>
+				<span v-html="contentHtml"></span>
+			</modal>`,
 		data() {
 			return {
 				isOpen: bus.isOpen
