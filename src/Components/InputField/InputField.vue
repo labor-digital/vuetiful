@@ -22,17 +22,24 @@
 			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
 			<slot>{{label}}</slot>
 		</label>
-		<input class="inputField__input" :class="classes"
-				:value="value"
-				:type="type"
-				:placeholder="placeholder"
-				:required="required"
-				:readonly="readOnly"
-				:disabled="disabled"
-				@input="updateValue"
-				@change="updateValue"
-				@blur="$emit('blur')"
-				@focus="$emit('focus')"/>
+		<span class="inputField__inputContainer">
+			<input class="inputField__input" :class="classes" ref="inputField"
+					:value="value"
+					:type="type"
+					:placeholder="placeholder"
+					:required="required"
+					:readonly="readOnly"
+					:disabled="disabled"
+					@input="updateValue"
+					@change="updateValue"
+					@blur="$emit('blur')"
+					@focus="$emit('focus')"/>
+			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
+				<!-- @slot set your custom clear icon. As default: &times; -->
+				<slot name="clearIcon">&times;</slot>
+			</span>
+		</span>
+
 		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
 		<slot name="icon"></slot>
 		<span v-if="error" class="inputField__error">{{ error }}</span>
@@ -41,6 +48,7 @@
 
 <script lang="ts">
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 
 	export default {
 		name: "InputField",
@@ -78,6 +86,13 @@
 				type: String
 			},
 			/**
+			 * show clear icon on the right to easily clear the input field
+			 */
+			clearIcon: {
+				default: true,
+				type: Boolean
+			},
+			/**
 			 * set input as required
 			 */
 			required: {
@@ -104,21 +119,28 @@
 			hasLabel(): boolean {
 				return this.$slots.default !== "" || this.label !== ""
 			},
+			hasValue(): boolean {
+				return this.clearIcon && !isEmpty(this.value)
+			},
 			classes(): Object {
 				return {
 					"inputField__input--required": this.required,
 					"inputField__input--disabled": this.disabled,
 					"inputField__input--readonly": this.readOnly,
-					"inputField__input--error": this.error !== "" || !isUndefined(this.error)
+					"inputField__input--error": this.error !== "" && !isUndefined(this.error)
 				}
 			}
 		},
 		methods: {
-			updateValue(e) {
-				this.$emit("input", e.target.value);
+			updateValue() {
+				this.$emit("input", this.$refs.inputField.value);
+			},
+			clearInput() {
+				this.$refs.inputField.value = ""
+				this.updateValue()
 			}
 		}
 	}
 </script>
 
-<style scoped lang="sass" src="./InputField.sass"></style>
+<style lang="sass" src="./InputField.sass"></style>

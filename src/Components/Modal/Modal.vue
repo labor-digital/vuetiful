@@ -56,7 +56,7 @@
 <script lang="ts">
 	import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
 	import {stopBodyScrolling} from "@labor-digital/helferlein/lib/Ui/stopBodyScrolling";
-	
+
 	/**
 	 * A simple modal component, nothing more - nothing less
 	 *
@@ -146,4 +146,4 @@
 	};
 </script>
 
-<style scoped lang="sass" src="./Modal.sass"></style>
+<style lang="sass" src="./Modal.sass"></style>

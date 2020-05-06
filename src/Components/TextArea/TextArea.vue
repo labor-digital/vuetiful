@@ -96,7 +96,7 @@
 					"textArea__input--required": this.required,
 					"textArea__input--disabled": this.disabled,
 					"textArea__input--readonly": this.readOnly,
-					"textArea__input--error": this.error !== "" || !isUndefined(this.error)
+					"textArea__input--error": this.error !== "" && !isUndefined(this.error)
 				}
 			}
 		},
@@ -108,4 +108,4 @@
 	}
 </script>
 
-<style scoped lang="sass" src="./TextArea.sass"></style>
+<style lang="sass" src="./TextArea.sass"></style>

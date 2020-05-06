@@ -83,7 +83,7 @@
 					"radio__input--required": item.required,
 					"radio__input--disabled": item.disabled,
 					"radio__input--readonly": item.readOnly,
-					"radio__input--error": item.error !== "" || !isUndefined(this.error)
+					"radio__input--error": item.error !== "" && !isUndefined(this.error)
 				}
 			},
 			updateValue(index, e) {
@@ -94,4 +94,4 @@
 	}
 </script>
 
-<style scoped lang="sass"></style>
+<style lang="sass"></style>

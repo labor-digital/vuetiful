@@ -33,7 +33,7 @@ export const Default = () => {
 		components: {InputField},
 		template: `
 			<div>
-				<input-field v-model="value" :type="type" :error="error" :placeholder="placeholder" :required="required">
+				<input-field v-model="value" :type="type" :clear-icon="clearIcon" :error="error" :placeholder="placeholder" :required="required">
 					{{label}}
 				</input-field>
 				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
@@ -46,6 +46,9 @@ export const Default = () => {
 			},
 			label: {
 				default: text("Label", "Label for input field")
+			},
+			clearIcon: {
+				default: boolean("Show clear icon", true)
 			},
 			error: {
 				/* Error message for input field after your validation failed */

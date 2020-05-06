@@ -79,7 +79,7 @@
 					"checkbox__input--required": item.required,
 					"checkbox__input--disabled": item.disabled,
 					"checkbox__input--readonly": item.readOnly,
-					"checkbox__input--error": item.error !== "" || !isUndefined(this.error)
+					"checkbox__input--error": item.error !== "" && !isUndefined(this.error)
 				}
 			},
 			updateValue(index, e) {
@@ -104,4 +104,4 @@
 	}
 </script>
 
-<style scoped lang="sass"></style>
+<style lang="sass"></style>
