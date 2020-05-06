@@ -24,7 +24,6 @@
 		</label>
 		<span class="inputField__inputContainer">
 			<input class="inputField__input" :class="classes" ref="inputField"
-					:value="value"
 					:type="type"
 					:placeholder="placeholder"
 					:required="required"
@@ -47,8 +46,8 @@
 </template>
 
 <script lang="ts">
-	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 
 	export default {
 		name: "InputField",
@@ -113,14 +112,22 @@
 				default: false,
 				type: Boolean
 			},
+			/**
+			 * use v-model
+			 */
 			value: String
+		},
+		data() {
+			return {
+				isEmpty: !isEmpty(this.value)
+			};
 		},
 		computed: {
 			hasLabel(): boolean {
-				return this.$slots.default !== "" || this.label !== ""
+				return this.$slots.default !== "" || this.label !== "";
 			},
 			hasValue(): boolean {
-				return this.clearIcon && !isEmpty(this.value)
+				return this.clearIcon && this.isEmpty;
 			},
 			classes(): Object {
 				return {
@@ -128,19 +135,23 @@
 					"inputField__input--disabled": this.disabled,
 					"inputField__input--readonly": this.readOnly,
 					"inputField__input--error": this.error !== "" && !isUndefined(this.error)
-				}
+				};
 			}
 		},
 		methods: {
 			updateValue() {
+				this.isEmpty = !isEmpty(this.$refs.inputField.value);
 				this.$emit("input", this.$refs.inputField.value);
 			},
 			clearInput() {
-				this.$refs.inputField.value = ""
-				this.updateValue()
+				this.$refs.inputField.value = "";
+				this.updateValue();
 			}
+		},
+		mounted(): void {
+			if (!isEmpty(this.value)) this.$refs.inputField.value = this.value;
 		}
-	}
+	};
 </script>
 
 <style lang="sass" src="./InputField.sass"></style>

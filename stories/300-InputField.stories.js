@@ -36,7 +36,8 @@ export const Default = () => {
 				<input-field v-model="value" :type="type" :clear-icon="clearIcon" :error="error" :placeholder="placeholder" :required="required">
 					{{label}}
 				</input-field>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
+				<span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
+				<span style="display:block;color:#333;margin-top: 10px">{{value}}</span></div>`,
 		props: {
 			required: {
 				default: boolean("Required?", false)

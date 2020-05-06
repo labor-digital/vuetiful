@@ -36,7 +36,8 @@ export const Default = () => {
 				<text-area v-model="value" :error="error" :placeholder="placeholder" :required="required">
 					{{label}}
 				</text-area>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
+				<span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
+				<span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{value}}</span></div>`,
 		props: {
 			required: {
 				default: boolean("Required?", false)

@@ -22,8 +22,8 @@
 			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
 			<slot>{{label}}</slot>
 		</label>
-		<textarea class="textArea__input" :class="classes"
-				:content="value"
+		<textarea class="textArea__input" :class="classes" ref="textarea"
+				:rows="rows"
 				:placeholder="placeholder"
 				:required="required"
 				:readonly="readOnly"
@@ -40,6 +40,7 @@
 
 <script lang="ts">
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 
 	export default {
 		name: "TextArea",
@@ -50,6 +51,13 @@
 			 */
 			label: {
 				type: String
+			},
+			/**
+			 * set rows for the textarea to determine the initial height
+			 */
+			rows: {
+				default: 6,
+				type: Number
 			},
 			/**
 			 * set error message in span
@@ -101,9 +109,12 @@
 			}
 		},
 		methods: {
-			updateValue(e) {
-				this.$emit("input", e.target.value);
+			updateValue() {
+				this.$emit("input", this.$refs.textarea.value);
 			}
+		},
+		mounted(): void {
+			if (!isEmpty(this.value)) this.$refs.textarea.value = this.value;
 		}
 	}
 </script>
