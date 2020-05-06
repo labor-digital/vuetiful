@@ -18,10 +18,10 @@
 
 <template>
 	<div class="radioButton">
-		<label v-for="(input, index) in inputs" v-if="hasLabel(input.label)" class="radioButton__label">
+		<label v-for="(input, index) in inputs" v-if="hasLabel(input.label)" class="radioButton__label" :class="classes">
 			<span v-if="labelSide === 'left'">{{input.label}}</span>
 			<input v-show="hasCustomRadioIcon" :name="groupName"
-					class="radioButton__input" :class="classes(input)"
+					class="radioButton__input" :class="classesItem(input)"
 					type="radio"
 					:checked="input.checked"
 					:required="input.required"
@@ -72,7 +72,8 @@
 		},
 		data() {
 			return {
-				value: []
+				value: [],
+				oldValue: []
 			}
 		},
 		computed: {
@@ -81,23 +82,28 @@
 			},
 			hasError(): boolean {
 				return !isEmpty(this.$slots.error) || !isEmpty(this.error);
+			},
+			classes(): Object {
+				return {
+					"radioButton__label--required": this.required,
+					"radioButton__label--error": this.error !== "" && !isUndefined(this.error)
+				}
 			}
 		},
 		methods: {
 			hasLabel(v): boolean {
 				return !isUndefined(v) || isEmpty(v);
 			},
-			classes(item): Object {
+			classesItem(item): Object {
 				return {
-					"radioButton__input--required": item.required,
-					"radioButton__input--disabled": item.disabled,
-					"radioButton__input--readonly": item.readOnly,
-					"radioButton__input--error": item.error !== "" && !isUndefined(this.error)
+					"radioButton__input--disabled": item.disabled
 				}
 			},
 			updateValue(index, e) {
-				this.value = {id: index, label: e.target.labels[0].innerText}
-				this.$emit("input", this.value)
+				this.value.unshift({id: index, label: e.target.labels[0].innerText, element: e.target});
+				if (this.value.length > 2) this.value.splice(-1, 1);
+				if (!isUndefined(this.value[1])) this.value[1].element.checked = false;
+				this.$emit("input", this.value[0])
 			}
 		}
 	}

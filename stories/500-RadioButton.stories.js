@@ -33,9 +33,7 @@ export const Default = () => {
 		components: {RadioButton},
 		template: `
 			<div>
-				<radio-button v-model="value" group-name="test-radio" :inputs="inputs" :label-side="labelSide" :error="error">
-					{{label}}
-				</radio-button>
+				<radio-button v-model="value" group-name="test-radio" :inputs="inputs" :label-side="labelSide" :error="error"/>
 				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
 		props: {
 			inputs: {
