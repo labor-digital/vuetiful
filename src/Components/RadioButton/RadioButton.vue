@@ -19,29 +19,32 @@
 <template>
 	<div>
 		<div v-for="(input, index) in inputs">
-			<label v-if="hasLabel(input.label)" class="radio__label">
+			<label v-if="hasLabel(input.label)" class="radioButton__label">
 				<span v-if="labelSide === 'left'">{{input.label}}</span>
-				<input :name="groupName"
-						class="radio__input" :class="classes(input)"
+				<input v-show="hasCustomRadioIcon" :name="groupName"
+						class="radioButton__input" :class="classes(input)"
 						type="radio"
 						:checked="input.checked"
 						:required="input.required"
 						:disabled="input.disabled"
 						@input="updateValue(index, $event)"
 				/>
+				<!-- @slot Add your custom radio icon if needed.  -->
+				<slot name="customRadioIcon"></slot>
 				<span v-if="labelSide === 'right'">{{input.label}}</span>
 			</label>
 		</div>
-		<span v-if="error" class="radio__error">{{ error }}</span>
+		<span v-if="error" class="radioButton__error">{{ error }}</span>
 	</div>
 </template>
 
 <script lang="ts">
-	import {RadioInputs} from "./Radio";
+	import {RadioButtonInputs} from "./RadioButton";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 
 	export default {
-		name: "Radio",
+		name: "RadioButton",
 		props: {
 			/**
 			 * set group name to group radio buttons
@@ -50,7 +53,7 @@
 			/**
 			 * parse checkboxes as array
 			 */
-			inputs: Array as RadioInputs,
+			inputs: Array as RadioButtonInputs,
 			/**
 			 * choose label side right or left
 			 */
@@ -74,16 +77,24 @@
 				value: []
 			}
 		},
+		computed: {
+			hasCustomRadioIcon(): boolean {
+				return isEmpty(this.$slots.customRadioIcon);
+			},
+			hasError(): boolean {
+				return !isEmpty(this.$slots.error) || !isEmpty(this.error);
+			}
+		},
 		methods: {
 			hasLabel(v): boolean {
-				return !isUndefined(v) || v !== ""
+				return !isUndefined(v) || isEmpty(v);
 			},
 			classes(item): Object {
 				return {
-					"radio__input--required": item.required,
-					"radio__input--disabled": item.disabled,
-					"radio__input--readonly": item.readOnly,
-					"radio__input--error": item.error !== "" && !isUndefined(this.error)
+					"radioButton__input--required": item.required,
+					"radioButton__input--disabled": item.disabled,
+					"radioButton__input--readonly": item.readOnly,
+					"radioButton__input--error": item.error !== "" && !isUndefined(this.error)
 				}
 			},
 			updateValue(index, e) {

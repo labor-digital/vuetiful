@@ -31,7 +31,7 @@
 					:disabled="disabled"
 					@input="updateValue"
 					@change="updateValue"
-					@blur="$emit('blur')"
+					@blur="onBlur"
 					@focus="$emit('focus')"/>
 			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
 				<!-- @slot set your custom clear icon. As default: &times; -->
@@ -41,7 +41,10 @@
 
 		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
 		<slot name="icon"></slot>
-		<span v-if="error" class="inputField__error">{{ error }}</span>
+		<span v-if="hasError || errorEmail" class="inputField__error">
+			<!-- @slot Use the prop or the slot to set your own error message.  -->
+			<slot name="error">{{error}} {{errorEmail}}</slot>
+		</span>
 	</div>
 </template>
 
@@ -61,14 +64,15 @@
 			},
 			/**
 			 * Change input type of field. default: text
-			 * ('text', 'url', 'email', 'password', 'search')
+			 * ('text', 'url', 'email', 'password')
 			 * css class: inputField__input
+			 * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
 			 */
 			type: {
 				default: "text",
 				type: String,
 				validate: (v) => {
-					return ["text", "password", "email", "search", "url"].indexOf(v) !== -1;
+					return ["text", "password", "email", "url"].indexOf(v) !== -1;
 				}
 			},
 			/**
@@ -119,12 +123,17 @@
 		},
 		data() {
 			return {
-				isEmpty: !isEmpty(this.value)
+				isEmpty: !isEmpty(this.value),
+				validEmail: true,
+				errorEmail: ""
 			};
 		},
 		computed: {
 			hasLabel(): boolean {
-				return this.$slots.default !== "" || this.label !== "";
+				return !isEmpty(this.$slots.default) || !isEmpty(this.label);
+			},
+			hasError(): boolean {
+				return !isEmpty(this.$slots.error) || !isEmpty(this.error);
 			},
 			hasValue(): boolean {
 				return this.clearIcon && this.isEmpty;
@@ -134,7 +143,7 @@
 					"inputField__input--required": this.required,
 					"inputField__input--disabled": this.disabled,
 					"inputField__input--readonly": this.readOnly,
-					"inputField__input--error": this.error !== "" && !isUndefined(this.error)
+					"inputField__input--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
 				};
 			}
 		},
@@ -143,13 +152,28 @@
 				this.isEmpty = !isEmpty(this.$refs.inputField.value);
 				this.$emit("input", this.$refs.inputField.value);
 			},
+			onBlur() {
+				this.$emit("blur");
+				if (this.type === "email") this.validateEmail();
+			},
+			validateEmail(): boolean {
+				if (isEmpty(this.$refs.inputField.value)) {
+					this.validEmail = true;
+					this.errorEmail = null;
+					return;
+				}
+				this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.$refs.inputField.value);
+				if (!this.hasError) this.validEmail ? this.errorEmail = null : this.errorEmail = "Please enter a valid email address! (Example: 'example@example.de')";
+			},
 			clearInput() {
 				this.$refs.inputField.value = "";
 				this.updateValue();
+				this.onBlur();
 			}
 		},
 		mounted(): void {
 			if (!isEmpty(this.value)) this.$refs.inputField.value = this.value;
+			this.onBlur();
 		}
 	};
 </script>

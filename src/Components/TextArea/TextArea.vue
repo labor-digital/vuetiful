@@ -97,7 +97,7 @@
 		},
 		computed: {
 			hasLabel(): boolean {
-				return this.$slots.default !== "" || this.label !== ""
+				return !isEmpty(this.$slots.default) || !isEmpty(this.label);
 			},
 			classes(): Object {
 				return {

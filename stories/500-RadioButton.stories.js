@@ -17,25 +17,25 @@
  */
 
 import {object, select, text, withKnobs} from "@storybook/addon-knobs";
-import Radio from "../src/Components/Radio/Radio.vue";
+import RadioButton from "../src/Components/RadioButton/RadioButton.vue";
 import "../src/Components/SelectBox/Storybook.sass";
 
 // Global configuration of your component
 export default {
-	title: "Radio",
-	component: Radio,
+	title: "RadioButton",
+	component: RadioButton,
 	decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
 	return ({
-		components: {Radio},
+		components: {RadioButton},
 		template: `
 			<div>
-				<radio v-model="value" group-name="test-radio" :inputs="inputs" :label-side="labelSide" :error="error">
+				<radio-button v-model="value" group-name="test-radio" :inputs="inputs" :label-side="labelSide" :error="error">
 					{{label}}
-				</radio>
+				</radio-button>
 				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
 		props: {
 			inputs: {
