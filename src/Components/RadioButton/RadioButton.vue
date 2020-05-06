@@ -17,23 +17,21 @@
   -->
 
 <template>
-	<div>
-		<div v-for="(input, index) in inputs">
-			<label v-if="hasLabel(input.label)" class="radioButton__label">
-				<span v-if="labelSide === 'left'">{{input.label}}</span>
-				<input v-show="hasCustomRadioIcon" :name="groupName"
-						class="radioButton__input" :class="classes(input)"
-						type="radio"
-						:checked="input.checked"
-						:required="input.required"
-						:disabled="input.disabled"
-						@input="updateValue(index, $event)"
-				/>
-				<!-- @slot Add your custom radio icon if needed.  -->
-				<slot name="customRadioIcon"></slot>
-				<span v-if="labelSide === 'right'">{{input.label}}</span>
-			</label>
-		</div>
+	<div class="radioButton">
+		<label v-for="(input, index) in inputs" v-if="hasLabel(input.label)" class="radioButton__label">
+			<span v-if="labelSide === 'left'">{{input.label}}</span>
+			<input v-show="hasCustomRadioIcon" :name="groupName"
+					class="radioButton__input" :class="classes(input)"
+					type="radio"
+					:checked="input.checked"
+					:required="input.required"
+					:disabled="input.disabled"
+					@input="updateValue(index, $event)"
+			/>
+			<!-- @slot Add your custom radio icon if needed.  -->
+			<slot name="customRadioIcon"></slot>
+			<span v-if="labelSide === 'right'">{{input.label}}</span>
+		</label>
 		<span v-if="error" class="radioButton__error">{{ error }}</span>
 	</div>
 </template>
