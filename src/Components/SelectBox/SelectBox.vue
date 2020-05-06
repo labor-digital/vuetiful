@@ -276,7 +276,6 @@
 				default: (item, queryText, itemText) => {
 					const hasValue = val => val != null ? val : "";
 
-					console.log(item, queryText, itemText);
 					const text = hasValue(itemText);
 					const query = hasValue(queryText);
 

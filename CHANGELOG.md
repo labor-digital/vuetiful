@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/labor-digital/vuetiful/compare/v1.3.0...v1.3.1) (2020-05-06)
+
+
+### Bug Fixes
+
+* remove debug statement ([1889e45](https://github.com/labor-digital/vuetiful/commit/1889e456684f0c68e53e36a8798e93dd3b23a531))
+
+## [1.3.0](https://github.com/labor-digital/vuetiful/compare/v1.2.4...v1.3.0) (2020-05-06)
+
+
+### Features
+
+* add clear button to input field ([f57a527](https://github.com/labor-digital/vuetiful/commit/f57a5274b5f0a7e8665d84278234a5454c4d5b8d))
+
 ### [1.2.4](https://github.com/labor-digital/vuetiful/compare/v1.2.3...v1.2.4) (2020-05-04)
 
 
