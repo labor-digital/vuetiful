@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/labor-digital/vuetiful/compare/v1.3.2...v1.3.3) (2020-05-06)
+
+
+### Bug Fixes
+
+* fix some bugs, rename radio to radio-button, add icon slot for check and radio ([5ee5fad](https://github.com/labor-digital/vuetiful/commit/5ee5fad06af68cc02a40a710a1fe084a861ac0d4))
+
 ### [1.3.2](https://github.com/labor-digital/vuetiful/compare/v1.3.1...v1.3.2) (2020-05-06)
 
 
