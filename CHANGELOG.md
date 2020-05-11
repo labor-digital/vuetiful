@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/labor-digital/vuetiful/compare/v1.3.5...v1.4.0) (2020-05-11)
+
+
+### Features
+
+* add chips, fix v-model bugs, add storybook ([4e1dd1e](https://github.com/labor-digital/vuetiful/commit/4e1dd1ec4cccb8768888354a2806d5189dcd52bd))
+
 ### [1.3.5](https://github.com/labor-digital/vuetiful/compare/v1.3.4...v1.3.5) (2020-05-06)
 
 
