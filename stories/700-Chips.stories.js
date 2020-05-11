@@ -17,27 +17,27 @@
  */
 
 import {object, select, text, withKnobs} from "@storybook/addon-knobs";
-import Chip from "../src/Components/Chips/Chip.vue";
+import Chips from "../src/Components/Chips/Chips.vue";
 import "../src/Components/SelectBox/Storybook.sass";
 
 // Global configuration of your component
 export default {
-	title: "Chip",
-	component: Chip,
+	title: "Chips",
+	component: Chips,
 	decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
 	return ({
-		components: {Chip},
+		components: {Chips},
 		template: `
 			<div>
-				<chip :items="items" :label-side="labelSide" :error="error"/>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
+				<chips v-model="items"/>
+				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{items}}</span></div>`,
 		props: {
 			items: {
-				default: object("Input", [{label: "Foo"}, {label: "Bar"}])
+				default: object("Input", ["Foo", "Bar"])
 			},
 			labelSide: {
 				default: select("Label side", {left: "left", right: "right"}, "right")
@@ -46,11 +46,6 @@ export const Default = () => {
 				/* Error message for input field after your validation failed */
 				default: text("Error", "")
 			}
-		},
-		data() {
-			return {
-				value: ""
-			};
 		}
 	});
 };
