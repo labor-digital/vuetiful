@@ -18,7 +18,7 @@
 
 <template>
 	<div class="chips">
-		<chip v-for="(item, index) in value" :key="item" :item="item" @remove.stop="removeChip(item)">
+		<chip v-for="(item, index) in value" class="chips__item" :key="item" :item="item" @remove.stop="removeChip(item)">
 			{{item}}
 		</chip>
 	</div>
