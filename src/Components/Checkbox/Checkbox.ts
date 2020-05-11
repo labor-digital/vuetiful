@@ -17,18 +17,35 @@
  */
 
 export interface CheckboxInputs {
-
+	
 	/*
 	* Set label for the checkbox
 	 */
 	label?: string,
 	/*
+	* checks checkbox
+	 */
+	checked?: {
+		type: boolean,
+		default: false
+	},
+	/*
 	* sets required tag for the checkbox
 	 */
-	required?: boolean,
+	required?: {
+		type: boolean,
+		default: false
+	},
 	/*
 	* disable the checkbox
 	 */
-	disabled?: boolean
-
+	disabled?: {
+		type: boolean,
+		default: false
+	},
+	/*
+	* error state
+	 */
+	error?: boolean
+	
 }

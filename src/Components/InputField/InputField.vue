@@ -24,21 +24,21 @@
 		</label>
 		<span class="inputField__inputContainer">
 			<input class="inputField__input" :class="classes" ref="inputField"
-					:type="type"
-					:placeholder="placeholder"
-					:required="required"
-					:readonly="readOnly"
-					:disabled="disabled"
-					@input="updateValue"
-					@change="updateValue"
-					@blur="onBlur"
-					@focus="$emit('focus')"/>
+				   :type="type"
+				   :placeholder="placeholder"
+				   :required="required"
+				   :readonly="readOnly"
+				   :disabled="disabled"
+				   @input="updateValue"
+				   @change="updateValue"
+				   @blur="onBlur"
+				   @focus="$emit('focus')"/>
 			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
 				<!-- @slot set your custom clear icon. As default: &times; -->
 				<slot name="clearIcon">&times;</slot>
 			</span>
 		</span>
-
+		
 		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
 		<slot name="icon"></slot>
 		<span v-if="hasError || errorEmail" class="inputField__error">
@@ -51,7 +51,7 @@
 <script lang="ts">
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-
+	
 	export default {
 		name: "InputField",
 		props: {
@@ -115,11 +115,7 @@
 			disabled: {
 				default: false,
 				type: Boolean
-			},
-			/**
-			 * use v-model
-			 */
-			value: String
+			}
 		},
 		data() {
 			return {
@@ -172,6 +168,7 @@
 			}
 		},
 		mounted(): void {
+			console.log(this.$slots);
 			if (!isEmpty(this.value)) this.$refs.inputField.value = this.value;
 			this.onBlur();
 		}

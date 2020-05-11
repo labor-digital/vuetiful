@@ -18,40 +18,43 @@
 
 <template>
 	<div class="radioButton">
-		<label v-for="(input, index) in inputs" v-if="hasLabel(input.label)" class="radioButton__label" :class="classes">
-			<span v-if="labelSide === 'left'">{{input.label}}</span>
+		<label v-for="(item, index) in items" v-if="hasLabel(item.label)" class="radioButton__label" :class="intClasses(item)" :ref="'radioButton-'+index">
+			<span v-if="labelSide === 'left'">{{item.label}}</span>
 			<input v-show="hasCustomRadioIcon" :name="groupName"
-					class="radioButton__input" :class="classesItem(input)"
-					type="radio"
-					:checked="input.checked"
-					:required="input.required"
-					:disabled="input.disabled"
-					@input="updateValue(index, $event)"
+				   class="radioButton__input"
+				   type="radio"
+				   :checked="item.checked"
+				   :required="item.required"
+				   :disabled="item.disabled"
+				   @input="updateValue(index, $event)"
 			/>
 			<!-- @slot Add your custom radio icon if needed.  -->
 			<slot name="customRadioIcon"></slot>
-			<span v-if="labelSide === 'right'">{{input.label}}</span>
+			<span v-if="labelSide === 'right'">{{item.label}}</span>
 		</label>
 		<span v-if="error" class="radioButton__error">{{ error }}</span>
 	</div>
 </template>
 
 <script lang="ts">
-	import {RadioButtonInputs} from "./RadioButton";
-	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+	import {RadioButtonInputs} from "./RadioButton";
+	
 	export default {
 		name: "RadioButton",
 		props: {
 			/**
 			 * set group name to group radio buttons
 			 */
-			groupName: String,
+			groupName: {
+				type: String,
+				required: true
+			},
 			/**
 			 * parse checkboxes as array
 			 */
-			inputs: Array as RadioButtonInputs,
+			items: Array as RadioButtonInputs,
 			/**
 			 * choose label side right or left
 			 */
@@ -72,9 +75,8 @@
 		},
 		data() {
 			return {
-				value: [],
-				oldValue: []
-			}
+				value: []
+			};
 		},
 		computed: {
 			hasCustomRadioIcon(): boolean {
@@ -82,31 +84,35 @@
 			},
 			hasError(): boolean {
 				return !isEmpty(this.$slots.error) || !isEmpty(this.error);
-			},
-			classes(): Object {
-				return {
-					"radioButton__label--required": this.required,
-					"radioButton__label--error": this.error !== "" && !isUndefined(this.error)
-				}
 			}
 		},
 		methods: {
 			hasLabel(v): boolean {
 				return !isUndefined(v) || isEmpty(v);
 			},
-			classesItem(item): Object {
-				return {
-					"radioButton__input--disabled": item.disabled
-				}
+			intClasses(item) {
+				return item.disabled ? "radioButton__label--disabled " : "";
 			},
 			updateValue(index, e) {
-				this.value.unshift({id: index, label: e.target.labels[0].innerText, element: e.target});
+				this.value.unshift({
+					id: index,
+					label: e.target.labels[0].innerText,
+					checked: e.target.checked,
+					disabled: e.target.disabled,
+					element: e.target
+				});
+				this.$refs["radioButton-" + index][0].classList.add("radioButton__label--checked");
+				if (!isUndefined(this.value[1])) {
+					this.$refs["radioButton-" + this.value[1].id][0].classList.remove("radioButton__label--checked");
+					this.value[1].checked = false;
+					this.value[1].element.checked = false;
+				}
+				console.log(this.value);
 				if (this.value.length > 2) this.value.splice(-1, 1);
-				if (!isUndefined(this.value[1])) this.value[1].element.checked = false;
-				this.$emit("input", this.value[0])
+				this.$emit("input", this.value[0]);
 			}
 		}
-	}
+	};
 </script>
 
 <style lang="sass"></style>

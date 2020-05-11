@@ -18,19 +18,18 @@
 
 <template>
 	<div class="checkbox">
-		<label v-for="(input, index) in inputs" v-if="hasLabel(input.label)" class="checkbox__label">
-			<span v-if="labelSide === 'left'">{{input.label}}</span>
-			<input v-show="hasCustomCheckIcon" class="checkbox__input" :class="classes(input)"
-					type="checkbox"
-					:checked="input.checked"
-					:required="input.required"
-					:readonly="input.readOnly"
-					:disabled="input.disabled"
-					@input="updateValue(index, $event)"
+		<label v-for="(item, index) in items" v-if="hasLabel(item.label)" class="checkbox__label" :class="intClasses(item)" :ref="'checkbox-'+index">
+			<span v-if="labelSide === 'left'" class="checkbox__labelText checkbox__labelText--left">{{item.label}}</span>
+			<input v-show="hasCustomCheckIcon" class="checkbox__input"
+				   type="checkbox"
+				   :checked="item.checked"
+				   :required="item.required"
+				   :disabled="item.disabled"
+				   @input="updateValue(index, $event)"
 			/>
 			<!-- @slot Add your custom check icon if needed.  -->
 			<slot name="customCheckIcon"></slot>
-			<span v-if="labelSide === 'right'">{{input.label}}</span>
+			<span v-if="labelSide === 'right'" class="checkbox__labelText checkbox__labelText--right">{{item.label}}</span>
 		</label>
 		<span v-if="hasError" class="checkbox__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
@@ -40,17 +39,18 @@
 </template>
 
 <script lang="ts">
+	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {CheckboxInputs} from "./Checkbox";
-
+	
 	export default {
 		name: "Checkbox",
 		props: {
 			/**
 			 * parse checkboxes as array
 			 */
-			inputs: Array as CheckboxInputs,
+			items: Array as CheckboxInputs,
 			/**
 			 * choose label side right or left
 			 */
@@ -86,25 +86,30 @@
 			hasLabel(v): boolean {
 				return !isUndefined(v) || isEmpty(v);
 			},
-			classes(item): Object {
-				return {
-					"checkbox__input--required": item.required,
-					"checkbox__input--disabled": item.disabled,
-					"checkbox__input--readonly": item.readOnly,
-					"checkbox__input--error": item.error !== "" && !isUndefined(this.error)
-				};
+			intClasses(item) {
+				let classes = "";
+				item.required ? classes += "checkbox__label--required " : classes.replace("checkbox__label--required", "");
+				item.disabled ? classes += "checkbox__label--disabled " : classes.replace("checkbox__label--disabled", "");
+				return classes;
 			},
-			updateValue(index, e) {
-				let element = {id: index, label: e.target.labels[0].innerText};
+			updateValue(index, e?) {
+				let element = {
+					id: index,
+					label: e.target.labels[0].innerText,
+					checked: e.target.checked,
+					required: e.target.required,
+					disabled: e.target.disabled
+				};
 				if (e.target.checked) {
+					this.$refs["checkbox-" + index][0].classList.add("checkbox__label--checked");
 					this.values.push(element);
 				} else {
-					for (let i = 0; i < this.values.length; i++) {
-						if (this.values[i].id == index) {
-							this.values.splice(i, 1);
-							break;
+					this.$refs["checkbox-" + index][0].classList.remove("checkbox__label--checked");
+					forEach(this.values, (value, index) => {
+						if (value.id == index) {
+							this.values.splice(index, 1);
 						}
-					}
+					});
 				}
 			}
 		},
@@ -113,6 +118,7 @@
 				this.$emit("input", this.values);
 			}
 		}
+		
 	};
 </script>
 

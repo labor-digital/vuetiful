@@ -17,29 +17,27 @@
  */
 
 import {object, select, text, withKnobs} from "@storybook/addon-knobs";
-import RadioButton from "../src/Components/RadioButton/RadioButton.vue";
+import Chip from "../src/Components/Chips/Chip.vue";
 import "../src/Components/SelectBox/Storybook.sass";
 
 // Global configuration of your component
 export default {
-	title: "RadioButton",
-	component: RadioButton,
+	title: "Chip",
+	component: Chip,
 	decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
 	return ({
-		components: {RadioButton},
+		components: {Chip},
 		template: `
 			<div>
-				<radio-button v-model="value" group-name="test-radio" :items="inputs" :label-side="labelSide" :error="error"/>
+				<chip :items="items" :label-side="labelSide" :error="error"/>
 				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
 		props: {
-			inputs: {
-				default: object("Input", [
-					{label: "Test1"}, {label: "Test2"}, {label: "Test3"}
-				])
+			items: {
+				default: object("Input", [{label: "Foo"}, {label: "Bar"}])
 			},
 			labelSide: {
 				default: select("Label side", {left: "left", right: "right"}, "right")

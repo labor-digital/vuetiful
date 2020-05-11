@@ -33,8 +33,7 @@ export const Default = () => {
 		components: {Checkbox},
 		template: `
 			<div>
-				<checkbox v-model="value" :inputs="inputs" :label-side="labelSide" :error="error">
-					{{label}}
+				<checkbox v-model="value" :items="inputs" :label-side="labelSide" :error="error">
 				</checkbox>
 				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
 		props: {
@@ -54,7 +53,7 @@ export const Default = () => {
 		data() {
 			return {
 				value: ""
-			}
+			};
 		}
 	});
 };
