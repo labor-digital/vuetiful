@@ -23,6 +23,8 @@
 			<slot>{{label}}</slot>
 		</label>
 		<span class="inputField__inputContainer">
+                        <!-- @slot Optional content at the start of the input container -->
+			<slot name="beforeInput"></slot>
 			<input class="inputField__input" :class="classes" ref="inputField"
 				   :type="type"
 				   :placeholder="placeholder"
@@ -39,6 +41,8 @@
 			</span>
 		</span>
 		
+		<!-- @slot Optional content at the end of the input container -->
+		<slot name="afterInput"></slot>
 		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
 		<slot name="icon"></slot>
 		<span v-if="hasError || errorEmail" class="inputField__error">
@@ -145,6 +149,7 @@
 		},
 		methods: {
 			updateValue() {
+			    	if(isUndefined(this.$refs.inputField)) return;
 				this.isEmpty = !isEmpty(this.$refs.inputField.value);
 				this.$emit("input", this.$refs.inputField.value);
 			},
@@ -168,7 +173,6 @@
 			}
 		},
 		mounted(): void {
-			console.log(this.$slots);
 			if (!isEmpty(this.value)) this.$refs.inputField.value = this.value;
 			this.onBlur();
 		}
