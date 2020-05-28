@@ -26,26 +26,31 @@
                         <!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
 			<input class="inputField__input" ref="inputField"
-				   :type="type"
-				   :placeholder="placeholder"
-				   :required="required"
-				   :readonly="readOnly"
-				   :disabled="disabled"
-				   @input="updateValue"
-				   @change="updateValue"
-				   @blur="onBlur"
-				   @focus="$emit('focus')"/>
-			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
+                   :type="type"
+                   :placeholder="placeholder"
+                   :required="required"
+                   :readonly="readOnly"
+                   :disabled="disabled"
+                   @input="updateValue"
+                   @change="updateValue"
+                   @blur="onBlur"
+                   @focus="$emit('focus')"/>
+            
+            <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
+            <slot name="icon"></slot>
+            
+            <!-- @slot Optional content in front of the clear icon -->
+            <slot name="beforeClearIcon"></slot>
+            
+            <span v-show="hasValue" class="inputField__clear" @click="clearInput">
 				<!-- @slot set your custom clear icon. As default: &times; -->
 				<slot name="clearIcon">&times;</slot>
 			</span>
+            
+            <!-- @slot Optional content at the end of the input container -->
+            <slot name="afterInput"></slot>
 		</span>
-		
-		<!-- @slot Optional content at the end of the input container -->
-		<slot name="afterInput"></slot>
-		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
-		<slot name="icon"></slot>
-		<span v-if="hasError || errorEmail" class="inputField__error">
+        <span v-if="hasError || errorEmail" class="inputField__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
 			<slot name="error">{{error}} {{errorEmail}}</slot>
 		</span>
