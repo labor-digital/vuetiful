@@ -17,9 +17,9 @@
   -->
 
 <template>
-	<div class="radioButton">
-		<label v-for="(item, index) in items" v-if="hasLabel(item.label)" class="radioButton__label" :class="intClasses(item)" :ref="'radioButton-'+index">
-			<span v-if="labelSide === 'left'">{{item.label}}</span>
+	<div class="radioButton" v-if="hasItems">
+		<label v-for="(item, index) in items" class="radioButton__label" :class="intClasses(item)" :ref="'radioButton-'+index">
+			<span v-if="labelSide === 'left'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
 			<input v-show="hasCustomRadioIcon" :name="groupName"
 				   class="radioButton__input"
 				   type="radio"
@@ -30,7 +30,7 @@
 			/>
 			<!-- @slot Add your custom radio icon if needed.  -->
 			<slot name="customRadioIcon"></slot>
-			<span v-if="labelSide === 'right'">{{item.label}}</span>
+			<span v-if="labelSide === 'right'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
 		</label>
 		<span v-if="error" class="radioButton__error">{{ error }}</span>
 	</div>
@@ -39,7 +39,7 @@
 <script lang="ts">
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-	import {RadioButtonInputs} from "./RadioButton";
+	import {RadioButtonInputs} from "./RadioButton.interfaces";
 	
 	export default {
 		name: "RadioButton",
@@ -87,8 +87,11 @@
 			}
 		},
 		methods: {
+			hasItems() {
+				return !isEmpty(this.items) || !isUndefined(this.items);
+			},
 			hasLabel(v): boolean {
-				return !isUndefined(v) || isEmpty(v);
+				return isUndefined(v.label) || isEmpty(v.label) ? v : v.label;
 			},
 			intClasses(item) {
 				return item.disabled ? "radioButton__label--disabled " : "";
@@ -107,7 +110,6 @@
 					this.value[1].checked = false;
 					this.value[1].element.checked = false;
 				}
-				console.log(this.value);
 				if (this.value.length > 2) this.value.splice(-1, 1);
 				this.$emit("input", this.value[0]);
 			}

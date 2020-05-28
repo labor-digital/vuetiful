@@ -18,26 +18,48 @@
 
 <template>
 	<div class="chips">
-		<chip v-for="(item, index) in value" class="chips__item" :key="item" :item="item" @remove.stop="removeChip(item)">
-			{{item}}
+		<chip v-for="(item, index) in preparedValue" class="chips__item" :key="index" :item="item.label" @remove.stop="removeChip(item)">
+			{{item.label}}
 		</chip>
 	</div>
 </template>
 
 <script lang="ts">
+	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import Chip from "./Chip.vue";
 	
 	export default {
 		name: "Chips",
 		components: {Chip},
 		props: {
-			value: Array
+			items: Array
+		},
+		data() {
+			return {
+				value: []
+			};
+		},
+		computed: {
+			preparedValue() {
+				let preparedChips = [];
+				forEach(this.items, (item, index) => {
+					let preparedChip = {
+						id: index,
+						value: isUndefined(item.value) ? item : item.value,
+						label: isUndefined(item.label) ? item : item.label
+					};
+					preparedChips.push(preparedChip);
+				});
+				this.$emit("input", preparedChips);
+				return preparedChips;
+			}
 		},
 		methods: {
 			removeChip(item) {
-				const index = this.value.indexOf(item);
-				this.value.splice(index, 1);
-				this.$emit("input", this.value);
+				const index = this.items.indexOf(item);
+				this.items.splice(index, 1);
+				this.$emit("input", this.preparedValue);
 				this.$emit("remove-chip", item, index);
 			}
 		}

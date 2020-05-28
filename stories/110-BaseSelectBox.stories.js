@@ -13,48 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2020.04.27 at 15:43
+ * Last modified: 2020.04.24 at 17:23
  */
 
-import {object, text, withKnobs} from "@storybook/addon-knobs";
-import Chips from "../src/Components/Chips/Chips.vue";
+import {boolean, object, withKnobs} from "@storybook/addon-knobs";
+import BaseSelectBox from "../src/Components/BaseSelectBox/BaseSelectBox";
 import "../src/Components/SelectBox/Storybook.sass";
 
 // Global configuration of your component
 export default {
-	title: "Chips",
-	component: Chips,
+	title: "BaseSelectBox",
+	component: BaseSelectBox,
 	decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
 	return ({
-		components: {Chips},
-		template: `
-			<div>
-				<chips v-model="v" :items="items"/>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{v}}</span>
-				<button @click="addChip">Add Chip</button>
-			</div>`,
+		components: {BaseSelectBox},
+		template: "<base-select-box :items='inputs' :is-multi-select='MultiSelect' :display-as-chip='DisplayChip' placeholder='Foo :)'></base-select-box>",
 		props: {
-			items: {
-				default: object("Input", ["Foo", "Bar"])
+			inputs: {
+				default: object("Input", [
+					"Foo",
+					"Bar",
+					"Foba",
+					"Test",
+					"Drone",
+					"Labor"
+				])
 			},
-			error: {
-				/* Error message for input field after your validation failed */
-				default: text("Error", "")
+			MultiSelect: {
+				default: boolean("MultiSelect?", false)
+			},
+			DisplayChip: {
+				default: boolean("Display as chip?", false)
 			}
 		},
 		data() {
 			return {
-				v: []
+				v: ""
 			};
-		},
-		methods: {
-			addChip() {
-				this.items.push("Test" + this.items.length);
-			}
 		}
 	});
 };

@@ -22,6 +22,15 @@ export interface CheckboxInputs {
 	* Set label for the checkbox
 	 */
 	label?: string,
+	
+	/*
+	* hide input for filter list
+	 */
+	show?: {
+		type: boolean,
+		default: true
+	},
+	
 	/*
 	* checks checkbox
 	 */
@@ -29,6 +38,7 @@ export interface CheckboxInputs {
 		type: boolean,
 		default: false
 	},
+	
 	/*
 	* sets required tag for the checkbox
 	 */
@@ -36,6 +46,7 @@ export interface CheckboxInputs {
 		type: boolean,
 		default: false
 	},
+	
 	/*
 	* disable the checkbox
 	 */

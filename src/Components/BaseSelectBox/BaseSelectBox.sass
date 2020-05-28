@@ -1,0 +1,65 @@
+/*!
+ / Copyright 2020 LABOR.digital
+ /
+ / Licensed under the Apache License, Version 2.0 (the "License");
+ / you may not use this file except in compliance with the License.
+ / You may obtain a copy of the License at
+ /
+ /     http://www.apache.org/licenses/LICENSE-2.0
+ /
+ / Unless required by applicable law or agreed to in writing, software
+ / distributed under the License is distributed on an "AS IS" BASIS,
+ / WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ / See the License for the specific language governing permissions and
+ / limitations under the License.
+ /
+ / Last modified: 2020.05.11 at 16:27
+ /
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .5s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+.baseSelectBox
+  
+  &__container
+    
+    &Input
+      display: flex
+      flex-wrap: wrap
+      align-content: space-between
+      border: 1px solid #000
+      padding: 2px
+  
+  &__input
+    flex: 1 1 auto
+    
+    & /deep/ input
+      border: 0
+      
+      &:focus
+        outline: 0
+  
+  &__chips
+    display: flex
+    margin-right: 5px
+  
+  &__menu
+    width: 100%
+    border: 1px solid #000000
+    border-top: none
+    
+    &Inner
+      display: flex
+      flex-direction: column
+  
+  &__item
+    
+    &--checkbox
+      display: flex
+      flex-direction: column
+    
+    &--selected
+      color: blue

@@ -5,7 +5,7 @@
         <option name="USE_TAB_CHARACTER" value="true" />
       </value>
     </option>
-    <option name="RIGHT_MARGIN" value="180" />
+    <option name="RIGHT_MARGIN" value="160" />
     <option name="FORMATTER_TAGS_ENABLED" value="true" />
     <option name="FORMATTER_ON_TAG" value="@f.on" />
     <option name="FORMATTER_OFF_TAG" value="@f.of" />
