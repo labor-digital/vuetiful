@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/labor-digital/vuetiful/compare/v1.4.1...v1.5.0) (2020-05-28)
+
+
+### Features
+
+* add MultiSelect, modified checkbox and chips ([d9c86b3](https://github.com/labor-digital/vuetiful/commit/d9c86b38582cdd08b54f63b0aeec6adc3b36da78))
+
 ### [1.4.1](https://github.com/labor-digital/vuetiful/compare/v1.4.0...v1.4.1) (2020-05-11)
 
 
