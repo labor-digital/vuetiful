@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/labor-digital/vuetiful/compare/v1.5.0...v1.5.1) (2020-06-17)
+
+
+### Bug Fixes
+
+* **Checkbox:** fixe multiple reactivity issues ([39e13bc](https://github.com/labor-digital/vuetiful/commit/39e13bc13ebac582e4f9bd70da7215c9d919315c))
+
 ## [1.5.0](https://github.com/labor-digital/vuetiful/compare/v1.4.1...v1.5.0) (2020-05-28)
 
 
