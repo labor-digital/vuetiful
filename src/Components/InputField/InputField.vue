@@ -35,8 +35,7 @@
                    @input="updateValue"
                    @change="updateValue"
                    @blur="onBlur"
-                   @focus="$emit('focus')"
-                   @keyup.enter="$event.target.blur()"/>
+                   @focus="$emit('focus')"/>
             <!-- @slot Optional content at the end of the input container -->
 		<slot name="afterInput"></slot>
 			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
