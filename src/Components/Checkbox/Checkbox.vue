@@ -46,10 +46,9 @@
 <script lang="ts">
 	import {asArray} from "@labor-digital/helferlein/lib/FormatAndConvert/asArray";
 	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-	import {map} from "@labor-digital/helferlein/lib/Lists/map";
 	import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
+	import {isBool} from "@labor-digital/helferlein/lib/Types/isBool";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-	import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {CheckboxInputs} from "./Checkbox.interfaces";
 	
@@ -59,7 +58,7 @@
 			/**
 			 * parse checkboxes as array
 			 */
-			items: Array as CheckboxInputs,
+			items: Array,
 			/**
 			 * choose label side right or left
 			 */
@@ -80,46 +79,52 @@
 			
 			value: {
 				type: Array,
-				default: []
+				default: () => []
 			}
 		},
 		computed: {
 			prepareItems() {
-				let selectedItems = isEmpty(this.value) ? [] : map(this.value, (e) => e.value);
 				let preparedItems = [];
 				
 				// Build a unique value map
+				const value = isArray(this.value) ? this.value : [];
+				const items = isArray(this.items) ? this.items : [];
 				const newValueMap = new Map();
-				forEach(this.value, (item: CheckboxInputs) => {
+				const selectedItemValues = [];
+				forEach(value, (item: CheckboxInputs) => {
+					selectedItemValues.push(item.value);
 					newValueMap.set(item.value, item);
 				});
 				
 				// Build the prepared item list
-				forEach(this.items, (item, index) => {
+				forEach(items, (item) => {
+					const value = item.value ?? item;
 					const _item = {
-						value: isUndefined(item.value) ? item : item.value,
-						label: isUndefined(item.label) ? item : item.label,
-						checked: isUndefined(item.checked) ?
-							selectedItems.indexOf(item.value) !== -1 :
-							item.checked,
-						required: isUndefined(item.required) ? false : item.required,
-						disabled: isUndefined(item.disabled) ? false : item.disabled,
-						show: isUndefined(item.show) ? true : item.show,
-						classes: isPlainObject(item.classes) ? item.classes : {}
+						value,
+						label: item.label ?? item,
+						checked: isBool(item.checked) ? item.checked :
+							selectedItemValues.indexOf(value) !== -1,
+						required: item.required ?? false,
+						disabled: item.disabled ?? false,
+						show: item.show ?? true,
+						classes: item.classes ?? {}
 					};
 					if (_item.checked) {
-						newValueMap.set(_item.value, _item);
+						newValueMap.set(value, _item);
 					} else {
-						newValueMap.delete(_item.value);
+						newValueMap.delete(value);
 					}
 					preparedItems.push(_item);
 				});
 				
 				// Emit the input event after an update
-				if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItems)) {
+				// We need this here for baseSelectBox -> So don't delete it
+				if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItemValues)) {
+					console.log("update input", asArray(newValueMap), selectedItemValues, items);
 					this.$emit("input", asArray(newValueMap));
 				}
 				
+				console.log(preparedItems);
 				return preparedItems;
 			},
 			hasCustomCheckIcon(): boolean {
