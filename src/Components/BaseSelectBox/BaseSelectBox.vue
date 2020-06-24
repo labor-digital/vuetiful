@@ -498,7 +498,11 @@
 			},
 			onMultiSelectCheckboxInput(val) {
 				this.preventNextBlur = true;
-				this.$emit("input", val);
+				// Translate the items
+				const newValues = getPath(val, ["*", "value"], []);
+				this.$emit("input",
+					this.preparedItems.filter((item: PreparedItem) =>
+						newValues.indexOf(item.value) !== -1));
 			},
 			onDocumentClick() {
 				this.onInputBlur();

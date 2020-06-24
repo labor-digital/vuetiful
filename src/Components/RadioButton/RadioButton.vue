@@ -40,7 +40,6 @@
 <script lang="ts">
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-	import {RadioButtonInputs} from "./RadioButton.interfaces";
 	
 	export default {
 		name: "RadioButton",
@@ -55,7 +54,7 @@
 			/**
 			 * parse checkboxes as array
 			 */
-			items: Array as RadioButtonInputs,
+			items: Array,
 			/**
 			 * choose label side right or left
 			 */
