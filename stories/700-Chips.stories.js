@@ -16,45 +16,51 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {object, text, withKnobs} from "@storybook/addon-knobs";
-import Chips from "../src/Components/Chips/Chips.vue";
-import "../src/Components/SelectBox/Storybook.sass";
+import {object, text, withKnobs} from '@storybook/addon-knobs';
+import Chips from '../src/Components/Chips/Chips.vue';
+import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
-	title: "Chips",
-	component: Chips,
-	decorators: [withKnobs]
+    title: 'Chips',
+    component: Chips,
+    decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
-	return ({
-		components: {Chips},
-		template: `
+    return (
+        {
+            components: {Chips},
+            template: `
 			<div>
 				<chips v-model="v" :items="items"/>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{v}}</span>
+                <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                    <pre>{{v}}</pre>
+                </span>
 				<button @click="addChip">Add Chip</button>
 			</div>`,
-		props: {
-			items: {
-				default: object("Input", ["Foo", "Bar"])
-			},
-			error: {
-				/* Error message for input field after your validation failed */
-				default: text("Error", "")
-			}
-		},
-		data() {
-			return {
-				v: []
-			};
-		},
-		methods: {
-			addChip() {
-				this.items.push("Test" + this.items.length);
-			}
-		}
-	});
+            props: {
+                items: {
+                    default: object('Input', ['Foo', 'Bar'])
+                },
+                error: {
+                    /* Error message for input field after your validation failed */
+                    default: text('Error', '')
+                }
+            },
+            data()
+            {
+                return {
+                    v: []
+                };
+            },
+            methods: {
+                addChip()
+                {
+                    this.items.push('Test' + this.items.length);
+                }
+            }
+        }
+    );
 };

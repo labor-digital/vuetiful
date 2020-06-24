@@ -16,44 +16,64 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {object, select, text, withKnobs} from "@storybook/addon-knobs";
-import Checkbox from "../src/Components/Checkbox/Checkbox.vue";
-import "../src/Components/SelectBox/Storybook.sass";
+import {object, select, text, withKnobs} from '@storybook/addon-knobs';
+import Checkbox from '../src/Components/Checkbox/Checkbox.vue';
+import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
-	title: "Checkbox",
-	component: Checkbox,
-	decorators: [withKnobs]
+    title: 'Checkbox',
+    component: Checkbox,
+    decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
-	return ({
-		components: {Checkbox},
-		template: `
+    return (
+        {
+            components: {Checkbox},
+            template: `
 			<div>
-				<checkbox v-model="value" :items="inputs" :label-side="labelSide" :error="error">
-				</checkbox>
-				<span style="display:block;color:#888;margin-top: 50px">Emitted value: {{value}}</span></div>`,
-		props: {
-			inputs: {
-				default: object("Input", [
-					{label: "Test1", required: true}, {label: "Test2"}, {label: "Test3"}
-				])
-			},
-			labelSide: {
-				default: select("Label side", {left: "left", right: "right"}, "right")
-			},
-			error: {
-				/* Error message for input field after your validation failed */
-				default: text("Error", "")
-			}
-		},
-		data() {
-			return {
-				value: ""
-			};
-		}
-	});
+				<checkbox
+				    v-model="v"
+                    :items="inputs"
+                    :label-side="labelSide"
+                    :error="error"
+                    @input="onInput"
+				/>
+                <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                    <pre>{{value}}</pre>
+                </span>
+			</div>`,
+            methods: {
+                onInput()
+                {
+                    console.log('da');
+                }
+            },
+            props: {
+                inputs: {
+                    default: object('Items', [
+                        {label: 'Test1', required: true},
+                        {label: 'Test2'},
+                        {label: 'Test3'}
+                    ])
+                },
+                labelSide: {
+                    default: select('Label side', {left: 'left', right: 'right'}, 'right')
+                },
+                error: {
+                    /* Error message for input field after your validation failed */
+                    default: text('Error', '')
+                }
+            },
+            data()
+            {
+                return {
+                    v: [],
+                    boo: true
+                };
+            }
+        }
+    );
 };

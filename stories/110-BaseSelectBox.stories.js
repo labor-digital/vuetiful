@@ -16,44 +16,59 @@
  * Last modified: 2020.04.24 at 17:23
  */
 
-import {boolean, object, withKnobs} from "@storybook/addon-knobs";
-import BaseSelectBox from "../src/Components/BaseSelectBox/BaseSelectBox";
-import "../src/Components/SelectBox/Storybook.sass";
+import {boolean, object, withKnobs} from '@storybook/addon-knobs';
+import BaseSelectBox from '../src/Components/BaseSelectBox/BaseSelectBox';
+import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
-	title: "BaseSelectBox",
-	component: BaseSelectBox,
-	decorators: [withKnobs]
+    title: 'BaseSelectBox',
+    component: BaseSelectBox,
+    decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
-	return ({
-		components: {BaseSelectBox},
-		template: "<base-select-box :items='inputs' :is-multi-select='MultiSelect' :display-as-chip='DisplayChip' placeholder='Foo :)'></base-select-box>",
-		props: {
-			inputs: {
-				default: object("Input", [
-					"Foo",
-					"Bar",
-					"Foba",
-					"Test",
-					"Drone",
-					"Labor"
-				])
-			},
-			MultiSelect: {
-				default: boolean("MultiSelect?", false)
-			},
-			DisplayChip: {
-				default: boolean("Display as chip?", false)
-			}
-		},
-		data() {
-			return {
-				v: ""
-			};
-		}
-	});
+    return (
+        {
+            components: {BaseSelectBox},
+            template: `
+                <div>
+                    <base-select-box :items="inputs"
+                             v-model="v"
+                             :is-multi-select="MultiSelect"
+                             :display-as-chip="DisplayChip"
+                             placeholder="Foo :)"></base-select-box>
+                    <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                        <pre>{{v}}</pre>
+                    </span>
+                </div>
+
+            `,
+            props: {
+                inputs: {
+                    default: () => object('Input', [
+                        'Foo',
+                        'Bar',
+                        'Foba',
+                        'Test',
+                        'Drone',
+                        'Labor'
+                    ])
+                },
+                MultiSelect: {
+                    default: () => boolean('MultiSelect?', false)
+                },
+                DisplayChip: {
+                    default: () => boolean('Display as chip?', false)
+                }
+            },
+            data()
+            {
+                return {
+                    v: null
+                };
+            }
+        }
+    );
 };
