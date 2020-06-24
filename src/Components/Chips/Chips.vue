@@ -18,15 +18,21 @@
 
 <template>
     <div class="chips">
-        <chip v-for="(item, index) in preparedValue" class="chips__item" :key="index" :item="item.label"
+        <chip v-for="(item, index) in preparedValue" class="chips__item"
+              :key="index"
+              :item="item.label"
               @remove.stop="removeChip(item)">
-            {{item.label}}
+            <!-- @slot Used to overwrite the rendered label for a single chip -->
+            <slot name="chipLabel" :item="item">
+                {{item.label}}
+            </slot>
         </chip>
     </div>
 </template>
 
 <script lang="ts">
 	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+	import {isNull} from "@labor-digital/helferlein/lib/Types/isNull";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import Chip from "./Chip.vue";
 	
@@ -34,33 +40,37 @@
 		name: "Chips",
 		components: {Chip},
 		props: {
-			items: Array
-		},
-		data() {
-			return {
-				value: []
-			};
+			value: Array,
+			
+			/**
+			 * @deprecated use "value" instead
+			 */
+			items: {
+				type: [Array, null],
+				default: null
+			}
 		},
 		computed: {
 			preparedValue() {
-				let preparedChips = [];
-				forEach(this.items, (item, index) => {
-					let preparedChip = {
+				const value = isNull(this.items) ? this.value : this.items;
+				
+				let preparedValue = [];
+				forEach(value, (item, index) => {
+					preparedValue.push({
 						id: index,
 						value: isUndefined(item.value) ? item : item.value,
 						label: isUndefined(item.label) ? item : item.label
-					};
-					preparedChips.push(preparedChip);
+					});
 				});
-				this.$emit("input", preparedChips);
-				return preparedChips;
+				return preparedValue;
 			}
 		},
 		methods: {
 			removeChip(item) {
-				const index = this.items.indexOf(item);
-				this.items.splice(index, 1);
-				this.$emit("input", this.preparedValue);
+				const valueClone = [...this.preparedValue];
+				const index = valueClone.indexOf(item);
+				valueClone.splice(index, 1);
+				this.$emit("input", valueClone);
 				this.$emit("remove-chip", item, index);
 			}
 		}

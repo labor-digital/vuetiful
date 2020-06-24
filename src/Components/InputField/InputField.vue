@@ -156,8 +156,8 @@
 				this.isEmpty = !isEmpty(this.$refs.inputField.value);
 				this.$emit("input", this.$refs.inputField.value);
 			},
-			onBlur() {
-				this.$emit("blur");
+			onBlur(e) {
+				this.$emit("blur", e);
 				if (this.type === "email") this.validateEmail();
 			},
 			validateEmail(): boolean {
@@ -173,6 +173,7 @@
 				this.$refs.inputField.value = "";
 				this.updateValue();
 				this.onBlur();
+				this.$emit("clear");
 			}
 		},
 		mounted(): void {

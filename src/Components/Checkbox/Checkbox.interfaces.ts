@@ -24,6 +24,11 @@ export interface CheckboxInputs
      */
     label?: string,
     
+    /**
+     * The internal value to use for this input
+     */
+    value?: any,
+    
     /*
     * hide input for filter list
      */

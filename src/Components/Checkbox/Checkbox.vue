@@ -44,10 +44,12 @@
 </template>
 
 <script lang="ts">
+	import {asArray} from "@labor-digital/helferlein/lib/FormatAndConvert/asArray";
 	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
 	import {map} from "@labor-digital/helferlein/lib/Lists/map";
 	import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+	import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {CheckboxInputs} from "./Checkbox.interfaces";
 	
@@ -85,8 +87,16 @@
 			prepareItems() {
 				let selectedItems = isEmpty(this.value) ? [] : map(this.value, (e) => e.value);
 				let preparedItems = [];
+				
+				// Build a unique value map
+				const newValueMap = new Map();
+				forEach(this.value, (item: CheckboxInputs) => {
+					newValueMap.set(item.value, item);
+				});
+				
+				// Build the prepared item list
 				forEach(this.items, (item, index) => {
-					preparedItems.push({
+					const _item = {
 						value: isUndefined(item.value) ? item : item.value,
 						label: isUndefined(item.label) ? item : item.label,
 						checked: isUndefined(item.checked) ?
@@ -94,9 +104,22 @@
 							item.checked,
 						required: isUndefined(item.required) ? false : item.required,
 						disabled: isUndefined(item.disabled) ? false : item.disabled,
-						show: isUndefined(item.show) ? true : item.show
-					});
+						show: isUndefined(item.show) ? true : item.show,
+						classes: isPlainObject(item.classes) ? item.classes : {}
+					};
+					if (_item.checked) {
+						newValueMap.set(_item.value, _item);
+					} else {
+						newValueMap.delete(_item.value);
+					}
+					preparedItems.push(_item);
 				});
+				
+				// Emit the input event after an update
+				if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItems)) {
+					this.$emit("input", asArray(newValueMap));
+				}
+				
 				return preparedItems;
 			},
 			hasCustomCheckIcon(): boolean {
@@ -112,6 +135,7 @@
 			},
 			intClasses(item) {
 				return {
+					...item.classes,
 					"checkbox__label--required": item.required,
 					"checkbox__label--disabled": item.disabled,
 					"checkbox__label--checked": item.checked
@@ -119,9 +143,9 @@
 			},
 			updateValue(item) {
 				const isChecked = !item.checked;
-				const valueClone = isArray(this.value) ? [...this.value] : [];
+				let valueClone = isArray(this.value) ? [...this.value] : [];
 				if (isChecked) valueClone.push(item);
-				else valueClone = valueClone.filter(val => val.id !== item.id);
+				else valueClone = valueClone.filter(val => val.value !== item.value);
 				this.$emit("input", valueClone);
 			}
 		}
