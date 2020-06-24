@@ -17,41 +17,41 @@
   -->
 
 <template>
-	<div class="inputField">
-		<label v-if="hasLabel" class="inputField__label">
-			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
-			<slot>{{label}}</slot>
-		</label>
-		<span class="inputField__inputContainer">
+    <div class="inputField">
+        <label v-if="hasLabel" class="inputField__label">
+            <!-- @slot default slot for label. you can parse the label also with a parameter. -->
+            <slot>{{label}}</slot>
+        </label>
+        <span class="inputField__inputContainer">
                         <!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
 			<input class="inputField__input" :class="classes" ref="inputField"
-				   :value="value"
-				   :type="type"
-				   :placeholder="placeholder"
-				   :required="required"
-				   :readonly="readOnly"
-				   :disabled="disabled"
-				   @input="updateValue"
-				   @change="updateValue"
-				   @blur="onBlur"
-				   @focus="$emit('focus')"
-				   @keyup.enter="$event.target.blur()"/>
-			<!-- @slot Optional content at the end of the input container -->
+                   :value="value"
+                   :type="type"
+                   :placeholder="placeholder"
+                   :required="required"
+                   :readonly="readOnly"
+                   :disabled="disabled"
+                   @input="updateValue"
+                   @change="updateValue"
+                   @blur="onBlur"
+                   @focus="$emit('focus')"
+                   @keyup.enter="$event.target.blur()"/>
+            <!-- @slot Optional content at the end of the input container -->
 		<slot name="afterInput"></slot>
 			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
 				<!-- @slot set your custom clear icon. As default: &times; -->
 				<slot name="clearIcon">&times;</slot>
 			</span>
 		</span>
-		
-		<!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
-		<slot name="icon"></slot>
-		<span v-if="hasError || errorEmail" class="inputField__error">
+        
+        <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
+        <slot name="icon"></slot>
+        <span v-if="hasError || errorEmail" class="inputField__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
 			<slot name="error">{{error}} {{errorEmail}}</slot>
 		</span>
-	</div>
+    </div>
 </template>
 
 <script lang="ts">

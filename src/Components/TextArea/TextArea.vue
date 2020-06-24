@@ -17,31 +17,31 @@
   -->
 
 <template>
-	<div class="textArea">
-		<label v-if="hasLabel" class="textArea__label">
-			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
-			<slot>{{label}}</slot>
-		</label>
-		<textarea class="textArea__input" :class="classes" ref="textarea"
-				:rows="rows"
-				:placeholder="placeholder"
-				:required="required"
-				:readonly="readOnly"
-				:disabled="disabled"
-				@input="updateValue"
-				@change="updateValue"
-				@blur="$emit('blur')"
-				@focus="$emit('focus')"/>
-		<!-- @slot if you want to place an icon inside the textArea. Dont forget to style it! -->
-		<slot name="icon"></slot>
-		<span v-if="error" class="textArea__error">{{ error }}</span>
-	</div>
+    <div class="textArea">
+        <label v-if="hasLabel" class="textArea__label">
+            <!-- @slot default slot for label. you can parse the label also with a parameter. -->
+            <slot>{{label}}</slot>
+        </label>
+        <textarea class="textArea__input" :class="classes" ref="textarea"
+                  :rows="rows"
+                  :placeholder="placeholder"
+                  :required="required"
+                  :readonly="readOnly"
+                  :disabled="disabled"
+                  @input="updateValue"
+                  @change="updateValue"
+                  @blur="$emit('blur')"
+                  @focus="$emit('focus')"/>
+        <!-- @slot if you want to place an icon inside the textArea. Dont forget to style it! -->
+        <slot name="icon"></slot>
+        <span v-if="error" class="textArea__error">{{ error }}</span>
+    </div>
 </template>
 
 <script lang="ts">
-	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-
+	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+	
 	export default {
 		name: "TextArea",
 		props: {
@@ -105,7 +105,7 @@
 					"textArea__input--disabled": this.disabled,
 					"textArea__input--readonly": this.readOnly,
 					"textArea__input--error": this.error !== "" && !isUndefined(this.error)
-				}
+				};
 			}
 		},
 		methods: {
@@ -116,7 +116,7 @@
 		mounted(): void {
 			if (!isEmpty(this.value)) this.$refs.textarea.value = this.value;
 		}
-	}
+	};
 </script>
 
 <style lang="sass" src="./TextArea.sass"></style>

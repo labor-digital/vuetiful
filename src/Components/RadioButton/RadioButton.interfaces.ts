@@ -16,14 +16,15 @@
  * Last modified: 2020.05.03 at 14:18
  */
 
-export interface RadioButtonInputs {
-	/*
-	* Set label for the radio buttons
-	 */
-	label?: string,
-	/*
-	* disable the radio
-	 */
-	disabled?: boolean
-
+export interface RadioButtonInputs
+{
+    /*
+    * Set label for the radio buttons
+     */
+    label?: string,
+    /*
+    * disable the radio
+     */
+    disabled?: boolean
+    
 }

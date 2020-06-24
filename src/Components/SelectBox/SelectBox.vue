@@ -17,24 +17,24 @@
   -->
 
 <template>
-	<div ref="IZ-select" :tabindex="disableSearch ? 0 : -1"
-			:class="{
+    <div ref="IZ-select" :tabindex="disableSearch ? 0 : -1"
+         :class="{
 				'selectBox': true,
 				'selectBox--withValue': inputValue,
 				...(size === SIZES.DEFAULT ? null : ({ ['selectBox--' + size]: true }))}"
-
-			@keydown.up="onSelectByArrow"
-			@keydown.down="onSelectByArrow"
-			@keydown.enter="onEnter"
-			@keydown.tab.esc="setBlured"
-			@mousedown="onClick"
-			@focus="setFocused">
-		<div class="selectBox__inputWrap">
-			<!-- @slot Used to add additional content before the input field is rendered -->
-			<slot name="input-before"/>
-
-			<div ref="IZ-select__input"
-					:class="{
+    
+         @keydown.up="onSelectByArrow"
+         @keydown.down="onSelectByArrow"
+         @keydown.enter="onEnter"
+         @keydown.tab.esc="setBlured"
+         @mousedown="onClick"
+         @focus="setFocused">
+        <div class="selectBox__inputWrap">
+            <!-- @slot Used to add additional content before the input field is rendered -->
+            <slot name="input-before"/>
+            
+            <div ref="IZ-select__input"
+                 :class="{
 						'selectBox__input': true,
 						'selectBox__input--focused': focused,
 						'selectBox__input--hasMenu': hasMenu,
@@ -43,16 +43,16 @@
 						'selectBox__input--selectionSlot': showSelectionSlot,
 						'selectBox__input--disabled': disabled,
 						'selectBox__input--readonly': readonly}"
-					:style="inputStyles">
-
-				<!-- @slot additional content at the beginning of the input field -->
-				<slot name="input-start"/>
-
-
-				<slot v-if="showSelectionSlot" :item="selectedItem" name="selection"/>
-
-				<input v-if="simpleInput" ref="IZ-select__input-for-text"
-						v-bind="{
+                 :style="inputStyles">
+                
+                <!-- @slot additional content at the beginning of the input field -->
+                <slot name="input-start"/>
+                
+                
+                <slot v-if="showSelectionSlot" :item="selectedItem" name="selection"/>
+                
+                <input v-if="simpleInput" ref="IZ-select__input-for-text"
+                       v-bind="{
 							value,
 							placeholder,
 							class: inputForTextClass,
@@ -63,14 +63,14 @@
 							autocomplete: 'new-password',
 							...inputElCustomAttributes,
 							style: inputForTextStyles,}"
-
-						@keyup="onSearchKeyUp"
-						@keydown="onSearchKeyDown"
-						@input="$emit('input', $event.target.value)"
-						@mousedown="onClick"
-						@focus="setFocused(true)">
-				<input v-else ref="IZ-select__input-for-text"
-						v-bind="{
+                
+                       @keyup="onSearchKeyUp"
+                       @keydown="onSearchKeyDown"
+                       @input="$emit('input', $event.target.value)"
+                       @mousedown="onClick"
+                       @focus="setFocused(true)">
+                <input v-else ref="IZ-select__input-for-text"
+                       v-bind="{
 							value: inputValue,
 							placeholder,
 							class: inputForTextClass,
@@ -82,109 +82,109 @@
 							autocomplete: 'new-password',
 							...inputElCustomAttributes,
 							style: inputForTextStyles,}"
-
-						@keyup="onSearchKeyUp"
-						@keydown="onSearchKeyDown"
-						@input="onSearch"
-						@mousedown="onClick"
-						@focus="setFocused(true)">
-
-				<!-- @slot additional content at the end of the input field -->
-				<slot name="input-end"/>
-			</div>
-
-			<!-- @slot Used to add additional content after the input field was rendered -->
-			<slot name="input-after"/>
-		</div>
-
-		<template v-if="!simpleInput">
-			<div v-for="menuPos of [MENU_POSITIONS.TOP, MENU_POSITIONS.BOTTOM]"
-					:key="'menu-position-' + menuPos"
-					:ref="'IZ-select__menu-' + menuPos"
-					:style="{
+                
+                       @keyup="onSearchKeyUp"
+                       @keydown="onSearchKeyDown"
+                       @input="onSearch"
+                       @mousedown="onClick"
+                       @focus="setFocused(true)">
+                
+                <!-- @slot additional content at the end of the input field -->
+                <slot name="input-end"/>
+            </div>
+            
+            <!-- @slot Used to add additional content after the input field was rendered -->
+            <slot name="input-after"/>
+        </div>
+        
+        <template v-if="!simpleInput">
+            <div v-for="menuPos of [MENU_POSITIONS.TOP, MENU_POSITIONS.BOTTOM]"
+                 :key="'menu-position-' + menuPos"
+                 :ref="'IZ-select__menu-' + menuPos"
+                 :style="{
 						'pointer-events': hasMenu ? 'auto' : 'none',
 						...getMenuDynamicStyles(menuPos)}"
-					:class="{
+                 :class="{
 						[`selectBox__menu selectBox__menu--at-${menuPos}`]: true,
 						'selectBox__menu--disableSearch': disableSearch }">
-
-				<!-- @slot Used to add additional content before the list of items -->
-				<slot name="before-items-fixed"/>
-
-				<div ref="IZ-select__menu-items"
-						:style="{'max-height': menuItemsMaxHeight}"
-						class="selectBox__menuItems"
-						@scroll="onScroll">
-
-					<!-- @slot Used to add additional content as the first element before
-					the other items in the list -->
-					<slot name="before-items">
-						<div style="height: 8px;"/>
-					</slot>
-
-					<!--itemsComputedWithScrollLimit-->
-					<div v-for="(item, i) in itemsComputed"
-							v-show="i < scrollItemsLimitCurrent || (arrowsIndex && i <= arrowsIndex)"
-							ref="items"
-							:key="'IZ-item-' + i"
-							:class="{
+                
+                <!-- @slot Used to add additional content before the list of items -->
+                <slot name="before-items-fixed"/>
+                
+                <div ref="IZ-select__menu-items"
+                     :style="{'max-height': menuItemsMaxHeight}"
+                     class="selectBox__menuItems"
+                     @scroll="onScroll">
+                    
+                    <!-- @slot Used to add additional content as the first element before
+                    the other items in the list -->
+                    <slot name="before-items">
+                        <div style="height: 8px;"/>
+                    </slot>
+                    
+                    <!--itemsComputedWithScrollLimit-->
+                    <div v-for="(item, i) in itemsComputed"
+                         v-show="i < scrollItemsLimitCurrent || (arrowsIndex && i <= arrowsIndex)"
+                         ref="items"
+                         :key="'IZ-item-' + i"
+                         :class="{
 							  'selectBox__item': true,
 							  'selectBox__item--selected': isItemSelected(item)}"
-
-							@click="onClickSelectItem(item)">
-
-						<!-- @slot the template of a single item in the option list-->
-						<slot :item="item" name="item">
+                    
+                         @click="onClickSelectItem(item)">
+                        
+                        <!-- @slot the template of a single item in the option list-->
+                        <slot :item="item" name="item">
 							<span>
 								{{ getItemText(item) }}
 							</span>
-						</slot>
-					</div>
-
-					<div v-if="!itemsComputed.length && !loading" class="selectBox__noData">
-
-						<!-- @slot The label that is shown when no items were found based on the given search string -->
-						<slot name="no-data">
-							{{ noDataLabel }}
-						</slot>
-					</div>
-
-					<!-- @slot Used to add additional content as the first element after the
-					other items in the list -->
-					<slot name="after-items">
-						<div style="height: 8px;"/>
-					</slot>
-				</div>
-
-				<!-- @slot Used to add additional content after the list of items -->
-				<slot name="after-items-fixed"/>
-
-				<div style="position: absolute; top: 0; left: 0; right: 0;">
-					<slot name="before-items-fixed-absolute"/>
-				</div>
-				<div style="position: absolute; bottom: 0; left: 0; right: 0;">
-					<slot name="after-items-fixed-absolute"/>
-				</div>
-			</div>
-		</template>
-
-		<transition name="fade">
-			<div v-show="errorMessage" class="selectBox__error">
-
-				<!-- @slot The template of an error message -->
-				<slot :errorMessage="errorMessage" name="error">
-					{{ errorMessage }}
-				</slot>
-			</div>
-		</transition>
-	</div>
+                        </slot>
+                    </div>
+                    
+                    <div v-if="!itemsComputed.length && !loading" class="selectBox__noData">
+                        
+                        <!-- @slot The label that is shown when no items were found based on the given search string -->
+                        <slot name="no-data">
+                            {{ noDataLabel }}
+                        </slot>
+                    </div>
+                    
+                    <!-- @slot Used to add additional content as the first element after the
+                    other items in the list -->
+                    <slot name="after-items">
+                        <div style="height: 8px;"/>
+                    </slot>
+                </div>
+                
+                <!-- @slot Used to add additional content after the list of items -->
+                <slot name="after-items-fixed"/>
+                
+                <div style="position: absolute; top: 0; left: 0; right: 0;">
+                    <slot name="before-items-fixed-absolute"/>
+                </div>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+                    <slot name="after-items-fixed-absolute"/>
+                </div>
+            </div>
+        </template>
+        
+        <transition name="fade">
+            <div v-show="errorMessage" class="selectBox__error">
+                
+                <!-- @slot The template of an error message -->
+                <slot :errorMessage="errorMessage" name="error">
+                    {{ errorMessage }}
+                </slot>
+            </div>
+        </transition>
+    </div>
 </template>
 
 <script lang="ts">
 	import {CoolSelect} from "vue-cool-select";
 	import {MENU_POSITIONS, SIZES} from "vue-cool-select/src/constants";
-
-
+	
+	
 	/**
 	 * This component is a multi-purpose select box that works either as a normal select field
 	 * or an auto-complete including API requests.
@@ -266,7 +266,7 @@
 				default: false,
 				note: "readonly state."
 			},
-
+			
 			/**
 			 * An optional callback which can be used to filter the items in the list.
 			 * By default all entries will be removed that don't match a part of the current query text
@@ -275,10 +275,10 @@
 				type: Function,
 				default: (item, queryText, itemText) => {
 					const hasValue = val => val != null ? val : "";
-
+					
 					const text = hasValue(itemText);
 					const query = hasValue(queryText);
-
+					
 					return text.toString()
 						.toLowerCase()
 						.indexOf(query.toString().toLowerCase()) > -1;

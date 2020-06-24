@@ -17,40 +17,42 @@
   -->
 
 <template>
-	<div class="baseSelectBox">
-		<div class="baseSelectBox__container">
-			<div class="baseSelectBox__containerInput">
-				<span v-if="isMultiSelect && !displayAsChip" class="baseSelectBox__chips" v-for="item in chipList">{{item}}</span>
-				<chips v-if="displayAsChip && isMultiSelect" class="baseSelectBox__chips" :items="chipList"></chips>
-				<input-field v-model="searchInput"
-							 class="baseSelectBox__input"
-							 :placeholder="placeholder"
-							 @focus="inputFocus"
-							 @blur="inputBlur"
-							 @input="isFilter = true"
-							 @keydown.enter.native="onEnterKey"
-							 @keydown.down.native="selectItem('down')"
-							 @keydown.up.native="selectItem('up')"
-							 @keydown.delete.native="backspaceDelete"/>
-			</div>
-			<transition name="fade">
-				<div v-show="showMenu" class="baseSelectBox__menu" :class="menuClasses">
-					<slot name="beforeItems"/>
-					<div class="baseSelectBox__menuInner"
-						 @focusout="inputBlur"
-						 tabindex="0">
-						<checkbox v-if="isMultiSelect" v-model="multiInput" :items="filteredList" class="baseSelectBox__item baseSelectBox__item--checkbox"
-								  @click.native="showMenu = true" @input="searchInput = ''"/>
-						<span v-if="!isMultiSelect" v-for="(item,index) in filteredList" class="baseSelectBox__item" :ref="'item-'+index"
-							  @click="selectedItem(item)">
+    <div class="baseSelectBox">
+        <div class="baseSelectBox__container">
+            <div class="baseSelectBox__containerInput">
+                <span v-if="isMultiSelect && !displayAsChip" class="baseSelectBox__chips" v-for="item in chipList">{{item}}</span>
+                <chips v-if="displayAsChip && isMultiSelect" class="baseSelectBox__chips" :items="chipList"></chips>
+                <input-field v-model="searchInput"
+                             class="baseSelectBox__input"
+                             :placeholder="placeholder"
+                             @focus="inputFocus"
+                             @blur="inputBlur"
+                             @input="isFilter = true"
+                             @keydown.enter.native="onEnterKey"
+                             @keydown.down.native="selectItem('down')"
+                             @keydown.up.native="selectItem('up')"
+                             @keydown.delete.native="backspaceDelete"/>
+            </div>
+            <transition name="fade">
+                <div v-show="showMenu" class="baseSelectBox__menu" :class="menuClasses">
+                    <slot name="beforeItems"/>
+                    <div class="baseSelectBox__menuInner"
+                         @focusout="inputBlur"
+                         tabindex="0">
+                        <checkbox v-if="isMultiSelect" v-model="multiInput" :items="filteredList"
+                                  class="baseSelectBox__item baseSelectBox__item--checkbox"
+                                  @click.native="showMenu = true" @input="searchInput = ''"/>
+                        <span v-if="!isMultiSelect" v-for="(item,index) in filteredList" class="baseSelectBox__item"
+                              :ref="'item-'+index"
+                              @click="selectedItem(item)">
 					{{item}}
 					</span>
-					</div>
-					<slot name="afterItems"/>
-				</div>
-			</transition>
-		</div>
-	</div>
+                    </div>
+                    <slot name="afterItems"/>
+                </div>
+            </transition>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -101,7 +103,10 @@
 				if (this.isMultiSelect) {
 					let filteredMultiSelect = [];
 					forEach(this.items, item => {
-						filteredMultiSelect.push({label: item, show: item.toLowerCase().includes(this.searchInput.toLowerCase())});
+						filteredMultiSelect.push({
+							label: item,
+							show: item.toLowerCase().includes(this.searchInput.toLowerCase())
+						});
 					});
 					return filteredMultiSelect;
 				}

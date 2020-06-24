@@ -17,23 +17,24 @@
   -->
 
 <template>
-	<div class="radioButton" v-if="hasItems">
-		<label v-for="(item, index) in items" class="radioButton__label" :class="intClasses(item)" :ref="'radioButton-'+index">
-			<span v-if="labelSide === 'left'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
-			<input v-show="hasCustomRadioIcon" :name="groupName"
-				   class="radioButton__input"
-				   type="radio"
-				   :checked="item.checked"
-				   :required="item.required"
-				   :disabled="item.disabled"
-				   @input="updateValue(index, $event)"
-			/>
-			<!-- @slot Add your custom radio icon if needed.  -->
-			<slot name="customRadioIcon"></slot>
-			<span v-if="labelSide === 'right'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
-		</label>
-		<span v-if="error" class="radioButton__error">{{ error }}</span>
-	</div>
+    <div class="radioButton" v-if="hasItems">
+        <label v-for="(item, index) in items" class="radioButton__label" :class="intClasses(item)"
+               :ref="'radioButton-'+index">
+            <span v-if="labelSide === 'left'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
+            <input v-show="hasCustomRadioIcon" :name="groupName"
+                   class="radioButton__input"
+                   type="radio"
+                   :checked="item.checked"
+                   :required="item.required"
+                   :disabled="item.disabled"
+                   @input="updateValue(index, $event)"
+            />
+            <!-- @slot Add your custom radio icon if needed.  -->
+            <slot name="customRadioIcon"></slot>
+            <span v-if="labelSide === 'right'" class="radioButton__labelText radioButton__labelText--left">{{hasLabel(item)}}</span>
+        </label>
+        <span v-if="error" class="radioButton__error">{{ error }}</span>
+    </div>
 </template>
 
 <script lang="ts">

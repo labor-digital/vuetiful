@@ -17,46 +17,46 @@
   -->
 
 <template>
-	<transition name="fade" @after-leave="onCloseComplete">
-		<div class="modal" v-if="value" @click="close" :class="classes">
-			<!-- @slot The outer wrap around both background and scroll wrapper -->
-			<slot name="outer-wrap">
-				<!-- @slot The template of the modal backdrop -->
-				<slot name="background">
-					<div class="modal__background"></div>
-				</slot>
-				<div class="modal__scrollWrapper">
-					<!-- @slot The wrapper around the modal content container -->
-					<slot name="content-wrap">
-						<div class="modal__content" @click.stop role="dialog" aria-modal="true">
-							<!-- @slot The template of the content container's children -->
-							<slot name="content">
-								<div class="modal__close" @click="close">
-									<!-- @slot The Icon to close the modal -->
-									<slot name="close-icon-wrap">
-										<div class="modal__closeIcon">
-											<a href="#close" @click.prevent.stop="close">
-												<!-- @slot The Icon to close the modal -->
-												<slot name="close-icon">X</slot>
-											</a>
-										</div>
-									</slot>
-								</div>
-								<!-- @slot The main content of the modal -->
-								<slot></slot>
-							</slot>
-						</div>
-					</slot>
-				</div>
-			</slot>
-		</div>
-	</transition>
+    <transition name="fade" @after-leave="onCloseComplete">
+        <div class="modal" v-if="value" @click="close" :class="classes">
+            <!-- @slot The outer wrap around both background and scroll wrapper -->
+            <slot name="outer-wrap">
+                <!-- @slot The template of the modal backdrop -->
+                <slot name="background">
+                    <div class="modal__background"></div>
+                </slot>
+                <div class="modal__scrollWrapper">
+                    <!-- @slot The wrapper around the modal content container -->
+                    <slot name="content-wrap">
+                        <div class="modal__content" @click.stop role="dialog" aria-modal="true">
+                            <!-- @slot The template of the content container's children -->
+                            <slot name="content">
+                                <div class="modal__close" @click="close">
+                                    <!-- @slot The Icon to close the modal -->
+                                    <slot name="close-icon-wrap">
+                                        <div class="modal__closeIcon">
+                                            <a href="#close" @click.prevent.stop="close">
+                                                <!-- @slot The Icon to close the modal -->
+                                                <slot name="close-icon">X</slot>
+                                            </a>
+                                        </div>
+                                    </slot>
+                                </div>
+                                <!-- @slot The main content of the modal -->
+                                <slot></slot>
+                            </slot>
+                        </div>
+                    </slot>
+                </div>
+            </slot>
+        </div>
+    </transition>
 </template>
 
 <script lang="ts">
 	import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
 	import {stopBodyScrolling} from "@labor-digital/helferlein/lib/Ui/stopBodyScrolling";
-
+	
 	/**
 	 * A simple modal component, nothing more - nothing less
 	 *

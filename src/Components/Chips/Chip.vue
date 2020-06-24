@@ -17,11 +17,11 @@
   -->
 
 <template>
-	<div class="chip">
+    <div class="chip">
 		<span class="chip__item" :class="classes">
 			  <slot/> <span v-if="isRemovable" class="chip__removeBtn" @click="$emit('remove', $event)">&times;</span>
 		</span>
-	</div>
+    </div>
 </template>
 
 <script lang="ts">

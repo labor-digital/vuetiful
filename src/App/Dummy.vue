@@ -17,7 +17,7 @@
   -->
 
 <template>
-	<div :style="{background: toggle ? 'green': 'white'}">Dummy :) {{text}}</div>
+    <div :style="{background: toggle ? 'green': 'white'}">Dummy :) {{text}}</div>
 </template>
 
 <script lang="ts">

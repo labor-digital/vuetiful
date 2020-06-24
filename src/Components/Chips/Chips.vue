@@ -17,11 +17,12 @@
   -->
 
 <template>
-	<div class="chips">
-		<chip v-for="(item, index) in preparedValue" class="chips__item" :key="index" :item="item.label" @remove.stop="removeChip(item)">
-			{{item.label}}
-		</chip>
-	</div>
+    <div class="chips">
+        <chip v-for="(item, index) in preparedValue" class="chips__item" :key="index" :item="item.label"
+              @remove.stop="removeChip(item)">
+            {{item.label}}
+        </chip>
+    </div>
 </template>
 
 <script lang="ts">

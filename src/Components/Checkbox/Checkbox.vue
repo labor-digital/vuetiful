@@ -17,34 +17,36 @@
   -->
 
 <template>
-	<div class="checkbox" v-if="hasItems">
-		<label v-for="(item, index) in prepareItems" v-show="item.show"
+    <div class="checkbox" v-if="hasItems">
+        <label v-for="(item, index) in prepareItems" v-show="item.show"
                class="checkbox__label"
                :class="intClasses(item)"
                :ref="'checkbox-'+index">
-			<span v-if="labelSide === 'left'" class="checkbox__labelText checkbox__labelText--left">{{item.label}}</span>
-			<input v-show="hasCustomCheckIcon" class="checkbox__input"
+            <span v-if="labelSide === 'left'"
+                  class="checkbox__labelText checkbox__labelText--left">{{item.label}}</span>
+            <input v-show="hasCustomCheckIcon" class="checkbox__input"
                    type="checkbox"
-				   :required="item.required"
-				   :disabled="item.disabled"
+                   :required="item.required"
+                   :disabled="item.disabled"
                    v-model="item.checked"
-				   @input="updateValue(item)"
-			/>
-			<!-- @slot Add your custom check icon if needed. -->
-			<slot name="customCheckIcon"></slot>
-			<span v-if="labelSide === 'right'" class="checkbox__labelText checkbox__labelText--right">{{item.label}}</span>
-		</label>
-		<span v-if="hasError" class="checkbox__error">
+                   @input="updateValue(item)"
+            />
+            <!-- @slot Add your custom check icon if needed. -->
+            <slot name="customCheckIcon"></slot>
+            <span v-if="labelSide === 'right'"
+                  class="checkbox__labelText checkbox__labelText--right">{{item.label}}</span>
+        </label>
+        <span v-if="hasError" class="checkbox__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
 			<slot name="error">{{error}}</slot>
 		</span>
-	</div>
+    </div>
 </template>
 
 <script lang="ts">
 	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-    import {map} from '@labor-digital/helferlein/lib/Lists/map';
-    import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+	import {map} from "@labor-digital/helferlein/lib/Lists/map";
+	import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import {CheckboxInputs} from "./Checkbox.interfaces";
@@ -73,27 +75,27 @@
 			error: {
 				type: String
 			},
-            
-            value: {
-			    type: Array,
-                default: []
-            }
+			
+			value: {
+				type: Array,
+				default: []
+			}
 		},
 		computed: {
 			prepareItems() {
-			    let selectedItems = isEmpty(this.value) ? [] : map(this.value, (e) => e.value);
+				let selectedItems = isEmpty(this.value) ? [] : map(this.value, (e) => e.value);
 				let preparedItems = [];
 				forEach(this.items, (item, index) => {
 					preparedItems.push({
-                        value: isUndefined(item.value) ? item : item.value,
-                        label: isUndefined(item.label) ? item : item.label,
-                        checked: isUndefined(item.checked) ?
-                            selectedItems.indexOf(item.value) !== -1 :
-                            item.checked,
-                        required: isUndefined(item.required) ? false : item.required,
-                        disabled: isUndefined(item.disabled) ? false : item.disabled,
-                        show: isUndefined(item.show) ? true : item.show
-                    });
+						value: isUndefined(item.value) ? item : item.value,
+						label: isUndefined(item.label) ? item : item.label,
+						checked: isUndefined(item.checked) ?
+							selectedItems.indexOf(item.value) !== -1 :
+							item.checked,
+						required: isUndefined(item.required) ? false : item.required,
+						disabled: isUndefined(item.disabled) ? false : item.disabled,
+						show: isUndefined(item.show) ? true : item.show
+					});
 				});
 				return preparedItems;
 			},
@@ -109,20 +111,20 @@
 				return !isEmpty(this.items) || !isUndefined(this.items);
 			},
 			intClasses(item) {
-			    return {
-                    "checkbox__label--required": item.required,
-                    "checkbox__label--disabled": item.disabled,
-                    "checkbox__label--checked": item.checked
-                }
+				return {
+					"checkbox__label--required": item.required,
+					"checkbox__label--disabled": item.disabled,
+					"checkbox__label--checked": item.checked
+				};
 			},
 			updateValue(item) {
-			    const isChecked = !item.checked;
-				const valueClone = isArray(this.value) ? [...this.value]: [];
+				const isChecked = !item.checked;
+				const valueClone = isArray(this.value) ? [...this.value] : [];
 				if (isChecked) valueClone.push(item);
 				else valueClone = valueClone.filter(val => val.id !== item.id);
-                this.$emit("input", valueClone);
+				this.$emit("input", valueClone);
 			}
-		}		
+		}
 	};
 </script>
 

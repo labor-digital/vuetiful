@@ -16,47 +16,48 @@
  * Last modified: 2020.05.03 at 14:18
  */
 
-export interface CheckboxInputs {
-	
-	/*
-	* Set label for the checkbox
-	 */
-	label?: string,
-	
-	/*
-	* hide input for filter list
-	 */
-	show?: {
-		type: boolean,
-		default: true
-	},
-	
-	/*
-	* checks checkbox
-	 */
-	checked?: {
-		type: boolean,
-		default: false
-	},
-	
-	/*
-	* sets required tag for the checkbox
-	 */
-	required?: {
-		type: boolean,
-		default: false
-	},
-	
-	/*
-	* disable the checkbox
-	 */
-	disabled?: {
-		type: boolean,
-		default: false
-	},
-	/*
-	* error state
-	 */
-	error?: boolean
-	
+export interface CheckboxInputs
+{
+    
+    /*
+    * Set label for the checkbox
+     */
+    label?: string,
+    
+    /*
+    * hide input for filter list
+     */
+    show?: {
+        type: boolean,
+        default: true
+    },
+    
+    /*
+    * checks checkbox
+     */
+    checked?: {
+        type: boolean,
+        default: false
+    },
+    
+    /*
+    * sets required tag for the checkbox
+     */
+    required?: {
+        type: boolean,
+        default: false
+    },
+    
+    /*
+    * disable the checkbox
+     */
+    disabled?: {
+        type: boolean,
+        default: false
+    },
+    /*
+    * error state
+     */
+    error?: boolean
+    
 }
