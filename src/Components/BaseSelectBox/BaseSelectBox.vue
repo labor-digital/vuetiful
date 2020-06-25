@@ -112,6 +112,7 @@
 	import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
 	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 	import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
+	import {isString} from "@labor-digital/helferlein/lib/Types/isString";
 	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 	import Checkbox from "../Checkbox/Checkbox.vue";
 	import Chips from "../Chips/Chips.vue";
@@ -188,6 +189,13 @@
 			 * A placeholder to display as long as there is no value selected
 			 */
 			placeholder: String,
+			
+			/**
+			 * Used for "is-multi-select" fields to overwrite the placeholder
+			 * when the box contains selected items. If not given,
+			 * the default placeholder is shown
+			 */
+			multiSelectAltPlaceholder: String,
 			
 			/**
 			 * If "items" contains an array of objects, this prop is used to select the object's property
@@ -371,12 +379,14 @@
 				}), v => v !== null);
 			},
 			searchFieldPlaceholder() {
-				if (!this.isMultiSelect) {
-					if (!isEmpty(this.preparedValue)) {
-						return this.preparedValue.label;
-					} else {
-						return this.placeholder;
+				if (!isEmpty(this.preparedValue)) {
+					if (!this.isMultiSelect) {
+						return isString(this.multiSelectAltPlaceholder) ?
+							this.multiSelectAltPlaceholder : this.placeholder;
 					}
+					return this.preparedValue.label;
+				} else {
+					return this.placeholder;
 				}
 			},
 			searchValueOrPlaceholder: {
