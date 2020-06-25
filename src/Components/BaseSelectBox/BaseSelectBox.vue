@@ -20,6 +20,9 @@
     <div class="baseSelectBox" @click.stop>
         <div class="baseSelectBox__container">
             <div class="baseSelectBox__containerInput">
+                <!-- @slot Used to add additional content before the input field is rendered -->
+                <slot name="input-before"/>
+                
                 <!-- Renders either chips or the list of selected entries -->
                 <span v-if="isMultiSelect && !displayAsChip"
                       class="baseSelectBox__chips"
@@ -45,10 +48,20 @@
                            @keydown.up.native="onUpDownKeyDown"
                            @keydown.delete.native="onDeleteKeyDown"
                 />
+                
+                <!-- @slot additional content at the end of the input field -->
+                <slot name="input-end"/>
             </div>
             <transition name="fade">
                 <div v-show="isMenuShown" class="baseSelectBox__menu" :class="menuClasses">
-                    <slot name="beforeItems"/>
+                    
+                    <!-- @slot Used to add additional content before the list of items -->
+                    <slot name="before-items-fixed"/>
+                    
+                    <!-- @slot Used to add additional content as the first element before
+                    the other items in the list -->
+                    <slot name="before-items"/>
+                    
                     <div class="baseSelectBox__menuInner"
                          @focusout="onInputBlur"
                          tabindex="0">
@@ -72,12 +85,18 @@
                               @click="onSingleSelectItemClick(item)">
                             
                             <!-- @slot Used to overwrite the rendered label for a single select box -->
-                            <slot name="singleSelectItem" :item="item">
+                            <slot name="single-select-item-label" :item="item">
 					            {{item.label}}
                             </slot>
 					    </span>
                     </div>
-                    <slot name="afterItems"/>
+                    
+                    <!-- @slot Used to add additional content as the first element after the
+                    other items in the list -->
+                    <slot name="after-items"/>
+                    
+                    <!-- @slot Used to add additional content after the list of items -->
+                    <slot name="after-items-fixed"/>
                 </div>
             </transition>
         </div>
