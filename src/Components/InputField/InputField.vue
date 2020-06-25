@@ -18,25 +18,24 @@
 
 <template>
     <div class="inputField" :class="classes">
-		<label v-if="hasLabel" class="inputField__label">
-			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
-			<slot>{{label}}</slot>
-		</label>
-		<span class="inputField__inputContainer">
+        <label v-if="hasLabel" class="inputField__label">
+            <!-- @slot default slot for label. you can parse the label also with a parameter. -->
+            <slot>{{label}}</slot>
+        </label>
+        <span class="inputField__inputContainer">
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
             <input class="inputField__input"
-                   ref="inputField"
-				   :value="value"
+                   :value="value"
                    :type="type"
-				   :placeholder="placeholder"
-				   :required="required"
-				   :readonly="readOnly"
-				   :disabled="disabled"
-				   @input="updateValue"
-				   @change="updateValue"
-				   @blur="onBlur"
-				   @focus="$emit('focus')"/>
+                   :placeholder="placeholder"
+                   :required="required"
+                   :readonly="readOnly"
+                   :disabled="disabled"
+                   @input="updateValue"
+                   @change="updateValue"
+                   @blur="onBlur"
+                   @focus="$emit('focus')"/>
             <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
             <slot name="icon"></slot>
             
@@ -92,6 +91,7 @@
 			error: {
 				type: String
 			},
+			
 			/**
 			 * set input as disabled and removes it from the form submission
 			 */
@@ -126,16 +126,30 @@
 				default: false,
 				type: Boolean
 			},
-			value: String
+			
+			/**
+			 * The field value to be injected via v-model
+			 */
+			value: String,
+			
+			/**
+			 * The label to show if the mail validation fails
+			 */
+			emailValidationLabel: {
+				type: String,
+				default: "Please enter a valid email address! (Example: 'example@example.org')"
+			}
 		},
 		data() {
 			return {
-				isEmpty: !isEmpty(this.value),
 				validEmail: true,
 				errorEmail: ""
 			};
 		},
 		computed: {
+			isEmpty(): boolean {
+				return !isEmpty(this.value);
+			},
 			hasLabel(): boolean {
 				return !isEmpty(this.$slots.default) || !isEmpty(this.label);
 			},
@@ -155,34 +169,35 @@
 			}
 		},
 		methods: {
-			updateValue() {
-			    	if(isUndefined(this.$refs.inputField)) return;
-				this.isEmpty = !isEmpty(this.$refs.inputField.value);
-				this.$emit("input", this.$refs.inputField.value);
+			updateValue(event: Event) {
+				this.$emit("input", event.target.value ?? "");
 			},
 			onBlur(e) {
 				this.$emit("blur", e);
-				if (this.type === "email") this.validateEmail();
 			},
-			validateEmail(): boolean {
-				if (isEmpty(this.$refs.inputField.value)) {
+			validateEmail(value): boolean {
+				value = value + "";
+				if (value.trim() === "") {
 					this.validEmail = true;
 					this.errorEmail = null;
 					return;
 				}
-				this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.$refs.inputField.value);
-				if (!this.hasError) this.validEmail ? this.errorEmail = null : this.errorEmail = "Please enter a valid email address! (Example: 'example@example.de')";
+				this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+				if (!this.hasError) this.validEmail ?
+					this.errorEmail = null :
+					this.errorEmail = this.emailValidationLabel;
 			},
 			clearInput() {
-				this.$refs.inputField.value = "";
-				this.updateValue();
-				this.onBlur();
+				this.$emit("input", "");
 				this.$emit("clear");
 			}
 		},
-		mounted(): void {
-			if (!isEmpty(this.value)) this.$refs.inputField.value = this.value;
-			this.onBlur();
+		watch: {
+			value(v) {
+				if (this.type === "email") {
+					this.validateEmail(v);
+				}
+			}
 		}
 	};
 </script>
