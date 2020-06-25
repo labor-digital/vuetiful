@@ -120,11 +120,8 @@
 				// Emit the input event after an update
 				// We need this here for baseSelectBox -> So don't delete it
 				if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItemValues)) {
-					console.log("update input", asArray(newValueMap), selectedItemValues, items);
 					this.$emit("input", asArray(newValueMap));
 				}
-				
-				console.log(preparedItems);
 				return preparedItems;
 			},
 			hasCustomCheckIcon(): boolean {
