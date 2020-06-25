@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/labor-digital/vuetiful/compare/v1.5.1...v1.6.0) (2020-06-24)
+
+
+### Features
+
+* **BaseSelectBox:** multiple adjustments and bugfixes ([6dfccc7](https://github.com/labor-digital/vuetiful/commit/6dfccc794ffc0f0f2285fd2c433d33ad69bd1e92))
+* update dependencies ([8056496](https://github.com/labor-digital/vuetiful/commit/805649619d1400c096ef43778b8cfe8f4f286728))
+
+
+### Bug Fixes
+
+* **BaseSelectBox:** translate checkbox items before emitting 'input' event ([1ef8ba0](https://github.com/labor-digital/vuetiful/commit/1ef8ba00d9a256aafbda43e57d743429f60ced78))
+* **Checkbox:** make input/value filtering more resilient ([81496f0](https://github.com/labor-digital/vuetiful/commit/81496f02ee14f82d495c85ee418c04638d314099))
+* fix some story issues and ([11df843](https://github.com/labor-digital/vuetiful/commit/11df843c6708eb6fcd18823f80c51853f9703176))
+* **InputField:** remove blur on enter key ([b66adbe](https://github.com/labor-digital/vuetiful/commit/b66adbe881e57fac29d36dbf650d548d0caad687))
+
 ### [1.5.1](https://github.com/labor-digital/vuetiful/compare/v1.5.0...v1.5.1) (2020-06-17)
 
 
