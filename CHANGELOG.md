@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/labor-digital/vuetiful/compare/v1.8.1...v1.8.2) (2020-06-25)
+
+
+### Bug Fixes
+
+* **InputField:** make field more resilient to external updates ([d4c8a82](https://github.com/labor-digital/vuetiful/commit/d4c8a8249bb7fde9a5d057e55e0b197f834d0aec))
+
 ### [1.8.1](https://github.com/labor-digital/vuetiful/compare/v1.8.0...v1.8.1) (2020-06-25)
 
 
