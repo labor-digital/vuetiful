@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/labor-digital/vuetiful/compare/v1.8.0...v1.8.1) (2020-06-25)
+
+
+### Bug Fixes
+
+* **InputField:** always use BEM flags on root ([789d399](https://github.com/labor-digital/vuetiful/commit/789d3997479edff2489d4f518a8ded9334e18a08))
+* **InputField:** clear icon without "absolute" ([db4e31c](https://github.com/labor-digital/vuetiful/commit/db4e31c0a169be6367aa69abaad65c9efcd1a654))
+* **InputField:** place slots in inputField__inputContainer ([a77e017](https://github.com/labor-digital/vuetiful/commit/a77e0174704e4162f9a02a4d864463404bfe2459))
+* fix crash in the inputField ([cf68619](https://github.com/labor-digital/vuetiful/commit/cf686193c84601326f9ab631b2ab49e0b787f4c4))
+
 ## [1.8.0](https://github.com/labor-digital/vuetiful/compare/v1.7.0...v1.8.0) (2020-06-25)
 
 
