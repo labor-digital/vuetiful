@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/labor-digital/vuetiful/compare/v1.6.0...v1.7.0) (2020-06-25)
+
+
+### Features
+
+* **BaseSelectBox:** add additional slots ([8f04936](https://github.com/labor-digital/vuetiful/commit/8f04936c5fef9c05e7dd96315b76e5ac576bd371))
+
 ## [1.6.0](https://github.com/labor-digital/vuetiful/compare/v1.5.1...v1.6.0) (2020-06-24)
 
 
