@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.3](https://github.com/labor-digital/vuetiful/compare/v1.8.2...v1.8.3) (2020-06-25)
+
+
+### Bug Fixes
+
+* **BaseSelectBox:** render multiSelectAltPlaceholder for multiSelect fields ([82bc50e](https://github.com/labor-digital/vuetiful/commit/82bc50eda677da8b11ab1525a578d114e0ac10b6))
+* **Checkbox:** remove console.log spam ([91111de](https://github.com/labor-digital/vuetiful/commit/91111dee769b27a25fa1de1d8c019a4ccc338f0c))
+
 ### [1.8.2](https://github.com/labor-digital/vuetiful/compare/v1.8.1...v1.8.2) (2020-06-25)
 
 
