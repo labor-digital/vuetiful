@@ -17,35 +17,40 @@
   -->
 
 <template>
-    <div class="inputField">
-        <label v-if="hasLabel" class="inputField__label">
-            <!-- @slot default slot for label. you can parse the label also with a parameter. -->
-            <slot>{{label}}</slot>
-        </label>
-        <span class="inputField__inputContainer">
-                        <!-- @slot Optional content at the start of the input container -->
+    <div class="inputField" :class="classes">
+		<label v-if="hasLabel" class="inputField__label">
+			<!-- @slot default slot for label. you can parse the label also with a parameter. -->
+			<slot>{{label}}</slot>
+		</label>
+		<span class="inputField__inputContainer">
+			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
-			<input class="inputField__input" :class="classes" ref="inputField"
-                   :value="value"
+            <input class="inputField__input"
+                   ref="inputField"
+				   :value="value"
                    :type="type"
-                   :placeholder="placeholder"
-                   :required="required"
-                   :readonly="readOnly"
-                   :disabled="disabled"
-                   @input="updateValue"
-                   @change="updateValue"
-                   @blur="onBlur"
-                   @focus="$emit('focus')"/>
-            <!-- @slot Optional content at the end of the input container -->
-		<slot name="afterInput"></slot>
-			<span v-show="hasValue" class="inputField__clear" @click="clearInput">
+				   :placeholder="placeholder"
+				   :required="required"
+				   :readonly="readOnly"
+				   :disabled="disabled"
+				   @input="updateValue"
+				   @change="updateValue"
+				   @blur="onBlur"
+				   @focus="$emit('focus')"/>
+            <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
+            <slot name="icon"></slot>
+            
+            <!-- @slot Optional content in front of the clear icon -->
+            <slot name="beforeClearIcon"></slot>
+            
+            <span v-show="hasValue" class="inputField__clear" @click="clearInput">
 				<!-- @slot set your custom clear icon. As default: &times; -->
 				<slot name="clearIcon">&times;</slot>
 			</span>
+            
+            <!-- @slot Optional content at the end of the input container -->
+            <slot name="afterInput"></slot>
 		</span>
-        
-        <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
-        <slot name="icon"></slot>
         <span v-if="hasError || errorEmail" class="inputField__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
 			<slot name="error">{{error}} {{errorEmail}}</slot>
@@ -142,16 +147,16 @@
 			},
 			classes(): Object {
 				return {
-					"inputField__input--required": this.required,
-					"inputField__input--disabled": this.disabled,
-					"inputField__input--readonly": this.readOnly,
-					"inputField__input--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
+					"inputField--required": this.required,
+					"inputField--disabled": this.disabled,
+					"inputField--readonly": this.readOnly,
+					"inputField--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
 				};
 			}
 		},
 		methods: {
 			updateValue() {
-				if (isUndefined(this.$refs.inputField)) return;
+			    	if(isUndefined(this.$refs.inputField)) return;
 				this.isEmpty = !isEmpty(this.$refs.inputField.value);
 				this.$emit("input", this.$refs.inputField.value);
 			},
