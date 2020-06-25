@@ -380,7 +380,7 @@
 			},
 			searchFieldPlaceholder() {
 				if (!isEmpty(this.preparedValue)) {
-					if (!this.isMultiSelect) {
+					if (this.isMultiSelect) {
 						return isString(this.multiSelectAltPlaceholder) ?
 							this.multiSelectAltPlaceholder : this.placeholder;
 					}
