@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/labor-digital/vuetiful/compare/v1.7.0...v1.8.0) (2020-06-25)
+
+
+### Features
+
+* **BaseSelectBox:** add additional multiSelectAltPlaceholder prop ([4559b19](https://github.com/labor-digital/vuetiful/commit/4559b1930e4ad5fa66b61edb7c56ad02f578c717))
+
 ## [1.7.0](https://github.com/labor-digital/vuetiful/compare/v1.6.0...v1.7.0) (2020-06-25)
 
 
