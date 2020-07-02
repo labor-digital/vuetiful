@@ -54,96 +54,95 @@
 </template>
 
 <script lang="ts">
-	import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
-	import {stopBodyScrolling} from "@labor-digital/helferlein/lib/Ui/stopBodyScrolling";
-	
-	/**
-	 * A simple modal component, nothing more - nothing less
-	 *
-	 * There are additional SASS variables you can use to modify the sizes and paddings of the modal
-	 */
-	export default {
-		name: "Modal",
-		props: {
-			/**
-			 * Defines if the modal is currently open (TRUE) or not (FALSE)
-			 * You can use this as v-model to open and close the modal for your component
-			 */
-			value: {
-				type: Boolean,
-				default: true
-			},
-			/**
-			 * Set this to true to open a smaller version of the modal
-			 * You can use the $modal-small-... sass variables to modify the size of the small version
-			 */
-			isSmall: {
-				type: Boolean,
-				default: false
-			},
-			/**
-			 * By default the modal is attached to the top of the screen
-			 * If you set this to TRUE the modal will be vertically centered on the screen
-			 */
-			isVerticallyCentered: {
-				type: Boolean,
-				default: false
-			},
-			/**
-			 * Additional attributes to add to the modal container
-			 * NOTE: "class" will not work here, as we bind the prop internally
-			 */
-			additionalModalAttr: {
-				type: Object,
-				default: () => {
-				}
-			}
-		},
-		data() {
-			return {
-				proxy: new ComponentProxy(this)
-			};
-		},
-		computed: {
-			classes() {
-				return {
-					"modal--small": this.isSmall,
-					"modal--centerV": this.isVerticallyCentered
-				};
-			}
-		},
-		methods: {
-			open() {
-				if (this.value) return;
-				stopBodyScrolling(true);
-				this.proxy.bind(document, "keydown", this.onKeyDown);
-				this.$emit("input", true);
-			},
-			close() {
-				if (!this.value) return;
-				this.proxy.unbind(document, "keydown", this.onKeyDown);
-				this.$emit("input", false);
-			},
-			onCloseComplete() {
-				stopBodyScrolling(false);
-			},
-			onKeyDown(e: KeyboardEvent) {
-				if (e.key === "Escape") this.close();
-			}
-		},
-		watch: {
-			value(value) {
-				if (value !== true) return;
-				this.open();
-			}
-		},
-		beforeMount() {
-			if (this.value) this.open();
-		},
-		beforeDestroy(): void {
-			this.proxy.destroy();
-		}
-	};
+    import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
+    import {stopBodyScrolling} from "@labor-digital/helferlein/lib/Ui/stopBodyScrolling";
+
+    /**
+     * A simple modal component, nothing more - nothing less
+     *
+     * There are additional SASS variables you can use to modify the sizes and paddings of the modal
+     */
+    export default {
+        name: "Modal",
+        props: {
+            /**
+             * Defines if the modal is currently open (TRUE) or not (FALSE)
+             * You can use this as v-model to open and close the modal for your component
+             */
+            value: {
+                type: Boolean,
+                default: true
+            },
+            /**
+             * Set this to true to open a smaller version of the modal
+             * You can use the $modal-small-... sass variables to modify the size of the small version
+             */
+            isSmall: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * By default the modal is attached to the top of the screen
+             * If you set this to TRUE the modal will be vertically centered on the screen
+             */
+            isVerticallyCentered: {
+                type: Boolean,
+                default: false
+            },
+            /**
+             * Additional attributes to add to the modal container
+             * NOTE: "class" will not work here, as we bind the prop internally
+             */
+            additionalModalAttr: {
+                type: Object,
+                default: () => {
+                }
+            }
+        },
+        data() {
+            return {
+                proxy: new ComponentProxy(this)
+            };
+        },
+        computed: {
+            classes() {
+                return {
+                    "modal--small": this.isSmall,
+                    "modal--centerV": this.isVerticallyCentered
+                };
+            }
+        },
+        methods: {
+            open() {
+                stopBodyScrolling(true);
+                this.proxy.bind(document, "keydown", this.onKeyDown);
+                this.$emit("input", true);
+            },
+            close() {
+                if (!this.value) return;
+                this.proxy.unbind(document, "keydown", this.onKeyDown);
+                this.$emit("input", false);
+            },
+            onCloseComplete() {
+                stopBodyScrolling(false);
+            },
+            onKeyDown(e: KeyboardEvent) {
+                if (e.key === "Escape") this.close();
+            }
+        },
+        watch: {
+            value(value) {
+                if (value !== true) return;
+                this.open();
+            }
+        },
+        beforeMount() {
+            if (this.value) this.open();
+        },
+        beforeDestroy(): void {
+            this.proxy.destroy();
+        }
+    };
 </script>
 
 <style lang="sass" src="./Modal.sass"></style>
