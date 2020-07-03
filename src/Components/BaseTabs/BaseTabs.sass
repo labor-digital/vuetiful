@@ -21,20 +21,22 @@
 
   &__tabs
     position: relative
+    transition: height .3s
+    overflow: hidden
 
   &__item
     position: absolute
 
   &-active,
   &-leave-active
-    transition: opacity .4s
+    transition: opacity .3s
 
   &-enter,
   &-leave-to
     opacity: 0
 
   &-enter-active
-    transition-delay: .2s
+    transition-delay: .3s
 
 
 

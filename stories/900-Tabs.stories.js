@@ -55,6 +55,14 @@ export const Default = () => {
                                     HALLO BAR
                                 </template>
                             </base-accordion>
+                            <base-accordion :items="testItems2">
+                                <template :slot="testItems2[0]">
+                                    HALLO FOO
+                                </template>
+                                <template :slot="testItems2[1]">
+                                    HALLO BAR
+                                </template>
+                            </base-accordion>
                         </template>
                     </base-tabs>
                 </div>`,

@@ -30,7 +30,7 @@
                 <slot name="afterLabel"/>
             </div>
         </div>
-        <div class="tabs__tabs">
+        <div class="tabs__tabs" :style="styles">
             <transition-group name="tabs" mode="out-in">
                 <div v-for="(item, index) in items"
                      v-show="open === index"
@@ -51,6 +51,8 @@
 </template>
 
 <script lang="ts">
+    import {getSize} from "@labor-digital/helferlein/lib/Dom/getSize";
+
     export default {
         name: "BaseTabs",
         props: {
@@ -64,9 +66,17 @@
                 required: true
             }
         },
+        computed: {
+            styles() {
+                return {
+                    height: this.tabHeight + "px"
+                };
+            }
+        },
         data() {
             return {
-                open: 0
+                open: 0,
+                tabHeight: 0
             };
         },
         methods: {
@@ -78,6 +88,12 @@
                  */
                 this.$emit("open", i);
             }
+        },
+        mounted() {
+            this.tabHeight = getSize(this.$refs.contents[this.open]).height;
+
+            this.$watch(() => this.open,
+                () => this.tabHeight = getSize(this.$refs.contents[this.open]).height);
         }
     };
 </script>

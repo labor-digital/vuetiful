@@ -27,7 +27,7 @@
                 <slot name="beforeLabel"/>
 
                 <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
-                <slot name="label" :label="item">{{item}}</slot>
+                <slot :name="item+'-label'" :label="item">{{item}}</slot>
 
                 <!-- @slot Used to add additional elements after the label -->
                 <slot name="afterLabel"/>
@@ -59,10 +59,10 @@
 </template>
 
 <script lang="ts">
-    import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+    import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 
     export default {
-        name: "BaseAccordion",
+        name: 'BaseAccordion',
         props: {
 
             /**
@@ -83,42 +83,50 @@
                 default: false
             }
         },
-        data() {
+        data()
+        {
             return {
                 groupId: null,
                 open: []
             };
         },
         methods: {
-            onClickToggle(i) {
+            onClickToggle(i)
+            {
                 if (this.openMultiple) {
                     this.$set(this.open, i, !this.open[i]);
 
                     /**
                      * Emits an event with "open" and the index of the accordion
                      */
-                    this.$emit("open", i);
+                    this.$emit('open', i);
                 } else {
                     forEach(this.open, (item, index) => {
-                        if (index === i) this.$set(this.open, index, !this.open[i]);
-                        else this.$set(this.open, index, false);
+                        if (index === i) {
+                            this.$set(this.open, index, !this.open[i]);
+                        } else {
+                            this.$set(this.open, index, false);
+                        }
                     });
 
                     /**
                      * Emits an event with "open" and the index of the accordion
                      */
-                    this.$emit("open", i);
+                    this.$emit('open', i);
                 }
             },
-            startTransition(el) {
-                el.style.height = el.scrollHeight + "px";
+            startTransition(el)
+            {
+                el.style.height = el.scrollHeight + 'px';
             },
-            endTransition(el) {
-                el.style.height = "";
+            endTransition(el)
+            {
+                el.style.height = '';
             }
         },
-        mounted() {
-            this.groupId = "ba-" + this._uid;
+        mounted()
+        {
+            this.groupId = 'ba-' + this._uid;
 
             forEach(this.items, (item, index) => {
                 this.open[index] = false;
