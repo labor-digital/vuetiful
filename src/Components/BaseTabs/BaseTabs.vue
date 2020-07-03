@@ -19,7 +19,9 @@
 <template>
     <div class="tabs">
         <div class="tabs__titleContainer">
-            <div v-for="(label, index) in items" @click="onClickOpenTab(index)" class="tabs__label" ref="titles">
+            <div v-for="(label, index) in items" @click="onClickOpenTab(index)" class="tabs__label"
+                 :class="{'tabs__label--active': open === index}"
+                 ref="titles">
                 <!-- @slot Used to add additional elements before the label -->
                 <slot name="beforeLabel"/>
                 <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
@@ -34,7 +36,7 @@
                      v-show="open === index"
                      :key="'tab-'+ item + index"
                      class="tabs__item"
-                     :class="{'tabs__active': open === index}"
+                     :class="{'tabs__item--active': open === index}"
                      ref="contents">
                     <!-- @slot Used to add additional elements before the content -->
                     <slot name="beforeContent"/>

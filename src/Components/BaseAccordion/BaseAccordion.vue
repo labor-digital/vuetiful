@@ -19,7 +19,9 @@
 <template>
     <dl class="accordion" :key="groupId">
         <div v-for="(item, index) in items" :id="groupId + '-' + index">
-            <dt @click="onClickToggle(index)" class="accordion__label">
+            <dt @click="onClickToggle(index)" class="accordion__label"
+                :class="{'accordion__label--active': open === index}"
+                ref="titles">
 
                 <!-- @slot Used to add additional elements before the label -->
                 <slot name="beforeLabel"/>
@@ -39,7 +41,7 @@
                 @after-leave="endTransition">
                 <dd v-show="open === index || open[index]"
                     class="accordion__item"
-                    :class="{'accordion__active': open === index}"
+                    :class="{'accordion__item--active': open === index}"
                     ref="contents">
 
                     <!-- @slot Used to add additional elements before the content -->
