@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/labor-digital/vuetiful/compare/v1.8.3...v1.9.0) (2020-07-02)
+
+
+### Features
+
+* add accordion and tab component with stories ([448b5ad](https://github.com/labor-digital/vuetiful/commit/448b5ad978e8b7b26d7a8d09575e4838e43fa68d))
+
+
+### Bug Fixes
+
+* fix modal value error ([46281c3](https://github.com/labor-digital/vuetiful/commit/46281c33d5e775b4a4ee02f43f7f3de70eef47ec))
+
 ### [1.8.3](https://github.com/labor-digital/vuetiful/compare/v1.8.2...v1.8.3) (2020-06-25)
 
 
