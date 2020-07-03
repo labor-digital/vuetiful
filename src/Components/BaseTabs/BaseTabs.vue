@@ -51,10 +51,10 @@
 </template>
 
 <script lang="ts">
-    import {getSize} from "@labor-digital/helferlein/lib/Dom/getSize";
+    import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 
     export default {
-        name: "BaseTabs",
+        name: 'BaseTabs',
         props: {
 
             /**
@@ -67,33 +67,47 @@
             }
         },
         computed: {
-            styles() {
+            styles()
+            {
                 return {
-                    height: this.tabHeight + "px"
+                    height: this.tabHeight + 'px'
                 };
             }
         },
-        data() {
+        data()
+        {
             return {
                 open: 0,
                 tabHeight: 0
             };
         },
         methods: {
-            onClickOpenTab(i) {
+            onClickOpenTab(i)
+            {
                 this.open = i;
 
                 /**
                  * Emits an event with "open" and the index of the tab
                  */
-                this.$emit("open", i);
+                this.$emit('open', i);
+            },
+            onTabChange()
+            {
+                if (isUndefined(this.$refs.contents)) {
+                    return;
+                }
+                this.tabHeight = this.$refs.contents[this.open].scrollHeight;
             }
         },
-        mounted() {
-            this.tabHeight = getSize(this.$refs.contents[this.open]).height;
-
-            this.$watch(() => this.open,
-                () => this.tabHeight = getSize(this.$refs.contents[this.open]).height);
+        mounted()
+        {
+            this.onTabChange();
+        },
+        watch: {
+            open()
+            {
+                this.$nextTick(this.onTabChange);
+            }
         }
     };
 </script>
