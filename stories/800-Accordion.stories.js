@@ -16,7 +16,7 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {boolean, object, withKnobs} from '@storybook/addon-knobs';
+import {boolean, object, text, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
 import '../src/Components/SelectBox/Storybook.sass';
 
@@ -34,21 +34,29 @@ export const Default = () => {
             components: {BaseAccordion},
             template: `
                 <div>
-                    <base-accordion :items="items" :open-multiple="openMultiple">
-                        <template :slot="items[0]">
-                            HALLO FOO
+                    <base-accordion :items="items" :open-multiple="openMultiple" :item-label="itemLabel">
+                        <template :slot="items[0].label">
+                            <div style="padding-bottom: 30px">HALLO FOO</div>
                         </template>
                         <template :slot="items[1]">
-                            HALLO BAR
+                            <div style="padding-bottom: 30px">HALLO BAR</div>
                         </template>
                     </base-accordion>
                 </div>`,
             props: {
                 items: {
-                    default: object('Input', ['Acc Title 1', 'Acc Title 2'])
+                    default: object('Input', [
+                        {
+                            'label': 'Acc Title 1'
+                        },
+                        'Acc Title 2'
+                    ])
                 },
                 openMultiple: {
                     default: () => boolean('Multiple?', false)
+                },
+                itemLabel: {
+                    default: () => text('key from array for label', 'label')
                 }
             },
             data()

@@ -16,7 +16,7 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {object, withKnobs} from '@storybook/addon-knobs';
+import {object, text, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
 import BaseTabs from '../src/Components/BaseTabs/BaseTabs.vue';
 import '../src/Components/SelectBox/Storybook.sass';
@@ -35,8 +35,8 @@ export const Default = () => {
             components: {BaseTabs, BaseAccordion},
             template: `
                 <div>
-                    <base-tabs :items="items">
-                        <template :slot="items[0]">
+                    <base-tabs :items="items" :item-label="itemLabel">
+                        <template :slot="items[0].label">
                             <base-accordion :items="testItems1">
                                 <template :slot="testItems1[0]">
                                     HALLO FOO
@@ -65,10 +65,23 @@ export const Default = () => {
                             </base-accordion>
                         </template>
                     </base-tabs>
+                    <div style="height: 100px; width: 100%; background: red"></div>
                 </div>`,
             props: {
                 items: {
-                    default: object('Input', ['Tab Title 1', 'Tab Title 2'])
+                    default: object('Input', [
+                        {
+                            'label': 'Tab Title 1'
+                        },
+                        'Tab Title 2',
+                        {
+                            'label': 'Tab Title 3'
+                        },
+                        'Tab Title 4'
+                    ])
+                },
+                itemLabel: {
+                    default: () => text('key from array for label', 'label')
                 }
             },
             data()

@@ -21,12 +21,13 @@
     cursor: pointer
 
   &__item
+    will-change: height
     overflow: hidden
 
   &-enter-active,
   &-leave-active
-    will-change: height
-    transition: height .3s ease
+    transition: height .3s ease-in-out
+    overflow: hidden
 
   &-enter,
   &-leave-to

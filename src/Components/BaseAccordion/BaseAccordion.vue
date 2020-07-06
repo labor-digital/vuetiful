@@ -18,16 +18,18 @@
 
 <template>
     <dl class="accordion" :key="groupId">
-        <div v-for="(item, index) in items" :id="groupId + '-' + index">
+        <div v-for="(item, index) in preparedItems" :id="groupId + '-' + index"
+             class="accordion__container"
+             :class="classes">
             <dt @click="onClickToggle(index)" class="accordion__label"
-                :class="{'accordion__label--active': open === index}"
+                :class="{'accordion__label--active': open[index]}"
                 ref="titles">
 
                 <!-- @slot Used to add additional elements before the label -->
                 <slot name="beforeLabel"/>
 
                 <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
-                <slot :name="item+'-label'" :label="item">{{item}}</slot>
+                <slot name="label" :label="item">{{item}}</slot>
 
                 <!-- @slot Used to add additional elements after the label -->
                 <slot name="afterLabel"/>
@@ -39,9 +41,9 @@
                 @after-enter="endTransition"
                 @before-leave="startTransition"
                 @after-leave="endTransition">
-                <dd v-show="open === index || open[index]"
+                <dd v-show="open[index]"
                     class="accordion__item"
-                    :class="{'accordion__item--active': open === index}"
+                    :class="{'accordion__item--active': open[index]}"
                     ref="contents">
 
                     <!-- @slot Used to add additional elements before the content -->
@@ -81,6 +83,27 @@
             openMultiple: {
                 type: Boolean,
                 default: false
+            },
+
+            /**
+             * If "items" contains an array of objects, this prop is used to select the object's property
+             * which should be used as a label.
+             */
+            itemLabel: String,
+
+            /**
+             * Add custom classes if necessary to the accordion container.
+             */
+            classes: String
+        },
+        computed: {
+            preparedItems()
+            {
+                const items = [];
+                forEach(this.items, (item, index) => {
+                    items[index] = item[this.itemLabel] ?? item;
+                });
+                return items;
             }
         },
         data()

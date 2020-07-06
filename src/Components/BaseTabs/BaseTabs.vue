@@ -19,20 +19,25 @@
 <template>
     <div class="tabs">
         <div class="tabs__titleContainer">
-            <div v-for="(label, index) in items" @click="onClickOpenTab(index)" class="tabs__label"
+            <div v-for="(label, index) in preparedItems" @click="onClickOpenTab(index)" class="tabs__label"
                  :class="{'tabs__label--active': open === index}"
                  ref="titles">
+
                 <!-- @slot Used to add additional elements before the label -->
                 <slot name="beforeLabel"/>
+
                 <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
                 <slot name="label" :label="label">{{label}}</slot>
+
                 <!-- @slot Used to add additional elements after the label -->
                 <slot name="afterLabel"/>
             </div>
         </div>
-        <div class="tabs__tabs" :style="styles">
-            <transition-group name="tabs" mode="out-in">
-                <div v-for="(item, index) in items"
+        <div class="tabs__tabs" :class="classes">
+            <transition-group name="tabs" mode="out-in"
+                              @before-leave="startTransition"
+                              @after-leave="endTransition">
+                <div v-for="(item, index) in preparedItems"
                      v-show="open === index"
                      :key="'tab-'+ item + index"
                      class="tabs__item"
@@ -40,8 +45,10 @@
                      ref="contents">
                     <!-- @slot Used to add additional elements before the content -->
                     <slot name="beforeContent"/>
+
                     <!-- @slot Default item slot for your elements -->
-                    <slot :name="item"></slot>
+                    <slot :name="item">{{item}}</slot>
+
                     <!-- @slot Used to add additional elements after the content -->
                     <slot name="afterContent"/>
                 </div>
@@ -51,7 +58,8 @@
 </template>
 
 <script lang="ts">
-    import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+
+    import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 
     export default {
         name: 'BaseTabs',
@@ -64,14 +72,27 @@
             items: {
                 type: Array,
                 required: true
-            }
+            },
+
+            /**
+             * If "items" contains an array of objects, this prop is used to select the object's property
+             * which should be used as a label.
+             */
+            itemLabel: String,
+
+            /**
+             * Add custom classes if necessary to the tabs content container.
+             */
+            classes: String
         },
         computed: {
-            styles()
+            preparedItems()
             {
-                return {
-                    height: this.tabHeight + 'px'
-                };
+                const items = [];
+                forEach(this.items, (item, index) => {
+                    items[index] = item[this.itemLabel] ?? item;
+                });
+                return items;
             }
         },
         data()
@@ -91,22 +112,13 @@
                  */
                 this.$emit('open', i);
             },
-            onTabChange()
+            startTransition(el)
             {
-                if (isUndefined(this.$refs.contents)) {
-                    return;
-                }
-                this.tabHeight = this.$refs.contents[this.open].scrollHeight;
-            }
-        },
-        mounted()
-        {
-            this.onTabChange();
-        },
-        watch: {
-            open()
+                el.style.position = 'absolute';
+            },
+            endTransition(el)
             {
-                this.$nextTick(this.onTabChange);
+                el.style.position = '';
             }
         }
     };
