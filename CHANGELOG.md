@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.3](https://github.com/labor-digital/vuetiful/compare/v1.9.2...v1.9.3) (2020-07-03)
+
+
+### Bug Fixes
+
+* missing refs on mounted ([8a9b0f4](https://github.com/labor-digital/vuetiful/commit/8a9b0f4ed6fd59f14c0d203abe3824dec43c425c))
+
 ### [1.9.2](https://github.com/labor-digital/vuetiful/compare/v1.9.1...v1.9.2) (2020-07-03)
 
 
