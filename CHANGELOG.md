@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/labor-digital/vuetiful/compare/v1.9.3...v1.10.0) (2020-07-06)
+
+
+### Features
+
+* fix some bugs, fix transition, add itemLabel to get label from array ([908f67b](https://github.com/labor-digital/vuetiful/commit/908f67ba74c4ac5cf60b220345296a3b20b9871b))
+
 ### [1.9.3](https://github.com/labor-digital/vuetiful/compare/v1.9.2...v1.9.3) (2020-07-03)
 
 
