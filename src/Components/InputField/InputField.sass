@@ -1,10 +1,17 @@
 .inputField
   display: flex
   flex-direction: column
-  
+
+  & input[type="date"]:before
+    content: attr(placeholder) !important
+    color: initial
+
+  & input[type="date"]:focus:before
+    content: '' !important
+
   &__input
     width: 100%
-    
+
     &Container
       position: relative
       display: flex
@@ -16,6 +23,8 @@
     height: 20px
     width: 20px
     cursor: pointer
-  
+
   &__error
     color: red
+
+
