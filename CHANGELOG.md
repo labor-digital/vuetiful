@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/labor-digital/vuetiful/compare/v1.10.0...v1.10.1) (2020-07-16)
+
+
+### Bug Fixes
+
+* add error slot ([ef69a31](https://github.com/labor-digital/vuetiful/commit/ef69a3142b97b473553472fc7606f675aa96eb1d))
+* add placeholder for date ([f57c358](https://github.com/labor-digital/vuetiful/commit/f57c358e088a9f1c9fce3f8bd21535ba0bbed84c))
+* better transitions ([ba035fe](https://github.com/labor-digital/vuetiful/commit/ba035feb09c661c98e409f07d72b36d97f63b632))
+
 ## [1.10.0](https://github.com/labor-digital/vuetiful/compare/v1.9.3...v1.10.0) (2020-07-06)
 
 
