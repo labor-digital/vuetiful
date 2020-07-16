@@ -35,8 +35,8 @@
         </div>
         <div class="tabs__tabs" :class="classes">
             <transition-group name="tabs" mode="out-in"
-                              @before-leave="startTransition"
-                              @after-leave="endTransition">
+                              @before-leave="beforeLeaving"
+                              @after-leave="afterLeaving">
                 <div v-for="(item, index) in preparedItems"
                      v-show="open === index"
                      :key="'tab-'+ item + index"
@@ -59,10 +59,10 @@
 
 <script lang="ts">
 
-    import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+    import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
 
     export default {
-        name: 'BaseTabs',
+        name: "BaseTabs",
         props: {
 
             /**
@@ -86,8 +86,7 @@
             classes: String
         },
         computed: {
-            preparedItems()
-            {
+            preparedItems() {
                 const items = [];
                 forEach(this.items, (item, index) => {
                     items[index] = item[this.itemLabel] ?? item;
@@ -95,30 +94,27 @@
                 return items;
             }
         },
-        data()
-        {
+        data() {
             return {
                 open: 0,
-                tabHeight: 0
+                oldTabHeight: 0,
+                newTabHeight: 0
             };
         },
         methods: {
-            onClickOpenTab(i)
-            {
+            onClickOpenTab(i) {
                 this.open = i;
 
                 /**
                  * Emits an event with "open" and the index of the tab
                  */
-                this.$emit('open', i);
+                this.$emit("open", i);
             },
-            startTransition(el)
-            {
-                el.style.position = 'absolute';
+            beforeLeaving(el) {
+                el.style.position = "absolute";
             },
-            endTransition(el)
-            {
-                el.style.position = '';
+            afterLeaving(el) {
+                el.style.position = "";
             }
         }
     };
