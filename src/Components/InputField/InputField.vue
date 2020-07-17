@@ -25,6 +25,9 @@
         <span class="inputField__inputContainer">
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
+            <span v-if="type === 'date' && !focus" class="inputField__placeholder">
+                {{isEmpty ? placeholder : ""}}
+            </span>
             <input class="inputField__input"
                    :style="stylesDate"
                    :value="value"

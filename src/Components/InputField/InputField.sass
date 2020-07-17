@@ -1,13 +1,8 @@
+$placeholder: attr(placeholder)
+
 .inputField
   display: flex
   flex-direction: column
-
-  & input[type="date"]:before
-    content: attr(placeholder) !important
-    color: initial
-
-  & input[type="date"]:focus:before
-    content: '' !important
 
   &__input
     width: 100%
@@ -16,6 +11,11 @@
       position: relative
       display: flex
       align-items: center
+
+  // We need this for date placeholder
+  &__placeholder
+    position: absolute
+    pointer-events: none
 
   &__clear
     display: inline-block
