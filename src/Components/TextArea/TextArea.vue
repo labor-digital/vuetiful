@@ -17,12 +17,12 @@
   -->
 
 <template>
-    <div class="textArea">
+    <div class="textArea" :class="classes">
         <label v-if="hasLabel" class="textArea__label">
             <!-- @slot default slot for label. you can parse the label also with a parameter. -->
             <slot>{{label}}</slot>
         </label>
-        <textarea class="textArea__input" :class="classes" ref="textarea"
+        <textarea class="textArea__input" ref="textarea"
                   v-model="value"
                   :rows="rows"
                   :placeholder="placeholder"
