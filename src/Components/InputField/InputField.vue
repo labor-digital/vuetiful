@@ -77,7 +77,7 @@
             },
             /**
              * Change input type of field. default: text
-             * ('text', 'url', 'email', 'password')
+             * ('text', 'password', 'email', 'url', 'date', 'datetime', 'number')
              * css class: inputField__input
              * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
              */
@@ -85,7 +85,7 @@
                 default: "text",
                 type: String,
                 validator: (v) => {
-                    return ["text", "password", "email", "url", "date", "datetime"].indexOf(v) !== -1;
+                    return ["text", "password", "email", "url", "date", "datetime", "number"].indexOf(v) !== -1;
                 }
             },
             /**

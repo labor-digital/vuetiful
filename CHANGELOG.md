@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.3](https://github.com/labor-digital/vuetiful/compare/v1.10.2...v1.10.3) (2020-07-20)
+
+
+### Bug Fixes
+
+* add number input type, adjust doc header ([0a6ce66](https://github.com/labor-digital/vuetiful/commit/0a6ce6690739dc247ed2ded6726a79a1f37a09ec))
+
+### [1.10.2](https://github.com/labor-digital/vuetiful/compare/v1.10.1...v1.10.2) (2020-07-17)
+
+
+### Bug Fixes
+
+* add error slot ([4ad8098](https://github.com/labor-digital/vuetiful/commit/4ad809811043976374643016504f081a20cad946))
+
 ### [1.10.1](https://github.com/labor-digital/vuetiful/compare/v1.10.0...v1.10.1) (2020-07-16)
 
 
