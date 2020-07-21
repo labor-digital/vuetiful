@@ -142,9 +142,9 @@
             intClasses(item) {
                 return {
                     ...item.classes,
-                    "checkbox__label--required": item.required,
-                    "checkbox__label--disabled": item.disabled,
-                    "checkbox__label--checked": item.checked
+                    "radioButton__label--required": item.required,
+                    "radioButton__label--disabled": item.disabled,
+                    "radioButton__label--checked": item.checked
                 };
             },
             updateValue(item, e) {
