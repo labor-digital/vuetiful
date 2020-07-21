@@ -33,15 +33,17 @@ export const Default = () => {
         {
             components: {RadioButton},
             template: `
-			<div>
-				<radio-button v-model="value" group-name="test-radio"
-				:items="inputs"
-				:label-side="labelSide"
-				:error="error"/>
-                <span style="display:block;color:#888;margin-top: 50px">Emitted value:
-                    <pre>{{value}}</pre>
+                <div>
+                    <radio-button
+                        v-model="v"
+                        group-name="test-radio"
+                        :items="inputs"
+                        :label-side="labelSide"
+                        :error="error"/>
+                    <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                    <pre>{{v}}</pre>
                 </span>
-            </div>`,
+                </div>`,
             props: {
                 inputs: {
                     default: object('Input', [
@@ -59,7 +61,7 @@ export const Default = () => {
             data()
             {
                 return {
-                    value: ''
+                    v: []
                 };
             }
         }

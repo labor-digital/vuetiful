@@ -33,18 +33,18 @@ export const Default = () => {
         {
             components: {Checkbox},
             template: `
-			<div>
-				<checkbox
-				    v-model="v"
-                    :items="inputs"
-                    :label-side="labelSide"
-                    :error="error"
-                    @input="onInput"
-				/>
-                <span style="display:block;color:#888;margin-top: 50px">Emitted value:
-                    <pre>{{value}}</pre>
+                <div>
+                    <checkbox
+                        v-model="v"
+                        :items="inputs"
+                        :label-side="labelSide"
+                        :error="error"
+                        @input="onInput"
+                    />
+                    <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                    <pre>{{v}}</pre>
                 </span>
-			</div>`,
+                </div>`,
             methods: {
                 onInput()
                 {
