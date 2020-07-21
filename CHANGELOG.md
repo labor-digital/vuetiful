@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.4](https://github.com/labor-digital/vuetiful/compare/v1.10.3...v1.10.4) (2020-07-21)
+
+
+### Bug Fixes
+
+* prepare items for radio ([481a712](https://github.com/labor-digital/vuetiful/commit/481a7120a9b6835faa2b24fa456fcb20d7e0d2b1))
+* use v-model ([f661133](https://github.com/labor-digital/vuetiful/commit/f661133253e528baca36eda5caf762dabb4c0e7c))
+
 ### [1.10.3](https://github.com/labor-digital/vuetiful/compare/v1.10.2...v1.10.3) (2020-07-20)
 
 
