@@ -16,47 +16,54 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {boolean, text, withKnobs} from "@storybook/addon-knobs";
-import "../src/Components/SelectBox/Storybook.sass";
-import TextArea from "../src/Components/TextArea/TextArea";
+import {boolean, text, withKnobs} from '@storybook/addon-knobs';
+import '../src/Components/SelectBox/Storybook.sass';
+import TextArea from '../src/Components/TextArea/TextArea';
 
 // Global configuration of your component
 export default {
-	title: "TextArea",
-	component: TextArea,
-	decorators: [withKnobs]
+    title: 'TextArea',
+    component: TextArea,
+    decorators: [withKnobs]
 };
 
 // Create the stories
 export const Default = () => {
-	return ({
-		components: {TextArea},
-		template: `
-			<div>
-				<text-area v-model="value" :error="error" :placeholder="placeholder" :required="required">
-					{{label}}
-				</text-area>
-				<span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
-				<span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{value}}</span></div>`,
-		props: {
-			required: {
-				default: boolean("Required?", false)
-			},
-			label: {
-				default: text("Label", "Label for input field")
-			},
-			error: {
-				/* Error message for input field after your validation failed */
-				default: text("Error", "")
-			},
-			placeholder: {
-				default: text("Placeholder", "Placeholder for input field")
-			}
-		},
-		data() {
-			return {
-				value: ""
-			}
-		}
-	});
+    return (
+        {
+            components: {TextArea},
+            template: `
+                <div>
+                    <text-area v-model="value" :error="error" :placeholder="placeholder" :required="required">
+                        {{label}}
+                    </text-area>
+                    <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
+                    <span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{value}}</span>
+                </div>`,
+            props: {
+                required: {
+                    default: boolean('Required?', false)
+                },
+                label: {
+                    default: text('Label', 'Label for input field')
+                },
+                error: {
+                    /* Error message for input field after your validation failed */
+                    default: text('Error', '')
+                },
+                placeholder: {
+                    default: text('Placeholder', 'Placeholder for input field')
+                },
+                value: {
+                    default: text('Input', 'Test input')
+                }
+            },
+            data()
+            {
+                return {
+                    value: ''
+                };
+            }
+        }
+    );
 };
