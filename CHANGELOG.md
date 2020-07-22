@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/labor-digital/vuetiful/compare/v1.10.6...v1.11.0) (2020-07-21)
+
+
+### Features
+
+* add slot for checkbox label ([3abc7c0](https://github.com/labor-digital/vuetiful/commit/3abc7c0e55b951174db1c3d3f5e1397935a1452e))
+
+### [1.10.6](https://github.com/labor-digital/vuetiful/compare/v1.10.5...v1.10.6) (2020-07-21)
+
+
+### Bug Fixes
+
+* textarea computed classes on main container ([5b78c42](https://github.com/labor-digital/vuetiful/commit/5b78c423e04d33a6ee45110269facf7702e64170))
+
 ### [1.10.5](https://github.com/labor-digital/vuetiful/compare/v1.10.4...v1.10.5) (2020-07-21)
 
 

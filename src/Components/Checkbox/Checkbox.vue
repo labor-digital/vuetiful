@@ -22,8 +22,9 @@
                class="checkbox__label"
                :class="intClasses(item)"
                :ref="'checkbox-'+index">
-            <span v-if="labelSide === 'left'"
-                  class="checkbox__labelText checkbox__labelText--left">{{item.label}}</span>
+            <span v-if="labelSide === 'left'" class="checkbox__labelText checkbox__labelText--left">
+                <slot name="label" v-bind:item="item">{{item.label}}</slot>
+            </span>
             <input v-show="hasCustomCheckIcon" class="checkbox__input"
                    type="checkbox"
                    :required="item.required"
@@ -34,7 +35,9 @@
             <!-- @slot Add your custom check icon if needed. -->
             <slot name="customCheckIcon"></slot>
             <span v-if="labelSide === 'right'"
-                  class="checkbox__labelText checkbox__labelText--right">{{item.label}}</span>
+                  class="checkbox__labelText checkbox__labelText--right">
+                <slot name="label" v-bind:item="item">{{item.label}}</slot>
+            </span>
         </label>
         <span v-if="hasError" class="checkbox__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
@@ -100,6 +103,7 @@
 				forEach(items, (item) => {
 					const value = item.value ?? item;
 					const _item = {
+                        ...item,
 						value,
 						label: item.label ?? item,
 						checked: isBool(item.checked) ? item.checked :
