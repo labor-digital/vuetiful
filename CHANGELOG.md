@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/labor-digital/vuetiful/compare/v1.11.0...v1.11.1) (2020-07-22)
+
 ## [1.11.0](https://github.com/labor-digital/vuetiful/compare/v1.10.6...v1.11.0) (2020-07-21)
 
 
