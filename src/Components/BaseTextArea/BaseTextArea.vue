@@ -23,14 +23,12 @@
             <slot>{{label}}</slot>
         </label>
         <textarea class="textArea__input" ref="textarea"
-                  v-model="value"
+                  v-model="valueInternal"
                   :rows="rows"
                   :placeholder="placeholder"
                   :required="required"
                   :readonly="readOnly"
                   :disabled="disabled"
-                  @input="updateValue"
-                  @change="updateValue"
                   @blur="$emit('blur')"
                   @focus="$emit('focus')"/>
         <!-- @slot if you want to place an icon inside the textArea. Dont forget to style it! -->
@@ -44,7 +42,7 @@
     import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 
     export default {
-        name: "TextArea",
+        name: "BaseTextArea",
         props: {
             /**
              * set label for input field or use default slot
@@ -97,6 +95,13 @@
             value: String
         },
         computed: {
+            valueInternal: {
+                get() {
+                    return this.value;
+                }, set(v) {
+                    this.$emit("input", v);
+                }
+            },
             hasLabel(): boolean {
                 return !isEmpty(this.$slots.default) || !isEmpty(this.label);
             },
@@ -108,13 +113,8 @@
                     "textArea__input--error": this.error !== "" && !isUndefined(this.error)
                 };
             }
-        },
-        methods: {
-            updateValue() {
-                this.$emit("input", this.value);
-            }
         }
     };
 </script>
 
-<style lang="sass" src="./TextArea.sass"></style>
+<style lang="sass" src="./BaseTextArea.sass"></style>

@@ -17,13 +17,13 @@
  */
 
 import {boolean, text, withKnobs} from '@storybook/addon-knobs';
+import BaseTextArea from '../src/Components/BaseTextArea/BaseTextArea';
 import '../src/Components/SelectBox/Storybook.sass';
-import TextArea from '../src/Components/TextArea/TextArea';
 
 // Global configuration of your component
 export default {
-    title: 'TextArea',
-    component: TextArea,
+    title: 'BaseTextArea',
+    component: BaseTextArea,
     decorators: [withKnobs]
 };
 
@@ -31,14 +31,14 @@ export default {
 export const Default = () => {
     return (
         {
-            components: {TextArea},
+            components: {BaseTextArea},
             template: `
                 <div>
-                    <text-area v-model="value" :error="error" :placeholder="placeholder" :required="required">
+                    <BaseTextArea v-model="v" :error="error" :placeholder="placeholder" :required="required">
                         {{label}}
-                    </text-area>
+                    </BaseTextArea>
                     <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
-                    <span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{value}}</span>
+                    <span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{v}}</span>
                 </div>`,
             props: {
                 required: {
@@ -61,8 +61,14 @@ export const Default = () => {
             data()
             {
                 return {
-                    value: ''
+                    v: this.value
                 };
+            },
+            watch: {
+                value()
+                {
+                    this.v = this.value;
+                }
             }
         }
     );
