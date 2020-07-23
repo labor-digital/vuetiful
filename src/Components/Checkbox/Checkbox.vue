@@ -47,115 +47,116 @@
 </template>
 
 <script lang="ts">
-	import {asArray} from "@labor-digital/helferlein/lib/FormatAndConvert/asArray";
-	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-	import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
-	import {isBool} from "@labor-digital/helferlein/lib/Types/isBool";
-	import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-	import {CheckboxInputs} from "./Checkbox.interfaces";
-	
-	export default {
-		name: "Checkbox",
-		props: {
-			/**
-			 * parse checkboxes as array
-			 */
-			items: Array,
-			/**
-			 * choose label side right or left
-			 */
-			labelSide: {
-				default: "right",
-				type: String,
-				validate: (v) => {
-					return ["left", "right"].indexOf(v) !== -1;
-				}
-			},
-			/**
-			 * set error message in span
-			 * css class: checkbox__error
-			 */
-			error: {
-				type: String
-			},
-			
-			value: {
-				type: Array,
-				default: () => []
-			}
-		},
-		computed: {
-			prepareItems() {
-				let preparedItems = [];
-				
-				// Build a unique value map
-				const value = isArray(this.value) ? this.value : [];
-				const items = isArray(this.items) ? this.items : [];
-				const newValueMap = new Map();
-				const selectedItemValues = [];
-				forEach(value, (item: CheckboxInputs) => {
-					selectedItemValues.push(item.value);
-					newValueMap.set(item.value, item);
-				});
-				
-				// Build the prepared item list
-				forEach(items, (item) => {
-					const value = item.value ?? item;
-					const _item = {
+    import {asArray} from "@labor-digital/helferlein/lib/FormatAndConvert/asArray";
+    import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+    import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
+    import {isBool} from "@labor-digital/helferlein/lib/Types/isBool";
+    import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+    import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+    import {CheckboxInputs} from "./Checkbox.interfaces";
+
+    export default {
+        name: "Checkbox",
+        props: {
+            /**
+             * parse checkboxes as array
+             */
+            items: Array,
+
+            /**
+             * choose label side right or left
+             */
+            labelSide: {
+                default: "right",
+                type: String,
+                validate: (v) => {
+                    return ["left", "right"].indexOf(v) !== -1;
+                }
+            },
+            /**
+             * set error message in span
+             * css class: checkbox__error
+             */
+            error: {
+                type: String
+            },
+
+            value: {
+                type: Array,
+                default: () => []
+            }
+        },
+        computed: {
+            prepareItems() {
+                let preparedItems = [];
+
+                // Build a unique value map
+                const value = isArray(this.value) ? this.value : [];
+                const items = isArray(this.items) ? this.items : [];
+                const newValueMap = new Map();
+                const selectedItemValues = [];
+                forEach(value, (item: CheckboxInputs) => {
+                    selectedItemValues.push(item.value);
+                    newValueMap.set(item.value, item);
+                });
+
+                // Build the prepared item list
+                forEach(items, (item) => {
+                    const value = item.value ?? item;
+                    const _item = {
                         ...item,
-						value,
-						label: item.label ?? item,
-						checked: isBool(item.checked) ? item.checked :
-							selectedItemValues.indexOf(value) !== -1,
-						required: item.required ?? false,
-						disabled: item.disabled ?? false,
-						show: item.show ?? true,
-						classes: item.classes ?? {}
-					};
-					if (_item.checked) {
-						newValueMap.set(value, _item);
-					} else {
-						newValueMap.delete(value);
-					}
-					preparedItems.push(_item);
-				});
-				
-				// Emit the input event after an update
-				// We need this here for baseSelectBox -> So don't delete it
-				if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItemValues)) {
-					this.$emit("input", asArray(newValueMap));
-				}
-				return preparedItems;
-			},
-			hasCustomCheckIcon(): boolean {
-				return isEmpty(this.$slots.customCheckIcon);
-			},
-			hasError(): boolean {
-				return !isEmpty(this.$slots.error) || !isEmpty(this.error);
-			}
-		},
-		methods: {
-			hasItems() {
-				return !isEmpty(this.items) || !isUndefined(this.items);
-			},
-			intClasses(item) {
-				return {
-					...item.classes,
-					"checkbox__label--required": item.required,
-					"checkbox__label--disabled": item.disabled,
-					"checkbox__label--checked": item.checked
-				};
-			},
-			updateValue(item) {
-				const isChecked = !item.checked;
-				let valueClone = isArray(this.value) ? [...this.value] : [];
-				if (isChecked) valueClone.push(item);
-				else valueClone = valueClone.filter(val => val.value !== item.value);
-				this.$emit("input", valueClone);
-			}
-		}
-	};
+                        value,
+                        label: item.label ?? item,
+                        checked: isBool(item.checked) ? item.checked :
+                            selectedItemValues.indexOf(value) !== -1,
+                        required: item.required ?? false,
+                        disabled: item.disabled ?? false,
+                        show: item.show ?? true,
+                        classes: item.classes ?? {}
+                    };
+                    if (_item.checked) {
+                        newValueMap.set(value, _item);
+                    } else {
+                        newValueMap.delete(value);
+                    }
+                    preparedItems.push(_item);
+                });
+
+                // Emit the input event after an update
+                // We need this here for baseSelectBox -> So don't delete it
+                if (JSON.stringify(asArray(newValueMap.keys())) !== JSON.stringify(selectedItemValues)) {
+                    this.$emit("input", asArray(newValueMap));
+                }
+                return preparedItems;
+            },
+            hasCustomCheckIcon(): boolean {
+                return isEmpty(this.$slots.customCheckIcon);
+            },
+            hasError(): boolean {
+                return !isEmpty(this.$slots.error) || !isEmpty(this.error);
+            }
+        },
+        methods: {
+            hasItems() {
+                return !isEmpty(this.items) || !isUndefined(this.items);
+            },
+            intClasses(item) {
+                return {
+                    ...item.classes,
+                    "checkbox__label--required": item.required,
+                    "checkbox__label--disabled": item.disabled,
+                    "checkbox__label--checked": item.checked
+                };
+            },
+            updateValue(item) {
+                const isChecked = !item.checked;
+                let valueClone = isArray(this.value) ? [...this.value] : [];
+                if (isChecked) valueClone.push(item);
+                else valueClone = valueClone.filter(val => val.value !== item.value);
+                this.$emit("input", valueClone);
+            }
+        }
+    };
 </script>
 
 <style lang="sass"></style>
