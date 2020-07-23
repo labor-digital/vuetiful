@@ -55,6 +55,9 @@
     import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
     import {CheckboxInputs} from "./Checkbox.interfaces";
 
+    /**
+     * @deprecated use BaseCheckbox instead
+     */
     export default {
         name: "Checkbox",
         props: {

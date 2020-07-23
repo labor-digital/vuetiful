@@ -46,6 +46,9 @@
     import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
     import {CheckboxInputs} from "../Checkbox/Checkbox.interfaces";
 
+    /**
+     * @deprecated use BaseRadio instead
+     */
     export default {
         name: "RadioButton",
         props: {
