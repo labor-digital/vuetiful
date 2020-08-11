@@ -20,13 +20,13 @@
     <div class="inputField" :class="classes">
         <label v-if="hasLabel" class="inputField__label">
             <!-- @slot default slot for label. you can parse the label also with a parameter. -->
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </label>
         <span class="inputField__inputContainer">
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
-            <span v-if="type === 'date' && !focus" class="inputField__placeholder">
-                {{isEmpty ? placeholder : ""}}
+            <span v-if="type === 'date' && !focus && this.placeholder !== ''" class="inputField__placeholder">
+                {{ isEmpty ? placeholder : '' }}
             </span>
             <input class="inputField__input"
                    :style="stylesDate"
@@ -56,165 +56,165 @@
 		</span>
         <span v-if="hasError || errorEmail" class="inputField__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
-			<slot name="error">{{error}} {{errorEmail}}</slot>
+			<slot name="error">{{ error }} {{ errorEmail }}</slot>
 		</span>
     </div>
 </template>
 
 <script lang="ts">
-    import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-    import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
 
-    export default {
-        name: "InputField",
-        props: {
-            /**
-             * set label for input field or use default slot
-             * css class: inputField__label
-             */
-            label: {
-                type: String
-            },
-            /**
-             * Change input type of field. default: text
-             * ('text', 'password', 'email', 'url', 'date', 'datetime', 'number')
-             * css class: inputField__input
-             * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
-             */
-            type: {
-                default: "text",
-                type: String,
-                validator: (v) => {
-                    return ["text", "password", "email", "url", "date", "datetime", "number"].indexOf(v) !== -1;
-                }
-            },
-            /**
-             * set error message in span
-             * css class: inputField__error
-             */
-            error: {
-                type: String
-            },
-
-            /**
-             * set input as disabled and removes it from the form submission
-             */
-            placeholder: {
-                type: String
-            },
-            /**
-             * show clear icon on the right to easily clear the input field
-             */
-            clearIcon: {
-                default: true,
-                type: Boolean
-            },
-            /**
-             * set input as required
-             */
-            required: {
-                default: false,
-                type: Boolean
-            },
-            /**
-             * set input as read-only
-             */
-            readOnly: {
-                default: false,
-                type: Boolean
-            },
-            /**
-             * set input as disabled
-             */
-            disabled: {
-                default: false,
-                type: Boolean
-            },
-
-            /**
-             * The field value to be injected via v-model
-             */
-            value: String,
-
-            /**
-             * The label to show if the mail validation fails
-             */
-            emailValidationLabel: {
-                type: String,
-                default: "Please enter a valid email address! (Example: 'example@example.org')"
+export default {
+    name: "InputField",
+    props: {
+        /**
+         * set label for input field or use default slot
+         * css class: inputField__label
+         */
+        label: {
+            type: String
+        },
+        /**
+         * Change input type of field. default: text
+         * ('text', 'password', 'email', 'url', 'date', 'datetime', 'number')
+         * css class: inputField__input
+         * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
+         */
+        type: {
+            default: "text",
+            type: String,
+            validator: (v) => {
+                return ["text", "password", "email", "url", "date", "datetime", "number"].indexOf(v) !== -1;
             }
         },
-        data() {
+        /**
+         * set error message in span
+         * css class: inputField__error
+         */
+        error: {
+            type: String
+        },
+
+        /**
+         * set input as disabled and removes it from the form submission
+         */
+        placeholder: {
+            type: String
+        },
+        /**
+         * show clear icon on the right to easily clear the input field
+         */
+        clearIcon: {
+            default: true,
+            type: Boolean
+        },
+        /**
+         * set input as required
+         */
+        required: {
+            default: false,
+            type: Boolean
+        },
+        /**
+         * set input as read-only
+         */
+        readOnly: {
+            default: false,
+            type: Boolean
+        },
+        /**
+         * set input as disabled
+         */
+        disabled: {
+            default: false,
+            type: Boolean
+        },
+
+        /**
+         * The field value to be injected via v-model
+         */
+        value: String,
+
+        /**
+         * The label to show if the mail validation fails
+         */
+        emailValidationLabel: {
+            type: String,
+            default: "Please enter a valid email address! (Example: 'example@example.org')"
+        }
+    },
+    data() {
+        return {
+            focus: false,
+            validEmail: true,
+            errorEmail: ""
+        };
+    },
+    computed: {
+        isEmpty(): boolean {
+            return isEmpty(this.value);
+        },
+        hasLabel(): boolean {
+            return !isEmpty(this.$slots.default) || !isEmpty(this.label);
+        },
+        hasError(): boolean {
+            return !isEmpty(this.$slots.error) || !isEmpty(this.error);
+        },
+        hasValue(): boolean {
+            return this.clearIcon && !this.isEmpty;
+        },
+        classes(): Object {
             return {
-                focus: false,
-                validEmail: true,
-                errorEmail: ""
+                "inputField--required": this.required,
+                "inputField--disabled": this.disabled,
+                "inputField--readonly": this.readOnly,
+                "inputField--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
             };
         },
-        computed: {
-            isEmpty(): boolean {
-                return isEmpty(this.value);
-            },
-            hasLabel(): boolean {
-                return !isEmpty(this.$slots.default) || !isEmpty(this.label);
-            },
-            hasError(): boolean {
-                return !isEmpty(this.$slots.error) || !isEmpty(this.error);
-            },
-            hasValue(): boolean {
-                return this.clearIcon && !this.isEmpty;
-            },
-            classes(): Object {
-                return {
-                    "inputField--required": this.required,
-                    "inputField--disabled": this.disabled,
-                    "inputField--readonly": this.readOnly,
-                    "inputField--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
-                };
-            },
-            stylesDate(): Object {
-                return {
-                    color: this.isEmpty && !this.focus && this.type === "date" ? "transparent" : ""
-                };
-            }
+        stylesDate(): Object {
+            return {
+                color: this.isEmpty && !this.focus && this.type === "date" && this.placeholder !== "" ? "transparent" : ""
+            };
+        }
+    },
+    methods: {
+        updateValue(event: Event) {
+            this.$emit("input", event.target.value ?? "");
         },
-        methods: {
-            updateValue(event: Event) {
-                this.$emit("input", event.target.value ?? "");
-            },
-            onBlur(e) {
-                this.focus = false;
-                this.$emit("blur", e);
-            },
-            onFocus(e) {
-                this.focus = true;
-                this.$emit("focus", e);
-            },
-            validateEmail(value): boolean {
-                value = value + "";
-                if (value.trim() === "") {
-                    this.validEmail = true;
-                    this.errorEmail = null;
-                    return;
-                }
-                this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
-                if (!this.hasError) this.validEmail ?
-                    this.errorEmail = null :
-                    this.errorEmail = this.emailValidationLabel;
-            },
-            clearInput() {
-                this.$emit("input", "");
-                this.$emit("clear");
-            }
+        onBlur(e) {
+            this.focus = false;
+            this.$emit("blur", e);
         },
-        watch: {
-            value(v) {
-                if (this.type === "email") {
-                    this.validateEmail(v);
-                }
+        onFocus(e) {
+            this.focus = true;
+            this.$emit("focus", e);
+        },
+        validateEmail(value): boolean {
+            value = value + "";
+            if (value.trim() === "") {
+                this.validEmail = true;
+                this.errorEmail = null;
+                return;
+            }
+            this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+            if (!this.hasError) this.validEmail ?
+                this.errorEmail = null :
+                this.errorEmail = this.emailValidationLabel;
+        },
+        clearInput() {
+            this.$emit("input", "");
+            this.$emit("clear");
+        }
+    },
+    watch: {
+        value(v) {
+            if (this.type === "email") {
+                this.validateEmail(v);
             }
         }
-    };
+    }
+};
 </script>
 
 <style lang="sass" src="./InputField.sass"></style>
