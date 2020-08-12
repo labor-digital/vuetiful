@@ -23,46 +23,50 @@
   opacity: 0
 
 .baseSelectBox
-  
+
   &__container
-    
+    position: relative
+
     &Input
       display: flex
       flex-wrap: wrap
       align-content: space-between
       border: 1px solid #000
       padding: 2px
-  
+
   &__input
     flex: 1 1 auto
-    
+
     & /deep/ input
       border: 0
-      
+
       &:focus
         outline: 0
-  
+
   &__chips
     display: flex
     margin-right: 5px
-  
+
   &__menu
+    position: absolute
     width: 100%
-    border: 1px solid #000000
-    border-top: none
-    
+    background-color: #ffffff
+    max-height: 60vh
+    overflow: auto
+    z-index: 1000
+
     &Inner
       display: flex
       flex-direction: column
-  
+
   &__item
-    
+
     &--checkbox
       display: flex
       flex-direction: column
-    
+
     &--highlighted
       background-color: aqua
-  
+
   & /deep/ .checkbox__label--highlighted
     background-color: aqua
