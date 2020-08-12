@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/labor-digital/vuetiful/compare/v1.11.1...v1.12.0) (2020-07-23)
+
+
+### Features
+
+* recreate checkbox and radio as BaseCheckbox and BaseRadio ([fc36f1d](https://github.com/labor-digital/vuetiful/commit/fc36f1d7a280940a3faf1bcc3005e4c852eaa8a0))
+* set old components to deprecated ([1283dbb](https://github.com/labor-digital/vuetiful/commit/1283dbbf1993cc1e6e6c80b443c6c95497571ce1))
+
 ### [1.11.1](https://github.com/labor-digital/vuetiful/compare/v1.11.0...v1.11.1) (2020-07-22)
 
 ## [1.11.0](https://github.com/labor-digital/vuetiful/compare/v1.10.6...v1.11.0) (2020-07-21)
