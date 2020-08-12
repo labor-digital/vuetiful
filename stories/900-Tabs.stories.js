@@ -35,43 +35,44 @@ export const Default = () => {
             components: {BaseTabs, BaseAccordion},
             template: `
                 <div>
-                    <base-tabs :items="items" :item-label="itemLabel">
-                        <template :slot="items[0].label">
-                            <base-accordion :items="testItems1">
-                                <template :slot="testItems1[0]">
-                                    HALLO FOO
-                                </template>
-                                <template :slot="testItems1[1]">
-                                    HALLO BAR
-                                </template>
-                            </base-accordion>
-                        </template>
-                        <template :slot="items[1]">
-                            <base-accordion :items="testItems2">
-                                <template :slot="testItems2[0]">
-                                    HALLO FOO
-                                </template>
-                                <template :slot="testItems2[1]">
-                                    HALLO BAR
-                                </template>
-                            </base-accordion>
-                            <base-accordion :items="testItems2">
-                                <template :slot="testItems2[0]">
-                                    HALLO FOO
-                                </template>
-                                <template :slot="testItems2[1]">
-                                    HALLO BAR
-                                </template>
-                            </base-accordion>
-                        </template>
-                    </base-tabs>
-                    <div style="height: 100px; width: 100%; background: red"></div>
+                <base-tabs :items="items" :item-label="itemLabel" hash="123">
+                    <template :slot="items[0].label">
+                        <base-accordion :items="testItems1">
+                            <template :slot="testItems1[0]">
+                                HALLO FOO
+                            </template>
+                            <template :slot="testItems1[1]">
+                                HALLO BAR
+                            </template>
+                        </base-accordion>
+                    </template>
+                    <template :slot="items[1]">
+                        <base-accordion :items="testItems2">
+                            <template :slot="testItems2[0]">
+                                HALLO FOO
+                            </template>
+                            <template :slot="testItems2[1]">
+                                HALLO BAR
+                            </template>
+                        </base-accordion>
+                        <base-accordion :items="testItems2">
+                            <template :slot="testItems2[0]">
+                                HALLO FOO
+                            </template>
+                            <template :slot="testItems2[1]">
+                                HALLO BAR
+                            </template>
+                        </base-accordion>
+                    </template>
+                </base-tabs>
+                <div style="height: 100px; width: 100%; background: red"></div>
                 </div>`,
             props: {
                 items: {
                     default: object('Input', [
                         {
-                            'label': 'Tab Title 1'
+                            'label': 'Tab Title 1',
+                            hash: 'test-123'
                         },
                         'Tab Title 2',
                         {
