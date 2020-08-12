@@ -34,13 +34,13 @@ export const Default = () => {
             components: {BaseSelectBox},
             template: `
                 <div>
-                    <base-select-box :items="inputs"
-                             v-model="v"
-                             :is-multi-select="MultiSelect"
-                             :display-as-chip="DisplayChip"
-                             placeholder="Foo :)"></base-select-box>
-                    <span style="display:block;color:#888;margin-top: 50px">Emitted value:
-                        <pre>{{v}}</pre>
+                <base-select-box :items="inputs"
+                                 v-model="v"
+                                 :is-multi-select="MultiSelect"
+                                 :display-as-chip="DisplayChip"
+                                 placeholder="Foo :)"></base-select-box>
+                <span style="display:block;color:#888;margin-top: 50px">Emitted value:
+                        <pre>{{ v }}</pre>
                     </span>
                 </div>
 

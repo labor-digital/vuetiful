@@ -27,7 +27,7 @@
                 <span v-if="isMultiSelect && !displayAsChip"
                       class="baseSelectBox__chips"
                       v-for="item in chipList">
-                    {{item.label}}
+                    {{ item.label }}
                 </span>
                 <component :is="chipsComponent"
                            v-if="isMultiSelect && displayAsChip"
@@ -37,6 +37,7 @@
 
                 <!-- The search inputfield -->
                 <component :is="inputFieldComponent"
+                           ref="selectBoxInput"
                            v-model="searchValueOrPlaceholder"
                            class="baseSelectBox__input"
                            :placeholder="searchFieldPlaceholder"
@@ -56,11 +57,11 @@
 
             <div class="baseSelectBox__error">
                 <!-- @slot error slot after the input field -->
-                <slot name="error">{{error}}</slot>
+                <slot name="error">{{ error }}</slot>
             </div>
 
             <transition name="fade">
-                <div v-show="isMenuShown" class="baseSelectBox__menu" :class="menuClasses">
+                <div v-show="isMenuShown" class="baseSelectBox__menu" :class="menuClasses" ref="selectBoxMenu" :style="menuStyles">
 
                     <!-- @slot Used to add additional content before the list of items -->
                     <slot name="before-items-fixed"/>
@@ -93,7 +94,7 @@
 
                             <!-- @slot Used to overwrite the rendered label for a single select box -->
                             <slot name="single-select-item-label" :item="item">
-					            {{item.label}}
+					            {{ item.label }}
                             </slot>
 					    </span>
                     </div>
@@ -111,463 +112,503 @@
 </template>
 
 <script lang="ts">
-    import {PlainObject} from "@labor-digital/helferlein/lib/Interfaces/PlainObject";
-    import {filter} from "@labor-digital/helferlein/lib/Lists/filter";
-    import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-    import {map} from "@labor-digital/helferlein/lib/Lists/map";
-    import {getPath} from "@labor-digital/helferlein/lib/Lists/Paths/getPath";
-    import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
-    import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-    import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
-    import {isString} from "@labor-digital/helferlein/lib/Types/isString";
-    import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-    import Checkbox from "../Checkbox/Checkbox.vue";
-    import Chips from "../Chips/Chips.vue";
-    import InputField from "../InputField/InputField.vue";
+import {PlainObject} from "@labor-digital/helferlein/lib/Interfaces/PlainObject";
+import {filter} from "@labor-digital/helferlein/lib/Lists/filter";
+import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+import {map} from "@labor-digital/helferlein/lib/Lists/map";
+import {getPath} from "@labor-digital/helferlein/lib/Lists/Paths/getPath";
+import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
+import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
+import {isString} from "@labor-digital/helferlein/lib/Types/isString";
+import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+import Checkbox from "../Checkbox/Checkbox.vue";
+import Chips from "../Chips/Chips.vue";
+import InputField from "../InputField/InputField.vue";
 
-    interface PreparedItem {
-        /**
-         * The visible label of this item
-         */
-        label: string,
-
-        /**
-         * The lower case version of this item for search purposes
-         */
-        labelLc: string,
-
-        /**
-         * The value of this item to pass as model data
-         */
-        value: any,
-
-        /**
-         * Additional css classes to apply to the item
-         */
-        classes: PlainObject,
-
-        /**
-         * The raw, given value for this item
-         */
-        raw: any
-    }
+interface PreparedItem {
+    /**
+     * The visible label of this item
+     */
+    label: string,
 
     /**
-     * This component is the internal (WIP) successor to the "selectBox" component.
-     * You should use it with caution as it may still contain bugs!
-     *
+     * The lower case version of this item for search purposes
      */
-    export default {
-        name: "BaseSelectBox",
-        props: {
-            /**
-             * Set this to true if you want to render the component as a "multi-select" box,
-             * that allows you to select multiple items as an array
-             */
-            isMultiSelect: {
-                type: Boolean,
-                default: false
-            },
-            /**
-             * The value/list of values to set for this component.
-             * Normally injected via v-model.
-             *
-             * It should be an array of values when "isMultiSelect" is set to true,
-             * or a single value if "isMultiSelect" is set to false.
-             *
-             * The value will be automatically converted into objects,
-             * so you can either pass the values as String/Number or as object literal.
-             * If an object is given you can use itemText and itemValue to determine
-             * the correct properties to read from your value.
-             */
-            value: {
-                type: [Array, Object, String, Number],
-                default: function () {
-                    return this.isMultiSelect === true ? [] : null;
-                }
-            },
+    labelLc: string,
 
-            /**
-             * The list of items that should be
-             */
-            items: Array,
+    /**
+     * The value of this item to pass as model data
+     */
+    value: any,
 
-            /**
-             * A placeholder to display as long as there is no value selected
-             */
-            placeholder: String,
+    /**
+     * Additional css classes to apply to the item
+     */
+    classes: PlainObject,
 
-            /**
-             * Used for "is-multi-select" fields to overwrite the placeholder
-             * when the box contains selected items. If not given,
-             * the default placeholder is shown
-             */
-            multiSelectAltPlaceholder: String,
+    /**
+     * The raw, given value for this item
+     */
+    raw: any
+}
 
-            /**
-             * If "items" contains an array of objects, this prop is used to select the object's property
-             * which should be used as a label.
-             */
-            itemText: {
-                type: String,
-                default: "label",
-                note: "property in item for text."
-            },
-
-            /**
-             * If "items" contains an array of objects, this prop is used to select the object's property
-             * which should be used as a value.
-             */
-            itemValue: {
-                type: String,
-                default: "value",
-                note: "property in item for value."
-            },
-
-            // @todo implement this
-            // disableFilterSearch: {
-            // 	type: Boolean,
-            // 	default: false
-            // },
-            // maxMultiInput: {
-            // 	type: Number,
-            // 	default: 2
-            // },
-
-            displayAsChip: {
-                type: Boolean,
-                default: false
-            },
-
-            /**
-             * Optional: Allows you to inject a custom checkbox component
-             * with your own style if required
-             */
-            checkboxComponent: {
-                type: Object,
-                default: () => Checkbox
-            },
-
-            /**
-             * Optional: Allows you to inject a custom input field component
-             * with your own style if required
-             */
-            inputFieldComponent: {
-                type: Object,
-                default: () => InputField
-            },
-
-            /**
-             * Optional: Allows you to inject a custom chips component
-             * with your own style if required
-             */
-            chipsComponent: {
-                type: Object,
-                default: () => Chips
-            },
-
-            /**
-             * set error message in span
-             * css class: baseSelectBox__error
-             */
-            error: {
-                type: String
+/**
+ * This component is the internal (WIP) successor to the "selectBox" component.
+ * You should use it with caution as it may still contain bugs!
+ *
+ */
+export default {
+    name: "BaseSelectBox",
+    props: {
+        /**
+         * Set this to true if you want to render the component as a "multi-select" box,
+         * that allows you to select multiple items as an array
+         */
+        isMultiSelect: {
+            type: Boolean,
+            default: false
+        },
+        /**
+         * The value/list of values to set for this component.
+         * Normally injected via v-model.
+         *
+         * It should be an array of values when "isMultiSelect" is set to true,
+         * or a single value if "isMultiSelect" is set to false.
+         *
+         * The value will be automatically converted into objects,
+         * so you can either pass the values as String/Number or as object literal.
+         * If an object is given you can use itemText and itemValue to determine
+         * the correct properties to read from your value.
+         */
+        value: {
+            type: [Array, Object, String, Number],
+            default: function () {
+                return this.isMultiSelect === true ? [] : null;
             }
         },
-        data() {
-            return {
-                searchInput: "",
-                isMenuShown: false,
-                firstKeyPress: true,
-                keyStroke: 0,
 
-                highlightedValue: null,
-                preventNextBlur: false,
-                closeMenuTimeout: 0
-            };
+        /**
+         * The list of items that should be
+         */
+        items: Array,
+
+        /**
+         * A placeholder to display as long as there is no value selected
+         */
+        placeholder: String,
+
+        /**
+         * Used for "is-multi-select" fields to overwrite the placeholder
+         * when the box contains selected items. If not given,
+         * the default placeholder is shown
+         */
+        multiSelectAltPlaceholder: String,
+
+        /**
+         * If "items" contains an array of objects, this prop is used to select the object's property
+         * which should be used as a label.
+         */
+        itemText: {
+            type: String,
+            default: "label",
+            note: "property in item for text."
         },
-        computed: {
-            /**
-             * The unified, comparable version of value,
-             * because there are multiple optional input variants that should be handled correctly
-             */
-            preparedValue(): Array<PreparedItem> | PreparedItem | null {
-                // Empty value
-                if (isEmpty(this.value)) {
-                    return this.isMultiSelect ? [] : null;
+
+        /**
+         * If "items" contains an array of objects, this prop is used to select the object's property
+         * which should be used as a value.
+         */
+        itemValue: {
+            type: String,
+            default: "value",
+            note: "property in item for value."
+        },
+
+        // @todo implement this
+        // disableFilterSearch: {
+        // 	type: Boolean,
+        // 	default: false
+        // },
+        // maxMultiInput: {
+        // 	type: Number,
+        // 	default: 2
+        // },
+
+        displayAsChip: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
+         * Optional: Allows you to inject a custom checkbox component
+         * with your own style if required
+         */
+        checkboxComponent: {
+            type: Object,
+            default: () => Checkbox
+        },
+
+        /**
+         * Optional: Allows you to inject a custom input field component
+         * with your own style if required
+         */
+        inputFieldComponent: {
+            type: Object,
+            default: () => InputField
+        },
+
+        /**
+         * Optional: Allows you to inject a custom chips component
+         * with your own style if required
+         */
+        chipsComponent: {
+            type: Object,
+            default: () => Chips
+        },
+
+        /**
+         * set error message in span
+         * css class: baseSelectBox__error
+         */
+        error: {
+            type: String
+        }
+    },
+    data() {
+        return {
+            searchInput: "",
+            isMenuShown: false,
+            firstKeyPress: true,
+            keyStroke: 0,
+
+            highlightedValue: null,
+            preventNextBlur: false,
+            closeMenuTimeout: 0,
+
+            menuDirectionBottom: true,
+            inputHeight: 0
+        };
+    },
+    computed: {
+        /**
+         * The unified, comparable version of value,
+         * because there are multiple optional input variants that should be handled correctly
+         */
+        preparedValue(): Array<PreparedItem> | PreparedItem | null {
+
+            // Empty value
+            if (isEmpty(this.value)) {
+                return this.isMultiSelect ? [] : null;
+            }
+
+            // Find matching items for values
+            const rawValueList = isArray(this.value) ? this.value : [this.value];
+            const cleanValueList = [];
+            forEach(rawValueList, value => {
+                // Exact match
+                if (this.filteredItems.indexOf(value) !== -1) {
+                    cleanValueList.push(value);
+                    return;
                 }
-
-                // Find matching items for values
-                const rawValueList = isArray(this.value) ? this.value : [this.value];
-                const cleanValueList = [];
-                forEach(rawValueList, value => {
-                    // Exact match
-                    if (this.filteredItems.indexOf(value) !== -1) {
-                        cleanValueList.push(value);
-                        return;
-                    }
-                    // Object with a value key
-                    if (isPlainObject(value)) {
-                        const _val = getPath(value, [this.itemValue]);
-                        if (!isUndefined(_val)) {
-                            value = _val;
-                        } else {
-                            console.error("Invalid value given! The value key \"" +
-                                this.itemValue + "\" was not found on the input value:", value);
-                        }
-                    }
-                    // Try to find the value in the list of items
-                    let found = false;
-                    forEach(this.filteredItems, (item: PreparedItem) => {
-                        if (item.value === value || item.label === value) {
-                            cleanValueList.push(item);
-                            found = true;
-                            return false;
-                        }
-                    });
-                    if (!found) {
-                        console.error("Invalid value given! The following value was not found in the list of items:", value);
-                    }
-                });
-
-                // Handle single/multi select lists
-                if (this.isMultiSelect) {
-                    return cleanValueList;
-                } else {
-                    return cleanValueList.shift();
-                }
-            },
-            /**
-             * The list of all items without any filter applied,
-             * this is used to convert all incoming "items" to be comparable with each other.
-             * @internal
-             */
-            preparedItems(): Array<PreparedItem> {
-                // Make items comparable
-                return map(this.items, (item) => {
-                    // Create an empty item
-                    const _item: PreparedItem = {
-                        label: "",
-                        labelLc: "",
-                        value: null,
-                        classes: {},
-                        raw: item
-                    };
-
-                    // Convert simple string or number items
-                    if (!isPlainObject(item)) {
-                        _item.label = item + "";
-                        _item.value = _item.label;
+                // Object with a value key
+                if (isPlainObject(value)) {
+                    const _val = getPath(value, [this.itemValue]);
+                    if (!isUndefined(_val)) {
+                        value = _val;
                     } else {
-                        _item.label = getPath(item, [this.itemText], "") + "";
-                        _item.value = getPath(item, [this.itemValue], item);
+                        console.error("Invalid value given! The value key \"" +
+                            this.itemValue + "\" was not found on the input value:", value);
                     }
-
-                    // Generate additional flags
-                    _item.labelLc = _item.label.toLowerCase();
-
-                    return _item;
+                }
+                // Try to find the value in the list of items
+                let found = false;
+                forEach(this.filteredItems, (item: PreparedItem) => {
+                    if (item.value === value || item.label === value) {
+                        cleanValueList.push(item);
+                        found = true;
+                        return false;
+                    }
                 });
-            },
-            /**
-             * The list of all items based on the current input value.
-             */
-            filteredItems() {
-                this.forcedFilteredItemsUpdate;
+                if (!found) {
+                    console.error("Invalid value given! The following value was not found in the list of items:", value);
+                }
+            });
 
-                // Prepare working values
-                const searchInputLc = (this.searchInput + "").toLowerCase();
+            // Handle single/multi select lists
+            if (this.isMultiSelect) {
+                return cleanValueList;
+            } else {
+                return cleanValueList.shift();
+            }
+        },
+        /**
+         * The list of all items without any filter applied,
+         * this is used to convert all incoming "items" to be comparable with each other.
+         * @internal
+         */
+        preparedItems(): Array<PreparedItem> {
+            // Make items comparable
+            return map(this.items, (item) => {
+                // Create an empty item
+                const _item: PreparedItem = {
+                    label: "",
+                    labelLc: "",
+                    value: null,
+                    classes: {},
+                    raw: item
+                };
 
-                // First filter the items
-                return filter(map(this.preparedItems, (item: PreparedItem) => {
-                    // Filter the items based on the query string
-                    if (!item.labelLc.includes(searchInputLc))
-                        return null;
-
-                    // Check if the item is currently highlighted
-                    const _item = {...item};
-                    _item.classes = {
-                        "checkbox__label--highlighted": item.value === this.highlightedValue
-                    };
-
-                    return _item;
-                }), v => v !== null);
-            },
-            searchFieldPlaceholder() {
-                if (!isEmpty(this.preparedValue)) {
-                    if (this.isMultiSelect) {
-                        return isString(this.multiSelectAltPlaceholder) ?
-                            this.multiSelectAltPlaceholder : this.placeholder;
-                    }
-                    return this.preparedValue.label;
+                // Convert simple string or number items
+                if (!isPlainObject(item)) {
+                    _item.label = item + "";
+                    _item.value = _item.label;
                 } else {
+                    _item.label = getPath(item, [this.itemText], "") + "";
+                    _item.value = getPath(item, [this.itemValue], item);
+                }
+
+                // Generate additional flags
+                _item.labelLc = _item.label.toLowerCase();
+
+                return _item;
+            });
+        },
+        /**
+         * The list of all items based on the current input value.
+         */
+        filteredItems() {
+            this.forcedFilteredItemsUpdate;
+
+            // Prepare working values
+            const searchInputLc = (this.searchInput + "").toLowerCase();
+
+            // First filter the items
+            return filter(map(this.preparedItems, (item: PreparedItem) => {
+                // Filter the items based on the query string
+                if (!item.labelLc.includes(searchInputLc))
+                    return null;
+
+                // Check if the item is currently highlighted
+                const _item = {...item};
+                _item.classes = {
+                    "checkbox__label--highlighted": item.value === this.highlightedValue
+                };
+
+                return _item;
+            }), v => v !== null);
+        },
+        searchFieldPlaceholder() {
+            if (!isEmpty(this.preparedValue)) {
+                if (this.isMultiSelect) {
+                    return isString(this.multiSelectAltPlaceholder) ?
+                        this.multiSelectAltPlaceholder : this.placeholder;
+                }
+                return this.preparedValue.label;
+            } else {
+                return this.placeholder;
+            }
+        },
+        searchValueOrPlaceholder: {
+            get: function () {
+                if (this.isMenuShown) {
+                    return this.searchInput;
+                }
+
+                if (this.isMultiSelect) {
+                    return "";
+                }
+
+                if (isEmpty(this.preparedValue)) {
                     return this.placeholder;
                 }
+
+                return this.preparedValue.label;
             },
-            searchValueOrPlaceholder: {
-                get: function () {
-                    if (this.isMenuShown) {
-                        return this.searchInput;
-                    }
+            set: function (value) {
 
-                    if (this.isMultiSelect) {
-                        return "";
-                    }
-
-                    if (isEmpty(this.preparedValue)) {
-                        return this.placeholder;
-                    }
-
-                    return this.preparedValue.label;
-                },
-                set: function (value) {
-
-                    // Update the search input if required
-                    if (this.isMenuShown) {
-                        this.searchInput = value;
-                    }
-
-                    // Update the value
-                    forEach(this.preparedItems, (item: PreparedItem) => {
-                        if (value === this.highlightedValue) {
-                            this.$emit("input", item);
-                            return false;
-                        }
-                    });
+                // Update the search input if required
+                if (this.isMenuShown) {
+                    this.searchInput = value;
                 }
-            },
-            chipList: {
-                get: function () {
-                    if (isEmpty(this.preparedValue)) return [];
-                    return isArray(this.preparedValue) ? this.preparedValue : [this.preparedValue];
-                },
-                set: function (newChipItems) {
-                    const valueFiltered = [];
-                    const newValues = getPath(newChipItems, ["*", "value"], []);
-                    forEach(this.preparedValue, (item: PreparedItem) => {
-                        if (newValues.indexOf(item.value) !== -1) {
-                            valueFiltered.push(item);
-                        }
-                    });
-                    this.$emit("input", valueFiltered);
-                }
-            },
-            menuClasses() {
-                return {
-                    "baseSelectBox__menu--show": this.isMenuShown
-                };
+
+                // Update the value
+                forEach(this.preparedItems, (item: PreparedItem) => {
+                    if (value === this.highlightedValue) {
+                        this.$emit("input", item);
+                        return false;
+                    }
+                });
             }
         },
-        methods: {
-            showMenu() {
-                clearTimeout(this.closeMenuTimeout);
-                this.isMenuShown = true;
+        chipList: {
+            get: function () {
+                if (isEmpty(this.preparedValue)) return [];
+                return isArray(this.preparedValue) ? this.preparedValue : [this.preparedValue];
             },
-            singleSelectItemClasses(item: PreparedItem) {
-                return {
-                    "baseSelectBox__item--highlighted": item.value === this.highlightedValue
-                };
-            },
-            onInputFocus() {
-                this.showMenu();
-            },
-            onInputBlur() {
-                if (this.preventNextBlur) {
-                    this.preventNextBlur = false;
-                    return;
-                }
-                this.closeMenuTimeout = setTimeout(() => {
-                    this.searchInput = "";
-                    this.firstKeyPress = true;
-                    this.highlightedValue = null;
-                    this.isMenuShown = false;
-                    this.keyStroke = 0;
-                }, 40);
-            },
-            onSingleSelectItemClick(item: PreparedItem) {
-                clearTimeout(this.closeMenuTimeout);
-                this.$emit("input", item);
-            },
-            onDeleteKeyDown() {
-                if (
-                    !this.isMultiSelect ||
-                    this.searchInput !== "" ||
-                    isEmpty(this.value)
-                ) return;
-
-                const valueClone = [...this.preparedValue];
-                valueClone.pop();
-                this.$emit("input", valueClone);
-            },
-            onEnterKeyDown() {
-                if (this.firstKeyPress) return;
-
-                if (this.isMultiSelect) {
-                    // Search the correct item on the checkbox component
-                    const checkboxList = this.$refs.checkboxList;
-                    const targetItem = this.filteredItems[this.keyStroke];
-                    forEach(checkboxList.prepareItems, (item: PlainObject) => {
-                        if (item.value === targetItem.value) {
-                            checkboxList.updateValue(item);
-                            return false;
-                        }
-                    });
-                    return;
-                } else {
-                    // Emit the input event
-                    if (this.highlightedValue === null) {
-                        return;
+            set: function (newChipItems) {
+                const valueFiltered = [];
+                const newValues = getPath(newChipItems, ["*", "value"], []);
+                forEach(this.preparedValue, (item: PreparedItem) => {
+                    if (newValues.indexOf(item.value) !== -1) {
+                        valueFiltered.push(item);
                     }
-                    forEach(this.preparedItems, (item: PreparedItem) => {
-                        if (item.value === this.highlightedValue) {
-                            this.searchInput = "";
-                            this.onInputBlur();
-                            this.$emit("input", item);
-                            return false;
-                        }
-                    });
-                }
-            },
-            onUpDownKeyDown(down: boolean) {
-                this.showMenu();
-                if (!this.firstKeyPress) {
-                    this.keyStroke += down === true ? 1 : -1;
-                    this.keyStroke = Math.max(0, Math.min(this.keyStroke, this.filteredItems.length - 1));
-                }
-                this.firstKeyPress = false;
-
-                // Update the highlight list
-                const item = this.filteredItems[this.keyStroke];
-                this.highlightedValue = item.value;
-            },
-            onMultiSelectCheckboxInput(val) {
-                this.preventNextBlur = true;
-                // Translate the items
-                const newValues = getPath(val, ["*", "value"], []);
-                this.$emit("input",
-                    this.preparedItems.filter((item: PreparedItem) =>
-                        newValues.indexOf(item.value) !== -1));
-            },
-            onDocumentClick() {
-                this.onInputBlur();
+                });
+                this.$emit("input", valueFiltered);
             }
         },
-        watch: {
-            isMenuShown(n, o) {
-                if (n === o) {
-                    return;
-                }
-                if (n) {
-                    document.addEventListener("click", this.onDocumentClick);
-                } else {
-                    document.removeEventListener("click", this.onDocumentClick);
-                }
-            }
+        menuClasses() {
+            return {
+                "baseSelectBox__menu--show": this.isMenuShown
+            };
         },
-        destroyed(): void {
-            document.removeEventListener("click", this.onDocumentClick);
+        menuStyles() {
+            return {
+                bottom: !this.menuDirectionBottom ? this.inputHeight + "px" : ""
+            };
         }
-    };
+    },
+    methods: {
+        showMenu() {
+            clearTimeout(this.closeMenuTimeout);
+            this.isMenuShown = true;
+        },
+        singleSelectItemClasses(item: PreparedItem) {
+            return {
+                "baseSelectBox__item--highlighted": item.value === this.highlightedValue
+            };
+        },
+        onInputFocus() {
+            this.showMenu();
+        },
+        onInputBlur() {
+            if (this.preventNextBlur) {
+                this.preventNextBlur = false;
+                return;
+            }
+            this.closeMenuTimeout = setTimeout(() => {
+                this.searchInput = "";
+                this.firstKeyPress = true;
+                this.highlightedValue = null;
+                this.isMenuShown = false;
+                this.keyStroke = 0;
+            }, 40);
+        },
+        onSingleSelectItemClick(item: PreparedItem) {
+            clearTimeout(this.closeMenuTimeout);
+            this.$emit("input", item);
+        },
+        onDeleteKeyDown() {
+            if (
+                !this.isMultiSelect ||
+                this.searchInput !== "" ||
+                isEmpty(this.value)
+            ) return;
+
+            const valueClone = [...this.preparedValue];
+            valueClone.pop();
+            this.$emit("input", valueClone);
+        },
+        onEnterKeyDown() {
+            if (this.firstKeyPress) return;
+
+            if (this.isMultiSelect) {
+                // Search the correct item on the checkbox component
+                const checkboxList = this.$refs.checkboxList;
+                const targetItem = this.filteredItems[this.keyStroke];
+                forEach(checkboxList.prepareItems, (item: PlainObject) => {
+                    if (item.value === targetItem.value) {
+                        checkboxList.updateValue(item);
+                        return false;
+                    }
+                });
+                return;
+            } else {
+                // Emit the input event
+                if (this.highlightedValue === null) {
+                    return;
+                }
+                forEach(this.preparedItems, (item: PreparedItem) => {
+                    if (item.value === this.highlightedValue) {
+                        this.searchInput = "";
+                        this.onInputBlur();
+                        this.$emit("input", item);
+                        return false;
+                    }
+                });
+            }
+        },
+        onUpDownKeyDown(down: boolean) {
+            this.showMenu();
+            if (!this.firstKeyPress) {
+                this.keyStroke += down === true ? 1 : -1;
+                this.keyStroke = Math.max(0, Math.min(this.keyStroke, this.filteredItems.length - 1));
+            }
+            this.firstKeyPress = false;
+
+            // Update the highlight list
+            const item = this.filteredItems[this.keyStroke];
+            this.highlightedValue = item.value;
+        },
+        onMultiSelectCheckboxInput(val) {
+            this.preventNextBlur = true;
+            // Translate the items
+            const newValues = getPath(val, ["*", "value"], []);
+            this.$emit("input",
+                this.preparedItems.filter((item: PreparedItem) =>
+                    newValues.indexOf(item.value) !== -1));
+        },
+        onDocumentClick() {
+            this.onInputBlur();
+        },
+        checkMenuDirection() {
+            this.inputHeight = this.$refs.selectBoxInput.$el.scrollHeight;
+            const menu = this.$refs.selectBoxMenu.style;
+            const inputOffset = this.$refs.selectBoxInput.$el.offsetParent.offsetTop;
+            let space = window.innerHeight - inputOffset;
+
+            menu.display = "block";
+            menu.visibility = "hidden";
+
+            let menuSize = this.$refs.selectBoxMenu.scrollHeight;
+
+            menu.display = "none";
+            menu.visibility = "";
+
+            if (menuSize >= inputOffset) {
+                this.menuDirectionBottom = true;
+                return;
+            }
+            console.log(menuSize, inputOffset);
+
+            this.menuDirectionBottom = space >= menuSize;
+
+        }
+    },
+    mounted() {
+        this.checkMenuDirection();
+
+        window.addEventListener("resize", this.checkMenuDirection);
+        window.addEventListener("scroll", this.checkMenuDirection);
+    },
+    watch: {
+        isMenuShown(n, o) {
+            if (n === o) {
+                return;
+            }
+            if (n) {
+                document.addEventListener("click", this.onDocumentClick);
+            } else {
+                document.removeEventListener("click", this.onDocumentClick);
+            }
+        }
+    },
+    destroyed(): void {
+        document.removeEventListener("click", this.onDocumentClick);
+        document.removeEventListener("resize", this.onDocumentClick);
+        document.removeEventListener("scroll", this.onDocumentClick);
+    }
+};
 </script>
 
 <style lang="sass" src="./BaseSelectBox.sass"></style>
