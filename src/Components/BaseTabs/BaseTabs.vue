@@ -19,8 +19,8 @@
 <template>
     <div class="tabs">
         <div class="tabs__titleContainer">
-            <div v-for="(item, index) in preparedItems" @click="onClickOpenTab(index,item.hash)" class="tabs__label"
-                 :class="{'tabs__label--active': open === index}"
+            <div v-for="(item, index) in preparedItems" @click="onClickOpenTab(index)" class="tabs__label"
+                 :class="{'tabs__label--active': openInternal === index}"
                  ref="titles">
 
                 <!-- @slot Used to add additional elements before the label -->
@@ -38,10 +38,10 @@
                               @before-leave="beforeLeaving"
                               @after-leave="afterLeaving">
                 <div v-for="(item, index) in preparedItems"
-                     v-show="open === index"
+                     v-show="openInternal === index"
                      :key="'tab-'+ item.label + index"
                      class="tabs__item"
-                     :class="{'tabs__item--active': open === index}"
+                     :class="{'tabs__item--active': openInternal === index}"
                      ref="contents">
                     <!-- @slot Used to add additional elements before the content -->
                     <slot name="beforeContent"/>
@@ -60,13 +60,10 @@
 <script lang="ts">
 
 import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-import {inflectToSlug} from "@labor-digital/helferlein/lib/Strings/Inflector/inflectToSlug";
-import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
 
 export default {
     name: "BaseTabs",
     props: {
-
         /**
          * The list of items that should be used. The items are also the name
          * for the looped slots in which you can put your content in.
@@ -91,7 +88,13 @@ export default {
         /**
          * Add custom classes if necessary to the tabs content container.
          */
-        classes: String
+        classes: String,
+
+        /**
+         * If index of the element given it opens the tab. Use open.sync to get the value back if needed.
+         * The component will listen to changes of the prop.
+         */
+        open: Number
     },
     computed: {
         preparedItems() {
@@ -99,8 +102,7 @@ export default {
             forEach(this.items, (item, index) => {
                 items[index] = {
                     id: index,
-                    label: item.label ?? item[this.itemLabel] ?? item,
-                    hash: item.hash ?? item[this.itemHash] ?? inflectToSlug(item.label ?? item[this.itemLabel] ?? item)
+                    label: item.label ?? item[this.itemLabel] ?? item
                 };
             });
             return items;
@@ -108,26 +110,20 @@ export default {
     },
     data() {
         return {
-            open: 0,
+            openInternal: this.open,
             oldTabHeight: 0,
             newTabHeight: 0
         };
     },
     methods: {
-        onClickOpenTab(i, hash) {
-            this.open = i;
-            window.location.hash = "#" + hash;
+        onClickOpenTab(i) {
+            this.openInternal = i;
 
             /**
              * Emits an event with "open" and the index of the tab
              */
             this.$emit("open", i);
-        },
-        openByHash() {
-            const openOld = this.open;
-            const openID = this.preparedItems.filter(item => item.hash === window.location.hash.replace("#", ""));
-            this.open = !isEmpty(openID) ? openID[0].id : openOld;
-            this.$emit("open", this.open);
+            this.$emit("update:open", i);
         },
         beforeLeaving(el) {
             el.style.position = "absolute";
@@ -136,12 +132,11 @@ export default {
             el.style.position = "";
         }
     },
-    mounted() {
-        this.openByHash();
+    watch: {
+        open(v) {
+            this.openInternal = v;
+        }
 
-        window.addEventListener("hashchange", () => {
-            this.openByHash();
-        });
     }
 };
 </script>

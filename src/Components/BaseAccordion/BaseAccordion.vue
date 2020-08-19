@@ -21,8 +21,8 @@
         <div v-for="(item, index) in preparedItems" :id="groupId + '-' + index"
              class="accordion__container"
              :class="classes">
-            <dt @click="onClickToggle(index, item.hash)" class="accordion__label"
-                :class="{'accordion__label--active': open[index]}"
+            <dt @click="onClickToggle(index)" class="accordion__label"
+                :class="{'accordion__label--active': openInternal[index]}"
                 ref="titles">
 
                 <!-- @slot Used to add additional elements before the label -->
@@ -41,9 +41,9 @@
                 @after-enter="endTransition"
                 @before-leave="startTransition"
                 @after-leave="endTransition">
-                <dd v-show="open[index]"
+                <dd v-show="openInternal[index]"
                     class="accordion__item"
-                    :class="{'accordion__item--active': open[index]}"
+                    :class="{'accordion__item--active': openInternal[index]}"
                     ref="contents">
 
                     <!-- @slot Used to add additional elements before the content -->
@@ -62,8 +62,7 @@
 
 <script lang="ts">
 import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-import {inflectToSlug} from "@labor-digital/helferlein/lib/Strings/Inflector/inflectToSlug";
-import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
+import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
 
 export default {
     name: "BaseAccordion",
@@ -94,15 +93,16 @@ export default {
         itemLabel: String,
 
         /**
-         * If "items" contains an array of objects, this prop is used to select the object's property
-         * which should be used for the url hash. With the hash you can open accordion directly over the url
-         */
-        itemHash: String,
-
-        /**
          * Add custom classes if necessary to the accordion container.
          */
-        classes: String
+        classes: String,
+
+
+        /**
+         * If index of the element given it opens the accordion. Use open.sync to get the value back if needed.
+         * The component will listen to changes of the prop. If openMultiple is true you can give an array of indexes to open multiple
+         */
+        open: [Number, Array]
     },
     computed: {
         preparedItems() {
@@ -110,8 +110,7 @@ export default {
             forEach(this.items, (item, index) => {
                 items[index] = {
                     id: index,
-                    label: item.label ?? item[this.itemLabel] ?? item,
-                    hash: item.hash ?? item[this.itemHash] ?? inflectToSlug(item.label ?? item[this.itemLabel] ?? item)
+                    label: item.label ?? item[this.itemLabel] ?? item
                 };
             });
             return items;
@@ -120,68 +119,51 @@ export default {
     data() {
         return {
             groupId: null,
-            open: []
+            openInternal: []
         };
     },
     methods: {
-        onClickToggle(i, hash) {
-            !this.open[i] ? window.location.hash = "#" + hash : window.location.hash = "";
-            if (this.openMultiple) this.openMethod(i);
-        },
-        openByHash() {
-            if (this.openMultiple) return;
-            const openID = this.preparedItems.filter(item => item.hash === window.location.hash.replace("#", ""));
-
-            if (!isEmpty(openID)) {
-                this.openMethod(openID[0].id);
-            } else {
-                forEach(this.open, (item, index) => {
-                    this.$set(this.open, index, false);
-                });
-            }
-        },
-        openMethod(i) {
+        onClickToggle(i) {
             if (this.openMultiple) {
-                this.$set(this.open, i, !this.open[i]);
-
-                /**
-                 * Emits an event with "open" and the index of the accordion
-                 */
-                this.$emit("open", i);
+                this.$set(this.openInternal, i, !this.openInternal[i]);
             } else {
-                forEach(this.open, (item, index) => {
+                forEach(this.openInternal, (item, index) => {
                     if (index === i) {
-                        this.$set(this.open, index, !this.open[i]);
+                        this.$set(this.openInternal, index, !this.openInternal[i]);
                     } else {
-                        this.$set(this.open, index, false);
+                        this.$set(this.openInternal, index, false);
                     }
                 });
-
-                /**
-                 * Emits an event with "open" and the index of the accordion
-                 */
-                this.$emit("open", i);
             }
+
+            /**
+             * Emits an event with "open" and the index of the accordion
+             */
+            this.$emit("open", this.openInternal);
+            this.$emit("update:open", this.openInternal);
         },
         startTransition(el) {
             el.style.height = el.scrollHeight + "px";
         },
         endTransition(el) {
             el.style.height = "";
+        },
+        onChangeOpen() {
+            if (isArray(this.open) && !this.openMultiple) return;
+            forEach(this.items, (item, index) => {
+                this.openInternal[index] = isArray(this.open) ? this.open.includes(index) : this.open === index;
+            });
         }
     },
     mounted() {
         this.groupId = "ba-" + this._uid;
 
-        forEach(this.items, (item, index) => {
-            this.open[index] = false;
-        });
-
-        this.openByHash();
-
-        window.addEventListener("hashchange", () => {
-            this.openByHash();
-        });
+        this.onChangeOpen();
+    },
+    watch: {
+        open() {
+            this.onChangeOpen();
+        }
     }
 };
 </script>
