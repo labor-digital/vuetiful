@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/labor-digital/vuetiful/compare/v1.13.0...v1.14.0) (2020-08-19)
+
+
+### Features
+
+* add open prop to control from outside with index of the arrays ([391c776](https://github.com/labor-digital/vuetiful/commit/391c7767aadb63331540c18503be9d95afaf06f7))
+
 ## [1.13.0](https://github.com/labor-digital/vuetiful/compare/v1.12.0...v1.13.0) (2020-08-12)
 
 
