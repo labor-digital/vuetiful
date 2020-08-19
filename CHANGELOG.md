@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/labor-digital/vuetiful/compare/v1.12.0...v1.13.0) (2020-08-12)
+
+
+### Features
+
+* Add calculation to decide which direction the menu opens -> Error when calculating opening direction ([6db2936](https://github.com/labor-digital/vuetiful/commit/6db29369574ea6d7e26f75accc77d1db9ec9a2b5))
+* Tabs/Accordion can now be controlled with hash in url - Add public open/close API ([88fe0ff](https://github.com/labor-digital/vuetiful/commit/88fe0ff607b7d86f117ecdf0cabc0c8d12b4f93b))
+
+
+### Bug Fixes
+
+* add max-height to display a scrollbar if outside of viewport ([15ddf3c](https://github.com/labor-digital/vuetiful/commit/15ddf3c3d8a4275e31cf852df22ee3803b03d508))
+* Date Field: Broken placeholder rendering ([869e900](https://github.com/labor-digital/vuetiful/commit/869e900df7d0c45e632bbc916088701979b8bbf6))
+
 ## [1.12.0](https://github.com/labor-digital/vuetiful/compare/v1.11.1...v1.12.0) (2020-07-23)
 
 
