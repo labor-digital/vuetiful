@@ -94,7 +94,10 @@ export default {
          * If index of the element given it opens the tab. Use open.sync to get the value back if needed.
          * The component will listen to changes of the prop.
          */
-        open: Number
+        open: {
+            type: Number,
+            default: 0
+        }
     },
     computed: {
         preparedItems() {
