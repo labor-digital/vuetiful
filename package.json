@@ -37,19 +37,19 @@
         "vue-cool-select": "^3.5.2"
     },
     "devDependencies": {
-        "@labor-digital/asset-building": "4.15.1",
-        "@babel/core": "^7.10.5",
-        "@labor-digital/asset-building-env-vuejs": "^2.14.0",
-        "@storybook/addon-actions": "^5.3.19",
-        "@storybook/addon-docs": "^5.3.19",
-        "@storybook/addon-knobs": "^5.3.19",
-        "@storybook/addon-links": "^5.3.19",
-        "@storybook/addon-viewport": "^5.3.19",
-        "@storybook/addons": "^5.3.19",
+        "@labor-digital/asset-building": "5.0.1",
+        "@babel/core": "^7.11.4",
+        "@labor-digital/asset-building-env-vuejs": "^3.0.0",
+        "@storybook/addon-actions": "^6.0.19",
+        "@storybook/addon-docs": "^6.0.19",
+        "@storybook/addon-knobs": "^6.0.19",
+        "@storybook/addon-links": "^6.0.19",
+        "@storybook/addon-viewport": "^6.0.19",
+        "@storybook/addons": "^6.0.19",
         "@storybook/preset-typescript": "^3.0.0",
-        "@storybook/vue": "^5.3.19",
+        "@storybook/vue": "^6.0.19",
         "babel-loader": "^8.1.0",
         "babel-preset-vue": "^2.0.2",
-        "fork-ts-checker-webpack-plugin": "^5.0.9"
+        "fork-ts-checker-webpack-plugin": "^5.1.0"
     }
 }
