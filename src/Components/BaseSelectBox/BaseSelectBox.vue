@@ -112,6 +112,8 @@
 </template>
 
 <script lang="ts">
+import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
+import {isBrowser} from "@labor-digital/helferlein/lib/Environment/isBrowser";
 import {PlainObject} from "@labor-digital/helferlein/lib/Interfaces/PlainObject";
 import {filter} from "@labor-digital/helferlein/lib/Lists/filter";
 import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
@@ -277,6 +279,8 @@ export default {
     },
     data() {
         return {
+            proxy: new ComponentProxy(this),
+
             searchInput: "",
             isMenuShown: false,
             firstKeyPress: true,
@@ -469,23 +473,20 @@ export default {
         }
     },
     methods: {
+
+        /**
+         * Shows the dropdown menu
+         */
         showMenu() {
             clearTimeout(this.closeMenuTimeout);
             this.isMenuShown = true;
         },
-        singleSelectItemClasses(item: PreparedItem) {
-            return {
-                "baseSelectBox__item--highlighted": item.value === this.highlightedValue
-            };
-        },
-        onInputFocus() {
-            this.showMenu();
-        },
-        onInputBlur() {
-            if (this.preventNextBlur) {
-                this.preventNextBlur = false;
-                return;
-            }
+
+        /**
+         * Closes the dropdown menu and resets the search input
+         */
+        hideMenu() {
+            clearTimeout(this.closeMenuTimeout);
             this.closeMenuTimeout = setTimeout(() => {
                 this.searchInput = "";
                 this.firstKeyPress = true;
@@ -494,10 +495,18 @@ export default {
                 this.keyStroke = 0;
             }, 40);
         },
+
+        singleSelectItemClasses(item: PreparedItem) {
+            return {
+                "baseSelectBox__item--highlighted": item.value === this.highlightedValue
+            };
+        },
+
         onSingleSelectItemClick(item: PreparedItem) {
             clearTimeout(this.closeMenuTimeout);
             this.$emit("input", item);
         },
+
         onDeleteKeyDown() {
             if (
                 !this.isMultiSelect ||
@@ -509,10 +518,15 @@ export default {
             valueClone.pop();
             this.$emit("input", valueClone);
         },
+
         onEnterKeyDown() {
             if (this.firstKeyPress) return;
 
             if (this.isMultiSelect) {
+                if (isUndefined(this.$refs.checkboxList)) {
+                    return;
+                }
+
                 // Search the correct item on the checkbox component
                 const checkboxList = this.$refs.checkboxList;
                 const targetItem = this.filteredItems[this.keyStroke];
@@ -531,13 +545,14 @@ export default {
                 forEach(this.preparedItems, (item: PreparedItem) => {
                     if (item.value === this.highlightedValue) {
                         this.searchInput = "";
-                        this.onInputBlur();
+                        this.hideMenu();
                         this.$emit("input", item);
                         return false;
                     }
                 });
             }
         },
+
         onUpDownKeyDown(down: boolean) {
             this.showMenu();
             if (!this.firstKeyPress) {
@@ -550,6 +565,7 @@ export default {
             const item = this.filteredItems[this.keyStroke];
             this.highlightedValue = item.value;
         },
+
         onMultiSelectCheckboxInput(val) {
             this.preventNextBlur = true;
             // Translate the items
@@ -558,38 +574,57 @@ export default {
                 this.preparedItems.filter((item: PreparedItem) =>
                     newValues.indexOf(item.value) !== -1));
         },
-        onDocumentClick() {
-            this.onInputBlur();
+
+        onInputFocus() {
+            this.showMenu();
         },
-        checkMenuDirection() {
-            this.inputHeight = this.$refs.selectBoxInput.$el.scrollHeight;
-            const menu = this.$refs.selectBoxMenu.style;
-            const inputOffset = this.$refs.selectBoxInput.$el.offsetParent.offsetTop;
-            let space = window.innerHeight - inputOffset;
 
-            menu.display = "block";
-            menu.visibility = "hidden";
+        onDocumentClick() {
+            this.hideMenu();
+        },
 
-            let menuSize = this.$refs.selectBoxMenu.scrollHeight;
-
-            menu.display = "none";
-            menu.visibility = "";
-
-            if (menuSize >= inputOffset) {
-                this.menuDirectionBottom = true;
+        onInputBlur() {
+            if (this.preventNextBlur) {
+                this.preventNextBlur = false;
                 return;
             }
-            console.log(menuSize, inputOffset);
+            this.hideMenu();
+        },
 
-            this.menuDirectionBottom = space >= menuSize;
+        checkMenuDirection() {
 
+            if (isUndefined(this.$refs.selectBoxMenu)
+                || isUndefined(this.$refs.selectBoxInput)
+                || !isBrowser()) {
+                return;
+            }
+
+            const $inputEl = this.$refs.selectBoxInput.$el;
+            this.inputHeight = $inputEl.scrollHeight;
+            const inputOffset = $inputEl.offsetParent.offsetTop;
+            const remainingHeight = window.innerHeight - inputOffset;
+
+            const $menuEl = this.$refs.selectBoxMenu;
+            const menuStyle = $menuEl.style;
+            const displayBackup = menuStyle.display;
+            const visibilityBackup = menuStyle.visibility;
+
+            menuStyle.display = "block";
+            menuStyle.visibility = "hidden";
+
+            let menuHeight = $menuEl.scrollHeight;
+
+            menuStyle.display = displayBackup;
+            menuStyle.visibility = visibilityBackup;
+
+            return this.menuDirectionBottom = menuHeight >= inputOffset || remainingHeight >= menuHeight;
         }
     },
     mounted() {
         this.checkMenuDirection();
 
-        window.addEventListener("resize", this.checkMenuDirection);
-        window.addEventListener("scroll", this.checkMenuDirection);
+        this.proxy.bind(window, "resize", () => this.checkMenuDirection());
+        this.proxy.bind(window, "scroll", () => this.checkMenuDirection());
     },
     watch: {
         isMenuShown(n, o) {
@@ -597,16 +632,14 @@ export default {
                 return;
             }
             if (n) {
-                document.addEventListener("click", this.onDocumentClick);
+                this.proxy.bind(document, "click", () => this.onDocumentClick());
             } else {
-                document.removeEventListener("click", this.onDocumentClick);
+                this.proxy.unbind(document, "click", () => this.onDocumentClick());
             }
         }
     },
-    destroyed(): void {
-        document.removeEventListener("click", this.onDocumentClick);
-        document.removeEventListener("resize", this.onDocumentClick);
-        document.removeEventListener("scroll", this.onDocumentClick);
+    beforeDestroy(): void {
+        this.proxy.destroy();
     }
 };
 </script>
