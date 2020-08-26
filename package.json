@@ -37,9 +37,9 @@
         "vue-cool-select": "^3.5.2"
     },
     "devDependencies": {
-        "@labor-digital/asset-building": "5.0.1",
         "@babel/core": "^7.11.4",
-        "@labor-digital/asset-building-env-vuejs": "^3.0.0",
+        "@labor-digital/asset-building": "5.0.1",
+        "@labor-digital/asset-building-env-vuejs": "^3.1.0",
         "@storybook/addon-actions": "^5.3.19",
         "@storybook/addon-docs": "^5.3.19",
         "@storybook/addon-knobs": "^5.3.19",
