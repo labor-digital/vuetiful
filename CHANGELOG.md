@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.1](https://github.com/labor-digital/vuetiful/compare/v1.15.0...v1.15.1) (2020-08-27)
+
+
+### Bug Fixes
+
+* **InputField:** allow longer TDLs in email addresses ([77a30fa](https://github.com/labor-digital/vuetiful/commit/77a30fadd1de5ece6e13a00c690b089735f5126c))
+
 ## [1.15.0](https://github.com/labor-digital/vuetiful/compare/v1.14.1...v1.15.0) (2020-08-26)
 
 
