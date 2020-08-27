@@ -26,7 +26,7 @@
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
             <span v-if="type === 'date' && !focus && this.placeholder !== ''" class="inputField__placeholder">
-                {{ isEmpty ? placeholder : '' }}
+                {{ isEmpty ? placeholder : "" }}
             </span>
             <input class="inputField__input"
                    :style="stylesDate"
@@ -197,7 +197,7 @@ export default {
                 this.errorEmail = null;
                 return;
             }
-            this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+            this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/.test(value);
             if (!this.hasError) this.validEmail ?
                 this.errorEmail = null :
                 this.errorEmail = this.emailValidationLabel;
