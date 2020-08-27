@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/labor-digital/vuetiful/compare/v1.14.1...v1.15.0) (2020-08-26)
+
+
+### Features
+
+* update dependencies ([0ab3785](https://github.com/labor-digital/vuetiful/commit/0ab37850e6da62e1a0e57318604c3587c59e310c))
+* **BaseSelectBox:** fix multiple issues with non existent refs + code cleanup ([ec97fa8](https://github.com/labor-digital/vuetiful/commit/ec97fa8784d606c86e77a1a43baeae5fe1aba7ac))
+
+
+### Bug Fixes
+
+* update vuejs env package ([a4fc492](https://github.com/labor-digital/vuetiful/commit/a4fc4927489e87695d77dec09326c91da6af99ab))
+
 ### [1.14.1](https://github.com/labor-digital/vuetiful/compare/v1.14.0...v1.14.1) (2020-08-20)
 
 
