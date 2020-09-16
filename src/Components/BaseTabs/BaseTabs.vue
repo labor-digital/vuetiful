@@ -24,13 +24,13 @@
                  ref="titles">
 
                 <!-- @slot Used to add additional elements before the label -->
-                <slot name="beforeLabel"/>
+                <slot name="beforeLabel" :item="item"/>
 
                 <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
-                <slot name="label" :label="item">{{ item.label }}</slot>
-
+                <slot name="label" :item="item" :label="item">{{ item.label }}</slot>
+                <!-- @todo it seems wrong that ":label" gets item here... -->
                 <!-- @slot Used to add additional elements after the label -->
-                <slot name="afterLabel"/>
+                <slot name="afterLabel" :item="item"/>
             </div>
         </div>
         <div class="tabs__tabs" :class="classes">
