@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.2](https://github.com/labor-digital/vuetiful/compare/v1.15.1...v1.15.2) (2020-09-16)
+
+
+### Bug Fixes
+
+* **Basetabs:** add item prop to all slots ([77adf7e](https://github.com/labor-digital/vuetiful/commit/77adf7e2666e84f8beaf3394735bbcc3f200067a))
+
 ### [1.15.1](https://github.com/labor-digital/vuetiful/compare/v1.15.0...v1.15.1) (2020-08-27)
 
 
