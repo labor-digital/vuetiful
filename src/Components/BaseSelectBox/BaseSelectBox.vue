@@ -595,7 +595,8 @@ export default {
 
             if (isUndefined(this.$refs.selectBoxMenu)
                 || isUndefined(this.$refs.selectBoxInput)
-                || !isBrowser()) {
+                || !isBrowser()
+                || isEmpty(this.$refs.selectBoxInput.$el)) {
                 return;
             }
 
