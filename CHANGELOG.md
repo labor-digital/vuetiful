@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/labor-digital/vuetiful/compare/v1.15.2...v1.16.0) (2020-10-30)
+
+
+### Features
+
+* update dependencies ([36c8cef](https://github.com/labor-digital/vuetiful/commit/36c8cef108c7ba8e1a2e828fba89429079d8b8f6))
+* update dependencies ([17ff0f1](https://github.com/labor-digital/vuetiful/commit/17ff0f173db2c40133571e80ad74930b9fb2b04a))
+
+
+### Bug Fixes
+
+* **BaseSelectBox:** fix bug when input offset is calculated ([bc33322](https://github.com/labor-digital/vuetiful/commit/bc33322c88357e1a9cf0ff0b5156c3ab1174c4c4))
+
 ### [1.15.2](https://github.com/labor-digital/vuetiful/compare/v1.15.1...v1.15.2) (2020-09-16)
 
 
