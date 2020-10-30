@@ -33,13 +33,13 @@
     },
     "license": "Apache-2.0",
     "dependencies": {
-        "@labor-digital/helferlein": "^3.23.1",
+        "@labor-digital/helferlein": "^3.25.0",
         "vue-cool-select": "^3.5.2"
     },
     "devDependencies": {
         "@babel/core": "^7.11.4",
-        "@labor-digital/asset-building": "5.0.1",
-        "@labor-digital/asset-building-env-vuejs": "^3.1.0",
+        "@labor-digital/asset-building": "8.0.4",
+        "@labor-digital/asset-building-env-vuejs": "^4.0.2",
         "@storybook/addon-actions": "^5.3.19",
         "@storybook/addon-docs": "^5.3.19",
         "@storybook/addon-knobs": "^5.3.19",
