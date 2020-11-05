@@ -33,15 +33,15 @@ export const Default = () => {
         {
             components: {Chips},
             template: `
-			<div>
-				<chips v-model="v" :items="items"/>
+                <div>
+                <chips v-model="v" :items="it"/>
                 <span style="display:block;color:#888;margin-top: 50px">Emitted value:
-                    <pre>{{v}}</pre>
+                    <pre>{{ v }}</pre>
                 </span>
-				<button @click="addChip">Add Chip</button>
-			</div>`,
+                <button @click="addChip">Add Chip</button>
+                </div>`,
             props: {
-                items: {
+                it: {
                     default: object('Input', ['Foo', 'Bar'])
                 },
                 error: {

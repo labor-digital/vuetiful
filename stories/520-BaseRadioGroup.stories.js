@@ -34,21 +34,21 @@ export const Default = () => {
             components: {BaseRadioGroup},
             template: `
                 <div>
-                    <base-radio-group
-                        v-model="v"
-                        :items="items"
-                        :item-label="itemLabel"
-                        :item-value="itemValue"
-                        :label-side="labelSide"
-                        :name="name"
-                        :error="error"
-                    />
-                    <span style="display:block;color:#888;margin-top: 50px">Current model value:
-                    <pre>{{v}}</pre>
+                <base-radio-group
+                    v-model="v"
+                    :items="it"
+                    :item-label="itemLabel"
+                    :item-value="itemValue"
+                    :label-side="labelSide"
+                    :name="name"
+                    :error="error"
+                />
+                <span style="display:block;color:#888;margin-top: 50px">Current model value:
+                    <pre>{{ v }}</pre>
                 </span>
                 </div>`,
             props: {
-                items: {
+                it: {
                     default: object('Items', ['Test1', 'Test2', 'Test3'])
                 },
                 labelSide: {

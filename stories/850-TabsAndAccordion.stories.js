@@ -35,17 +35,17 @@ export const Default = () => {
             components: {BaseTabs, BaseAccordion},
             template: `
                 <div>
-                    <component :is="isComponent" :items="items" :open-multiple="openMultiple">
-                        <template :slot="items[0]">
-                            HALLO FOO
-                        </template>
-                        <template :slot="items[1]">
-                            HALLO BAR
-                        </template>
-                    </component>
+                <component :is="isComponent" :items="it" :open-multiple="openMultiple">
+                    <template :slot="it[0]">
+                        HALLO FOO
+                    </template>
+                    <template :slot="it[1]">
+                        HALLO BAR
+                    </template>
+                </component>
                 </div>`,
             props: {
-                items: {
+                it: {
                     default: object('Input', ['Tab Title 1', 'Tab Title 2'])
                 },
                 isComponent: {

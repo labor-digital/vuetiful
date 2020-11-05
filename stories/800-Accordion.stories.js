@@ -35,23 +35,24 @@ export const Default = () => {
             components: {BaseAccordion},
             template: `
                 <div>
-                <base-accordion :open="[0,1]" :items="items" :open-multiple="openMultiple" :item-label="itemLabel">
-                    <template :slot="items[0].label">
+                {{ it }}
+                <base-accordion :open="[0,1]" :items="it" :open-multiple="openMultiple" :item-label="itemLabel">
+                    <template :slot="it[0].label">
                         <div style="padding-bottom: 30px">HALLO FOO</div>
                     </template>
-                    <template :slot="items[1]">
+                    <template :slot="it[1]">
                         <div style="padding-bottom: 30px">HALLO BAR</div>
                     </template>
                 </base-accordion>
                 </div>`,
             props: {
-                items: {
-                    default: object('Input', [
+                it: {
+                    default: () => object('Input', [
                         {
                             'label': 'Acc Title 1'
                         },
                         'Acc Title 2'
-                    ])
+                    ], 'group')
                 },
                 openMultiple: {
                     default: () => boolean('Multiple?', false)
