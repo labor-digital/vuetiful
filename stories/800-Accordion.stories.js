@@ -16,9 +16,10 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {boolean, number, object, text, withKnobs} from '@storybook/addon-knobs';
+import {boolean, button, number, object, text, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
 import '../src/Components/SelectBox/Storybook.sass';
+import Item from '../src/Components/Utils/Item/Item.vue';
 
 // Global configuration of your component
 export default {
@@ -60,6 +61,76 @@ export const Default = () => {
                 },
                 open: {
                     default: () => number('open', 0)
+                }
+            },
+            data()
+            {
+                return {
+                    v: []
+                };
+            }
+        }
+    );
+};
+
+export const UsingItems = () => {
+    return (
+        {
+            components: {BaseAccordion, Item},
+            template: `
+                <div>
+                <base-accordion
+                    ref="accordion"
+                    :open-multiple="openMultiple"
+                    use-items>
+                    <Item label="A">
+                        A Content
+                    </Item>
+                    <Item label="B">
+                        B Content
+                    </Item>
+                    // use either "key" or "id" to define a unique name for this item
+                    // you can later use this in openItem() and closeItem() for programmatic access
+                    <Item label="C" key="c">
+                        C Content
+                    </Item>
+                </base-accordion>
+                </div>`,
+            props: {
+                openMultiple: {
+                    default: () => boolean('Allow to open multiple items', false)
+                },
+                openItem: {
+                    default()
+                    {
+                        button('Open item "C" programmatically', () => {
+                            this.$refs.accordion.openItem('c');
+                        });
+                    }
+                },
+                closeItem: {
+                    default()
+                    {
+                        button('Close item "C" programmatically', () => {
+                            this.$refs.accordion.closeItem('c');
+                        });
+                    }
+                },
+                closeItems: {
+                    default()
+                    {
+                        button('Close all items programmatically', () => {
+                            this.$refs.accordion.closeAllItems();
+                        });
+                    }
+                },
+                openItems: {
+                    default()
+                    {
+                        button('Open all items programmatically (try this with: Allow to open multiple items)', () => {
+                            this.$refs.accordion.openAllItems();
+                        });
+                    }
                 }
             },
             data()
