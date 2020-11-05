@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/labor-digital/vuetiful/compare/v1.16.0...v1.17.0) (2020-11-05)
+
+
+### Features
+
+* **BaseAccordion:** implement new item api ([c718c55](https://github.com/labor-digital/vuetiful/commit/c718c55464ac98e860b804b997e61a1ae34f73a2))
+
 ## [1.16.0](https://github.com/labor-digital/vuetiful/compare/v1.15.2...v1.16.0) (2020-10-30)
 
 
