@@ -20,9 +20,10 @@
  * Internal helper component to render a v-node
  */
 export default {
-    name: "ItemContentRenderer",
+    name: 'ItemContentRenderer',
     functional: true,
-    render(h, ctx) {
+    render(h, ctx)
+    {
         return ctx.props.vnode;
     }
 };

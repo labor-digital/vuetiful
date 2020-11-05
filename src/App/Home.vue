@@ -34,20 +34,20 @@
 </template>
 
 <script lang="ts">
-	export default {
-		name: "Home.vue"
-	};
+export default {
+    name: 'Home.vue'
+};
 </script>
 
 <style scoped lang="sass">
-    .vuetifulHome
-        line-height: 1.4
-        font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif
-        
-        .container
-            max-width: 600px
-        
-        a
-            color: #1e3c5a
-            text-decoration: none
+.vuetifulHome
+    line-height: 1.4
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif
+
+    .container
+        max-width: 600px
+
+    a
+        color: #1e3c5a
+        text-decoration: none
 </style>

@@ -71,17 +71,17 @@
 </template>
 
 <script lang="ts">
-import {PlainObject} from "@labor-digital/helferlein/lib/Interfaces/PlainObject";
-import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-import {map} from "@labor-digital/helferlein/lib/Lists/map";
-import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
-import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-import Vue from "vue";
-import ItemAwareMixin, {ItemDefinition} from "../Utils/Item/ItemAwareMixin";
-import ItemContentRenderer from "../Utils/Item/ItemContentRenderer.vue";
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {map} from '@labor-digital/helferlein/lib/Lists/map';
+import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import Vue from 'vue';
+import ItemAwareMixin, {ItemDefinition} from '../Utils/Item/ItemAwareMixin';
+import ItemContentRenderer from '../Utils/Item/ItemContentRenderer.vue';
 
 export default {
-    name: "BaseAccordion",
+    name: 'BaseAccordion',
     components: {ItemContentRenderer},
     mixins: [ItemAwareMixin],
     props: {
@@ -143,7 +143,8 @@ export default {
         /**
          * Returns the list of items that have been found using either the items prop, or the items child objects
          */
-        preparedItems(): Array<ItemDefinition> {
+        preparedItems(): Array<ItemDefinition>
+        {
 
             let items = [];
 
@@ -177,7 +178,8 @@ export default {
          * (except if you are using openMultiple!). If you set this to false all currently opened items stay open.
          * @public
          */
-        openItem(id: number | string, closeOthers?: boolean): void {
+        openItem(id: number | string, closeOthers?: boolean): void
+        {
             if (isUndefined(closeOthers)) {
                 closeOthers = !this.openMultiple;
             }
@@ -201,7 +203,8 @@ export default {
          * Allows you to close the item with the given id programmatically
          * @public
          */
-        closeItem(id: number | string): void {
+        closeItem(id: number | string): void
+        {
             forEach(this.preparedItems, item => {
                 if (item.id === id) {
                     item.open = false;
@@ -214,7 +217,8 @@ export default {
          * Closes all currently open items
          * @public
          */
-        closeAllItems(): void {
+        closeAllItems(): void
+        {
             forEach(this.preparedItems, item => {
                 item.open = false;
             });
@@ -224,7 +228,8 @@ export default {
          * Opens the first item, or all items if openMultiple is set to true
          * @public
          */
-        openAllItems(): void {
+        openAllItems(): void
+        {
             forEach(this.preparedItems, item => {
                 item.open = true;
                 if (!this.openMultiple) {
@@ -237,7 +242,8 @@ export default {
          * Event handler when the label of an item was clicked
          * @param item
          */
-        onClickToggle(item: PlainObject) {
+        onClickToggle(item: PlainObject)
+        {
             if (item.open) {
                 item.open = false;
                 return;
@@ -248,34 +254,41 @@ export default {
             /**
              * Emits an event with "open" and the index of the accordion
              */
-            this.$emit("open", item.id);
-            this.$emit("update:open", item.id);
+            this.$emit('open', item.id);
+            this.$emit('update:open', item.id);
         },
 
-        startTransition(el) {
-            el.style.height = el.scrollHeight + "px";
+        startTransition(el)
+        {
+            el.style.height = el.scrollHeight + 'px';
         },
 
-        endTransition(el) {
-            el.style.height = "";
+        endTransition(el)
+        {
+            el.style.height = '';
         },
 
         /**
          * @deprecated will be removed in next major version
          */
-        onChangeOpen() {
+        onChangeOpen()
+        {
             const isOpenArray = isArray(this.open);
-            if (isOpenArray && !this.openMultiple) return;
+            if (isOpenArray && !this.openMultiple) {
+                return;
+            }
             forEach(this.preparedItems, item => {
                 item.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
             });
         }
     },
-    mounted() {
+    mounted()
+    {
         this.onChangeOpen();
     },
     watch: {
-        open() {
+        open()
+        {
             this.onChangeOpen();
         }
     }

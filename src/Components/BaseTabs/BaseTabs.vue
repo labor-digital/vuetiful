@@ -59,10 +59,10 @@
 
 <script lang="ts">
 
-import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 
 export default {
-    name: "BaseTabs",
+    name: 'BaseTabs',
     props: {
         /**
          * The list of items that should be used. The items are also the name
@@ -100,7 +100,8 @@ export default {
         }
     },
     computed: {
-        preparedItems() {
+        preparedItems()
+        {
             const items = [];
             forEach(this.items, (item, index) => {
                 items[index] = {
@@ -111,7 +112,8 @@ export default {
             return items;
         }
     },
-    data() {
+    data()
+    {
         return {
             openInternal: this.open,
             oldTabHeight: 0,
@@ -119,24 +121,28 @@ export default {
         };
     },
     methods: {
-        onClickOpenTab(i) {
+        onClickOpenTab(i)
+        {
             this.openInternal = i;
 
             /**
              * Emits an event with "open" and the index of the tab
              */
-            this.$emit("open", i);
-            this.$emit("update:open", i);
+            this.$emit('open', i);
+            this.$emit('update:open', i);
         },
-        beforeLeaving(el) {
-            el.style.position = "absolute";
+        beforeLeaving(el)
+        {
+            el.style.position = 'absolute';
         },
-        afterLeaving(el) {
-            el.style.position = "";
+        afterLeaving(el)
+        {
+            el.style.position = '';
         }
     },
     watch: {
-        open(v) {
+        open(v)
+        {
             this.openInternal = v;
         }
 

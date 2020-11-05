@@ -17,23 +17,23 @@
   -->
 
 <template>
-    <div :style="{background: toggle ? 'green': 'white'}">Dummy :) {{text}}</div>
+    <div :style="{background: toggle ? 'green': 'white'}">Dummy :) {{ text }}</div>
 </template>
 
 <script lang="ts">
-	export default {
-		name: "Dummy",
-		props: {
-			text: {
-				type: String,
-				default: ""
-			},
-			toggle: {
-				type: Boolean,
-				default: false
-			}
-		}
-	};
+export default {
+    name: 'Dummy',
+    props: {
+        text: {
+            type: String,
+            default: ''
+        },
+        toggle: {
+            type: Boolean,
+            default: false
+        }
+    }
+};
 </script>
 
 <style scoped lang="sass"></style>

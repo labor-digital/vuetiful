@@ -17,7 +17,7 @@
   -->
 <script lang="ts">
 export default {
-    name: "Item",
+    name: 'Item',
     isVuetifulItem: true,
     props: {
         /**
@@ -26,7 +26,7 @@ export default {
         label: {
             type: String,
             required: true,
-            default: ""
+            default: ''
         },
         /**
          * Allows you to specify a unique id/key for this item.
@@ -38,11 +38,13 @@ export default {
             default: null
         }
     },
-    render() {
+    render()
+    {
         return this.$slots.default;
     },
     computed: {
-        isVuetifulItem(): boolean {
+        isVuetifulItem(): boolean
+        {
             return true;
         }
     }

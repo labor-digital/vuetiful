@@ -26,7 +26,7 @@
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
             <span v-if="type === 'date' && !focus && this.placeholder !== ''" class="inputField__placeholder">
-                {{ isEmpty ? placeholder : "" }}
+                {{ isEmpty ? placeholder : '' }}
             </span>
             <input class="inputField__input"
                    :style="stylesDate"
@@ -62,11 +62,11 @@
 </template>
 
 <script lang="ts">
-import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
+import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 
 export default {
-    name: "InputField",
+    name: 'InputField',
     props: {
         /**
          * set label for input field or use default slot
@@ -82,10 +82,10 @@ export default {
          * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
          */
         type: {
-            default: "text",
+            default: 'text',
             type: String,
             validator: (v) => {
-                return ["text", "password", "email", "url", "date", "datetime", "number"].indexOf(v) !== -1;
+                return ['text', 'password', 'email', 'url', 'date', 'datetime', 'number'].indexOf(v) !== -1;
             }
         },
         /**
@@ -141,75 +141,90 @@ export default {
          */
         emailValidationLabel: {
             type: String,
-            default: "Please enter a valid email address! (Example: 'example@example.org')"
+            default: 'Please enter a valid email address! (Example: \'example@example.org\')'
         }
     },
-    data() {
+    data()
+    {
         return {
             focus: false,
             validEmail: true,
-            errorEmail: ""
+            errorEmail: ''
         };
     },
     computed: {
-        isEmpty(): boolean {
+        isEmpty(): boolean
+        {
             return isEmpty(this.value);
         },
-        hasLabel(): boolean {
+        hasLabel(): boolean
+        {
             return !isEmpty(this.$slots.default) || !isEmpty(this.label);
         },
-        hasError(): boolean {
+        hasError(): boolean
+        {
             return !isEmpty(this.$slots.error) || !isEmpty(this.error);
         },
-        hasValue(): boolean {
+        hasValue(): boolean
+        {
             return this.clearIcon && !this.isEmpty;
         },
-        classes(): Object {
+        classes(): Object
+        {
             return {
-                "inputField--required": this.required,
-                "inputField--disabled": this.disabled,
-                "inputField--readonly": this.readOnly,
-                "inputField--error": this.error !== "" && !isUndefined(this.error) || !this.validEmail
+                'inputField--required': this.required,
+                'inputField--disabled': this.disabled,
+                'inputField--readonly': this.readOnly,
+                'inputField--error': this.error !== '' && !isUndefined(this.error) || !this.validEmail
             };
         },
-        stylesDate(): Object {
+        stylesDate(): Object
+        {
             return {
-                color: this.isEmpty && !this.focus && this.type === "date" && this.placeholder !== "" ? "transparent" : ""
+                color: this.isEmpty && !this.focus && this.type === 'date' && this.placeholder !== '' ? 'transparent' : ''
             };
         }
     },
     methods: {
-        updateValue(event: Event) {
-            this.$emit("input", event.target.value ?? "");
+        updateValue(event: Event)
+        {
+            this.$emit('input', event.target.value ?? '');
         },
-        onBlur(e) {
+        onBlur(e)
+        {
             this.focus = false;
-            this.$emit("blur", e);
+            this.$emit('blur', e);
         },
-        onFocus(e) {
+        onFocus(e)
+        {
             this.focus = true;
-            this.$emit("focus", e);
+            this.$emit('focus', e);
         },
-        validateEmail(value): boolean {
-            value = value + "";
-            if (value.trim() === "") {
+        validateEmail(value): boolean
+        {
+            value = value + '';
+            if (value.trim() === '') {
                 this.validEmail = true;
                 this.errorEmail = null;
                 return;
             }
             this.validEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/.test(value);
-            if (!this.hasError) this.validEmail ?
-                this.errorEmail = null :
-                this.errorEmail = this.emailValidationLabel;
+            if (!this.hasError) {
+                this.validEmail ?
+                    this.errorEmail = null :
+                    this.errorEmail = this.emailValidationLabel;
+            }
         },
-        clearInput() {
-            this.$emit("input", "");
-            this.$emit("clear");
+        clearInput()
+        {
+            this.$emit('input', '');
+            this.$emit('clear');
         }
     },
     watch: {
-        value(v) {
-            if (this.type === "email") {
+        value(v)
+        {
+            if (this.type === 'email') {
                 this.validateEmail(v);
             }
         }

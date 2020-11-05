@@ -112,23 +112,24 @@
 </template>
 
 <script lang="ts">
-import {ComponentProxy} from "@labor-digital/helferlein/lib/Entities/ComponentProxy";
-import {isBrowser} from "@labor-digital/helferlein/lib/Environment/isBrowser";
-import {PlainObject} from "@labor-digital/helferlein/lib/Interfaces/PlainObject";
-import {filter} from "@labor-digital/helferlein/lib/Lists/filter";
-import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-import {map} from "@labor-digital/helferlein/lib/Lists/map";
-import {getPath} from "@labor-digital/helferlein/lib/Lists/Paths/getPath";
-import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
-import {isEmpty} from "@labor-digital/helferlein/lib/Types/isEmpty";
-import {isPlainObject} from "@labor-digital/helferlein/lib/Types/isPlainObject";
-import {isString} from "@labor-digital/helferlein/lib/Types/isString";
-import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-import Checkbox from "../Checkbox/Checkbox.vue";
-import Chips from "../Chips/Chips.vue";
-import InputField from "../InputField/InputField.vue";
+import {ComponentProxy} from '@labor-digital/helferlein/lib/Entities/ComponentProxy';
+import {isBrowser} from '@labor-digital/helferlein/lib/Environment/isBrowser';
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {filter} from '@labor-digital/helferlein/lib/Lists/filter';
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {map} from '@labor-digital/helferlein/lib/Lists/map';
+import {getPath} from '@labor-digital/helferlein/lib/Lists/Paths/getPath';
+import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
+import {isString} from '@labor-digital/helferlein/lib/Types/isString';
+import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import Checkbox from '../Checkbox/Checkbox.vue';
+import Chips from '../Chips/Chips.vue';
+import InputField from '../InputField/InputField.vue';
 
-interface PreparedItem {
+interface PreparedItem
+{
     /**
      * The visible label of this item
      */
@@ -161,7 +162,7 @@ interface PreparedItem {
  *
  */
 export default {
-    name: "BaseSelectBox",
+    name: 'BaseSelectBox',
     props: {
         /**
          * Set this to true if you want to render the component as a "multi-select" box,
@@ -213,8 +214,8 @@ export default {
          */
         itemText: {
             type: String,
-            default: "label",
-            note: "property in item for text."
+            default: 'label',
+            note: 'property in item for text.'
         },
 
         /**
@@ -223,8 +224,8 @@ export default {
          */
         itemValue: {
             type: String,
-            default: "value",
-            note: "property in item for value."
+            default: 'value',
+            note: 'property in item for value.'
         },
 
         // @todo implement this
@@ -277,11 +278,12 @@ export default {
             type: String
         }
     },
-    data() {
+    data()
+    {
         return {
             proxy: new ComponentProxy(this),
 
-            searchInput: "",
+            searchInput: '',
             isMenuShown: false,
             firstKeyPress: true,
             keyStroke: 0,
@@ -299,7 +301,8 @@ export default {
          * The unified, comparable version of value,
          * because there are multiple optional input variants that should be handled correctly
          */
-        preparedValue(): Array<PreparedItem> | PreparedItem | null {
+        preparedValue(): Array<PreparedItem> | PreparedItem | null
+        {
 
             // Empty value
             if (isEmpty(this.value)) {
@@ -321,8 +324,8 @@ export default {
                     if (!isUndefined(_val)) {
                         value = _val;
                     } else {
-                        console.error("Invalid value given! The value key \"" +
-                            this.itemValue + "\" was not found on the input value:", value);
+                        console.error('Invalid value given! The value key "' +
+                                      this.itemValue + '" was not found on the input value:', value);
                     }
                 }
                 // Try to find the value in the list of items
@@ -335,7 +338,7 @@ export default {
                     }
                 });
                 if (!found) {
-                    console.error("Invalid value given! The following value was not found in the list of items:", value);
+                    console.error('Invalid value given! The following value was not found in the list of items:', value);
                 }
             });
 
@@ -351,13 +354,14 @@ export default {
          * this is used to convert all incoming "items" to be comparable with each other.
          * @internal
          */
-        preparedItems(): Array<PreparedItem> {
+        preparedItems(): Array<PreparedItem>
+        {
             // Make items comparable
             return map(this.items, (item) => {
                 // Create an empty item
                 const _item: PreparedItem = {
-                    label: "",
-                    labelLc: "",
+                    label: '',
+                    labelLc: '',
                     value: null,
                     classes: {},
                     raw: item
@@ -365,10 +369,10 @@ export default {
 
                 // Convert simple string or number items
                 if (!isPlainObject(item)) {
-                    _item.label = item + "";
+                    _item.label = item + '';
                     _item.value = _item.label;
                 } else {
-                    _item.label = getPath(item, [this.itemText], "") + "";
+                    _item.label = getPath(item, [this.itemText], '') + '';
                     _item.value = getPath(item, [this.itemValue], item);
                 }
 
@@ -381,28 +385,33 @@ export default {
         /**
          * The list of all items based on the current input value.
          */
-        filteredItems() {
+        filteredItems()
+        {
             this.forcedFilteredItemsUpdate;
 
             // Prepare working values
-            const searchInputLc = (this.searchInput + "").toLowerCase();
+            const searchInputLc = (
+                this.searchInput + ''
+            ).toLowerCase();
 
             // First filter the items
             return filter(map(this.preparedItems, (item: PreparedItem) => {
                 // Filter the items based on the query string
-                if (!item.labelLc.includes(searchInputLc))
+                if (!item.labelLc.includes(searchInputLc)) {
                     return null;
+                }
 
                 // Check if the item is currently highlighted
                 const _item = {...item};
                 _item.classes = {
-                    "checkbox__label--highlighted": item.value === this.highlightedValue
+                    'checkbox__label--highlighted': item.value === this.highlightedValue
                 };
 
                 return _item;
             }), v => v !== null);
         },
-        searchFieldPlaceholder() {
+        searchFieldPlaceholder()
+        {
             if (!isEmpty(this.preparedValue)) {
                 if (this.isMultiSelect) {
                     return isString(this.multiSelectAltPlaceholder) ?
@@ -420,7 +429,7 @@ export default {
                 }
 
                 if (this.isMultiSelect) {
-                    return "";
+                    return '';
                 }
 
                 if (isEmpty(this.preparedValue)) {
@@ -439,7 +448,7 @@ export default {
                 // Update the value
                 forEach(this.preparedItems, (item: PreparedItem) => {
                     if (value === this.highlightedValue) {
-                        this.$emit("input", item);
+                        this.$emit('input', item);
                         return false;
                     }
                 });
@@ -447,28 +456,32 @@ export default {
         },
         chipList: {
             get: function () {
-                if (isEmpty(this.preparedValue)) return [];
+                if (isEmpty(this.preparedValue)) {
+                    return [];
+                }
                 return isArray(this.preparedValue) ? this.preparedValue : [this.preparedValue];
             },
             set: function (newChipItems) {
                 const valueFiltered = [];
-                const newValues = getPath(newChipItems, ["*", "value"], []);
+                const newValues = getPath(newChipItems, ['*', 'value'], []);
                 forEach(this.preparedValue, (item: PreparedItem) => {
                     if (newValues.indexOf(item.value) !== -1) {
                         valueFiltered.push(item);
                     }
                 });
-                this.$emit("input", valueFiltered);
+                this.$emit('input', valueFiltered);
             }
         },
-        menuClasses() {
+        menuClasses()
+        {
             return {
-                "baseSelectBox__menu--show": this.isMenuShown
+                'baseSelectBox__menu--show': this.isMenuShown
             };
         },
-        menuStyles() {
+        menuStyles()
+        {
             return {
-                bottom: !this.menuDirectionBottom ? this.inputHeight + "px" : ""
+                bottom: !this.menuDirectionBottom ? this.inputHeight + 'px' : ''
             };
         }
     },
@@ -477,7 +490,8 @@ export default {
         /**
          * Shows the dropdown menu
          */
-        showMenu() {
+        showMenu()
+        {
             clearTimeout(this.closeMenuTimeout);
             this.isMenuShown = true;
         },
@@ -485,10 +499,11 @@ export default {
         /**
          * Closes the dropdown menu and resets the search input
          */
-        hideMenu() {
+        hideMenu()
+        {
             clearTimeout(this.closeMenuTimeout);
             this.closeMenuTimeout = setTimeout(() => {
-                this.searchInput = "";
+                this.searchInput = '';
                 this.firstKeyPress = true;
                 this.highlightedValue = null;
                 this.isMenuShown = false;
@@ -496,31 +511,39 @@ export default {
             }, 40);
         },
 
-        singleSelectItemClasses(item: PreparedItem) {
+        singleSelectItemClasses(item: PreparedItem)
+        {
             return {
-                "baseSelectBox__item--highlighted": item.value === this.highlightedValue
+                'baseSelectBox__item--highlighted': item.value === this.highlightedValue
             };
         },
 
-        onSingleSelectItemClick(item: PreparedItem) {
+        onSingleSelectItemClick(item: PreparedItem)
+        {
             clearTimeout(this.closeMenuTimeout);
-            this.$emit("input", item);
+            this.$emit('input', item);
         },
 
-        onDeleteKeyDown() {
+        onDeleteKeyDown()
+        {
             if (
                 !this.isMultiSelect ||
-                this.searchInput !== "" ||
+                this.searchInput !== '' ||
                 isEmpty(this.value)
-            ) return;
+            ) {
+                return;
+            }
 
             const valueClone = [...this.preparedValue];
             valueClone.pop();
-            this.$emit("input", valueClone);
+            this.$emit('input', valueClone);
         },
 
-        onEnterKeyDown() {
-            if (this.firstKeyPress) return;
+        onEnterKeyDown()
+        {
+            if (this.firstKeyPress) {
+                return;
+            }
 
             if (this.isMultiSelect) {
                 if (isUndefined(this.$refs.checkboxList)) {
@@ -544,16 +567,17 @@ export default {
                 }
                 forEach(this.preparedItems, (item: PreparedItem) => {
                     if (item.value === this.highlightedValue) {
-                        this.searchInput = "";
+                        this.searchInput = '';
                         this.hideMenu();
-                        this.$emit("input", item);
+                        this.$emit('input', item);
                         return false;
                     }
                 });
             }
         },
 
-        onUpDownKeyDown(down: boolean) {
+        onUpDownKeyDown(down: boolean)
+        {
             this.showMenu();
             if (!this.firstKeyPress) {
                 this.keyStroke += down === true ? 1 : -1;
@@ -566,24 +590,28 @@ export default {
             this.highlightedValue = item.value;
         },
 
-        onMultiSelectCheckboxInput(val) {
+        onMultiSelectCheckboxInput(val)
+        {
             this.preventNextBlur = true;
             // Translate the items
-            const newValues = getPath(val, ["*", "value"], []);
-            this.$emit("input",
+            const newValues = getPath(val, ['*', 'value'], []);
+            this.$emit('input',
                 this.preparedItems.filter((item: PreparedItem) =>
                     newValues.indexOf(item.value) !== -1));
         },
 
-        onInputFocus() {
+        onInputFocus()
+        {
             this.showMenu();
         },
 
-        onDocumentClick() {
+        onDocumentClick()
+        {
             this.hideMenu();
         },
 
-        onInputBlur() {
+        onInputBlur()
+        {
             if (this.preventNextBlur) {
                 this.preventNextBlur = false;
                 return;
@@ -591,7 +619,8 @@ export default {
             this.hideMenu();
         },
 
-        checkMenuDirection() {
+        checkMenuDirection()
+        {
 
             if (isUndefined(this.$refs.selectBoxMenu)
                 || isUndefined(this.$refs.selectBoxInput)
@@ -610,8 +639,8 @@ export default {
             const displayBackup = menuStyle.display;
             const visibilityBackup = menuStyle.visibility;
 
-            menuStyle.display = "block";
-            menuStyle.visibility = "hidden";
+            menuStyle.display = 'block';
+            menuStyle.visibility = 'hidden';
 
             let menuHeight = $menuEl.scrollHeight;
 
@@ -621,25 +650,28 @@ export default {
             return this.menuDirectionBottom = menuHeight >= inputOffset || remainingHeight >= menuHeight;
         }
     },
-    mounted() {
+    mounted()
+    {
         this.checkMenuDirection();
 
-        this.proxy.bind(window, "resize", () => this.checkMenuDirection());
-        this.proxy.bind(window, "scroll", () => this.checkMenuDirection());
+        this.proxy.bind(window, 'resize', () => this.checkMenuDirection());
+        this.proxy.bind(window, 'scroll', () => this.checkMenuDirection());
     },
     watch: {
-        isMenuShown(n, o) {
+        isMenuShown(n, o)
+        {
             if (n === o) {
                 return;
             }
             if (n) {
-                this.proxy.bind(document, "click", () => this.onDocumentClick());
+                this.proxy.bind(document, 'click', () => this.onDocumentClick());
             } else {
-                this.proxy.unbind(document, "click", () => this.onDocumentClick());
+                this.proxy.unbind(document, 'click', () => this.onDocumentClick());
             }
         }
     },
-    beforeDestroy(): void {
+    beforeDestroy(): void
+    {
         this.proxy.destroy();
     }
 };

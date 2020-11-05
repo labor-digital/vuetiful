@@ -30,107 +30,112 @@
 </template>
 
 <script lang="ts">
-    import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-    import {isArray} from "@labor-digital/helferlein/lib/Types/isArray";
-    import BaseRadio from "./BaseRadio.vue";
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import BaseRadio from './BaseRadio.vue';
 
-    export default {
-        name: "BaseRadioGroup",
-        components: {BaseRadio},
-        model: {
-            prop: "checked",
-            event: "input"
+export default {
+    name: 'BaseRadioGroup',
+    components: {BaseRadio},
+    model: {
+        prop: 'checked',
+        event: 'input'
+    },
+    provide()
+    {
+        return {
+            isRadioGroup: this
+        };
+    },
+    props: {
+        /**
+         * Set your items/checkboxes as an Array or Object.
+         */
+        items: {
+            type: [Array, Object],
+            default: () => []
         },
-        provide() {
-            return {
-                isRadioGroup: this
-            };
+
+        /**
+         * If "items" contains an array of objects, this prop is used to select the object's property
+         * which should be used as a label.
+         */
+        itemLabel: {
+            type: String,
+            default: 'label',
+            note: 'property in item for text.'
         },
-        props: {
-            /**
-             * Set your items/checkboxes as an Array or Object.
-             */
-            items: {
-                type: [Array, Object],
-                default: () => []
-            },
 
-            /**
-             * If "items" contains an array of objects, this prop is used to select the object's property
-             * which should be used as a label.
-             */
-            itemLabel: {
-                type: String,
-                default: "label",
-                note: "property in item for text."
-            },
-
-            /**
-             * If "items" contains an array of objects, this prop is used to select the object's property
-             * which should be used as a value.
-             */
-            itemValue: {
-                type: String,
-                default: "value",
-                note: "property in item for value."
-            },
-
-            /**
-             * Set the required group name so that the inputs work together.
-             */
-            name: {
-                type: String,
-                required: true
-            },
-
-            /**
-             * v-model -> If you need preselected Items set this to the same as the value.
-             * Within a checkbox group use an array. If the values match it will preselect them.
-             * type: [String, Number, Boolean]
-             */
-            checked: {
-                default: null
-            }
+        /**
+         * If "items" contains an array of objects, this prop is used to select the object's property
+         * which should be used as a value.
+         */
+        itemValue: {
+            type: String,
+            default: 'value',
+            note: 'property in item for value.'
         },
-        computed: {
-            prepareItems() {
-                let preparedItems = [];
 
-                // Build a unique value map
-                const items = isArray(this.items) ? this.items : [];
-
-                // Build the prepared item list
-                forEach(items, (item) => {
-                    const _item = {
-                        value: item.value ?? item[this.itemValue] ?? item,
-                        label: item.label ?? item[this.itemLabel] ?? item,
-                        required: item.required ?? false,
-                        disabled: item.disabled ?? false,
-                        classes: item.classes ?? {}
-                    };
-
-                    preparedItems.push(_item);
-                });
-
-                return preparedItems;
-            }
+        /**
+         * Set the required group name so that the inputs work together.
+         */
+        name: {
+            type: String,
+            required: true
         },
-        data() {
-            return {
-                localChecked: this.checked || ""
-            };
+
+        /**
+         * v-model -> If you need preselected Items set this to the same as the value.
+         * Within a checkbox group use an array. If the values match it will preselect them.
+         * type: [String, Number, Boolean]
+         */
+        checked: {
+            default: null
+        }
+    },
+    computed: {
+        prepareItems()
+        {
+            let preparedItems = [];
+
+            // Build a unique value map
+            const items = isArray(this.items) ? this.items : [];
+
+            // Build the prepared item list
+            forEach(items, (item) => {
+                const _item = {
+                    value: item.value ?? item[this.itemValue] ?? item,
+                    label: item.label ?? item[this.itemLabel] ?? item,
+                    required: item.required ?? false,
+                    disabled: item.disabled ?? false,
+                    classes: item.classes ?? {}
+                };
+
+                preparedItems.push(_item);
+            });
+
+            return preparedItems;
+        }
+    },
+    data()
+    {
+        return {
+            localChecked: this.checked || ''
+        };
+    },
+    watch: {
+        checked(newVal)
+        {
+            this.localChecked = newVal;
         },
-        watch: {
-            checked(newVal) {
-                this.localChecked = newVal;
-            },
-            localChecked(newVal, oldVal) {
-                if (newVal != oldVal) {
-                    this.$emit("input", newVal);
-                }
+        localChecked(newVal, oldVal)
+        {
+            if (newVal != oldVal) {
+                this.$emit('input', newVal);
             }
         }
-    };
+    }
+};
 </script>
 
 <style scoped lang="sass"></style>

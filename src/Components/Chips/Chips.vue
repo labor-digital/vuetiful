@@ -24,57 +24,59 @@
               @remove.stop="removeChip(item)">
             <!-- @slot Used to overwrite the rendered label for a single chip -->
             <slot name="chipLabel" :item="item">
-                {{item.label}}
+                {{ item.label }}
             </slot>
         </chip>
     </div>
 </template>
 
 <script lang="ts">
-	import {forEach} from "@labor-digital/helferlein/lib/Lists/forEach";
-	import {isNull} from "@labor-digital/helferlein/lib/Types/isNull";
-	import {isUndefined} from "@labor-digital/helferlein/lib/Types/isUndefined";
-	import Chip from "./Chip.vue";
-	
-	export default {
-		name: "Chips",
-		components: {Chip},
-		props: {
-			value: Array,
-			
-			/**
-			 * @deprecated use "value" instead
-			 */
-			items: {
-				type: [Array, null],
-				default: null
-			}
-		},
-		computed: {
-			preparedValue() {
-				const value = isNull(this.items) ? this.value : this.items;
-				
-				let preparedValue = [];
-				forEach(value, (item, index) => {
-					preparedValue.push({
-						id: index,
-						value: isUndefined(item.value) ? item : item.value,
-						label: isUndefined(item.label) ? item : item.label
-					});
-				});
-				return preparedValue;
-			}
-		},
-		methods: {
-			removeChip(item) {
-				const valueClone = [...this.preparedValue];
-				const index = valueClone.indexOf(item);
-				valueClone.splice(index, 1);
-				this.$emit("input", valueClone);
-				this.$emit("remove-chip", item, index);
-			}
-		}
-	};
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {isNull} from '@labor-digital/helferlein/lib/Types/isNull';
+import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import Chip from './Chip.vue';
+
+export default {
+    name: 'Chips',
+    components: {Chip},
+    props: {
+        value: Array,
+
+        /**
+         * @deprecated use "value" instead
+         */
+        items: {
+            type: [Array, null],
+            default: null
+        }
+    },
+    computed: {
+        preparedValue()
+        {
+            const value = isNull(this.items) ? this.value : this.items;
+
+            let preparedValue = [];
+            forEach(value, (item, index) => {
+                preparedValue.push({
+                    id: index,
+                    value: isUndefined(item.value) ? item : item.value,
+                    label: isUndefined(item.label) ? item : item.label
+                });
+            });
+            return preparedValue;
+        }
+    },
+    methods: {
+        removeChip(item)
+        {
+            const valueClone = [...this.preparedValue];
+            const index = valueClone.indexOf(item);
+            valueClone.splice(index, 1);
+            this.$emit('input', valueClone);
+            this.$emit('remove-chip', item, index);
+        }
+    }
+};
 </script>
 
 <style scoped lang="sass"></style>

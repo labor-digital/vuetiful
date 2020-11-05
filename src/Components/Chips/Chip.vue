@@ -25,28 +25,29 @@
 </template>
 
 <script lang="ts">
-	
-	export default {
-		name: "Chip",
-		props: {
-			item: String,
-			isRemovable: {
-				type: Boolean,
-				default: true
-			},
-			isDisabled: {
-				type: Boolean,
-				default: false
-			}
-		},
-		computed: {
-			classes(): Object {
-				return {
-					"chip__item--disabled": this.isDisabled
-				};
-			}
-		}
-	};
+
+export default {
+    name: 'Chip',
+    props: {
+        item: String,
+        isRemovable: {
+            type: Boolean,
+            default: true
+        },
+        isDisabled: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        classes(): Object
+        {
+            return {
+                'chip__item--disabled': this.isDisabled
+            };
+        }
+    }
+};
 </script>
 
 <style scoped lang="sass" src="./Chip.sass"></style>
