@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.0](https://github.com/labor-digital/vuetiful/compare/v1.17.0...v1.18.0) (2020-11-05)
+
+
+### Features
+
+* use PSR-2 compliant code styles ([83b1809](https://github.com/labor-digital/vuetiful/commit/83b18091c8e981ab141562948418a014671dca89))
+
+
+### Bug Fixes
+
+* **BaseAccordion:** make sure onChangeOpen does not break with string items ([ace395b](https://github.com/labor-digital/vuetiful/commit/ace395b4d6a73917af278893a2a4f6b773434a43))
+
 ## [1.17.0](https://github.com/labor-digital/vuetiful/compare/v1.16.0...v1.17.0) (2020-11-05)
 
 
