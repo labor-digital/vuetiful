@@ -266,7 +266,7 @@ export default {
         onChangeOpen() {
             const isOpenArray = isArray(this.open);
             if (isOpenArray && !this.openMultiple) return;
-            forEach(this.items, item => {
+            forEach(this.preparedItems, item => {
                 item.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
             });
         }
