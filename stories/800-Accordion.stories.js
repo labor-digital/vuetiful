@@ -35,7 +35,6 @@ export const Default = () => {
             components: {BaseAccordion},
             template: `
                 <div>
-                {{ it }}
                 <base-accordion :open="[0,1]" :items="it" :open-multiple="openMultiple" :item-label="itemLabel">
                     <template :slot="it[0].label">
                         <div style="padding-bottom: 30px">HALLO FOO</div>
