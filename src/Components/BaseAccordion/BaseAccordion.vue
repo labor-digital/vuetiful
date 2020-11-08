@@ -61,8 +61,7 @@
                     // you should use 'accordion__container--open' on the container instead!
                     'accordion__item--active': item.open,
                     'accordion__item--open': item.open
-                }"
-                    ref="contents">
+                }">
 
                     <!-- @slot Used to add additional elements before the content -->
                     <slot name="beforeContent"/>
