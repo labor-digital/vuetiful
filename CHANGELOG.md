@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/labor-digital/vuetiful/compare/v1.18.0...v1.19.0) (2020-11-06)
+
+
+### Features
+
+* migrate to storybook 6 ([d252fe7](https://github.com/labor-digital/vuetiful/commit/d252fe747d4724476dcf3408ae94c4ec443eab59))
+* update dependencies ([175f49d](https://github.com/labor-digital/vuetiful/commit/175f49dfa2ab72817d03b953c4fd4e7a258d930b))
+
+
+### Bug Fixes
+
+* remove item output ([b9359d8](https://github.com/labor-digital/vuetiful/commit/b9359d880f300222ff5bcf0f222319b1ad7c878b))
+
 ## [1.18.0](https://github.com/labor-digital/vuetiful/compare/v1.17.0...v1.18.0) (2020-11-05)
 
 
