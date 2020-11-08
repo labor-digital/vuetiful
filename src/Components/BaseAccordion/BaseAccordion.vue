@@ -286,14 +286,12 @@ export default {
         onClickToggle(item: PlainObject)
         {
             if (item.open) {
-                item.open = false;
-                return;
+                this.openItem(item.id, !this.openMultiple);
+                // @deprecated use "open" instead! The event will be removed in the next major release
+                this.$emit('update:open', item.id);
+            } else {
+                this.closeItem(item.id);
             }
-
-            this.openItem(item.id, !this.openMultiple);
-
-            // @deprecated use "open" instead! The event will be removed in the next major release
-            this.$emit('update:open', item.id);
         },
 
         /**
