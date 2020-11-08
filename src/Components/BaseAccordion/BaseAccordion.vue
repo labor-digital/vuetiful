@@ -17,15 +17,22 @@
   -->
 
 <template>
+    <!-- @todo Remove the :key in the next major release -> This should not be required-->
     <dl class="accordion" :key="'ba_' + _uid">
-        <div v-for="item in preparedItems" :id="'ba_' + _uid + '-' + item.id"
-             class="accordion__container"
-             :class="classes">
+        <!-- @todo remove the :id in the next major release -> we provide them as refs instead -->
+        <div
+            :id="'ba_' + _uid + '-' + item.id"
+
+            :ref="'item_' + item.id"
+            v-for="item in preparedItems"
+            class="accordion__container"
+            :class="{...givenContainerClasses, 'accordion__container--open': item.open}">
 
             <dt @click="onClickToggle(item)"
                 class="accordion__label"
                 :class="{
-                // @deprecated accordion__label--active will be removed in favour of accordion__label--open
+                // @deprecated accordion__label--active will be removed together with accordion__label--open
+                // you should use 'accordion__container--open' on the container instead!
                 'accordion__label--active': item.open,
                 'accordion__label--open': item.open,
             }">
@@ -50,7 +57,8 @@
                 <dd v-show="item.open"
                     class="accordion__item"
                     :class="{
-                    // @deprecated accordion__item--active will be removed in favour of accordion__item--open
+                    // @deprecated accordion__item--active will be removed together with accordion__item--open
+                    // you should use 'accordion__container--open' on the container instead!
                     'accordion__item--active': item.open,
                     'accordion__item--open': item.open
                 }"
@@ -75,6 +83,8 @@ import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject'
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isString} from '@labor-digital/helferlein/lib/Types/isString';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 import Vue from 'vue';
 import ItemAwareMixin, {ItemDefinition} from '../Utils/Item/ItemAwareMixin';
@@ -140,6 +150,26 @@ export default {
         itemLabel: String
     },
     computed: {
+        /**
+         * Contains all prepared given classes for the container.
+         * Both the legacy "classes" and the "containerClass" props are combined into a single plain object.
+         */
+        givenContainerClasses(): PlainObject
+        {
+            const classes = {};
+            forEach([this.classes, this.containerClass], list => {
+                let givenClasses = list ?? {};
+                if (isString(givenClasses)) {
+                    forEach(givenClasses.split(' '), part => {
+                        if (!isEmpty(part)) {
+                            classes[part] = true;
+                        }
+                    });
+                }
+            });
+            return classes;
+        },
+
         /**
          * Returns the list of items that have been found using either the items prop, or the items child objects
          */
