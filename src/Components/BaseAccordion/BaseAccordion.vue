@@ -223,10 +223,9 @@ export default {
                     if (closeOthers === false) {
                         return false;
                     }
-                } else {
-                    if (closeOthers !== false) {
-                        item.open = false;
-                    }
+                } else if (closeOthers !== false && item.open) {
+                    item.open = false;
+                    this.$emit('close', item.id);
                 }
             });
         },
