@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.20.0](https://github.com/labor-digital/vuetiful/compare/v1.19.0...v1.20.0) (2020-11-08)
+
+
+### Features
+
+* **BaseAccordion:** implement a more speaking event concept ([820a47b](https://github.com/labor-digital/vuetiful/commit/820a47b5e85553246acda14f62e7f1f62c0c043c))
+
+
+### Bug Fixes
+
+* **BaseAccordion:** build given container classes correctly ([80e5b08](https://github.com/labor-digital/vuetiful/commit/80e5b08438ea037aeada7f96104a6dca2924de16))
+* **BaseAccordion:** close the item using the internal api in onClickToggle ([5df0eed](https://github.com/labor-digital/vuetiful/commit/5df0eed43f0620440c2a78085d36b6836a80f652))
+* **BaseAccordion:** emit close event for auto-closed items in openItem ([5bf1bbc](https://github.com/labor-digital/vuetiful/commit/5bf1bbcdc00131a5db0122aafd9585acf2687009))
+
 ## [1.19.0](https://github.com/labor-digital/vuetiful/compare/v1.18.0...v1.19.0) (2020-11-06)
 
 
