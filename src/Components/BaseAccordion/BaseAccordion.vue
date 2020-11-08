@@ -83,6 +83,7 @@ import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
 import {isString} from '@labor-digital/helferlein/lib/Types/isString';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 import Vue from 'vue';
@@ -163,6 +164,12 @@ export default {
                         if (!isEmpty(part)) {
                             classes[part] = true;
                         }
+                    });
+                } else if (isPlainObject(givenClasses)) {
+                    forEach(givenClasses, (v, k) => {
+                        classes[k] = !!(
+                            v
+                        );
                     });
                 }
             });
