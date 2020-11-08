@@ -106,6 +106,8 @@ export default {
 
         /**
          * Allows you to add additional css classes to the accordion container.
+         * @todo in the next major version this should only be allowed to receive an object to make
+         * merging of the classes less painful...
          */
         containerClass: [String, Object],
 
