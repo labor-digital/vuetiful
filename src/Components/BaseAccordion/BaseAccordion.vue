@@ -49,10 +49,10 @@
 
             <transition
                 name="accordion"
-                @enter="startTransition"
-                @after-enter="endTransition"
-                @before-leave="startTransition"
-                @after-leave="endTransition">
+                @enter="onBeforeTransition($event, true)"
+                @after-enter="onAfterTransition($event, true)"
+                @before-leave="onBeforeTransition($event, false)"
+                @after-leave="onAfterTransition($event, false)">
 
                 <dd v-show="item.open"
                     class="accordion__item"
@@ -214,7 +214,10 @@ export default {
             }
             forEach(this.preparedItems, item => {
                 if (item.id === id) {
-                    item.open = true;
+                    if (!item.open) {
+                        item.open = true;
+                        this.$emit('open', item.id);
+                    }
 
                     // Break if we should not close the other tabs
                     if (closeOthers === false) {
@@ -236,7 +239,10 @@ export default {
         {
             forEach(this.preparedItems, item => {
                 if (item.id === id) {
-                    item.open = false;
+                    if (item.open) {
+                        item.open = false;
+                        this.$emit('close', item.id);
+                    }
                     return false;
                 }
             });
@@ -249,7 +255,10 @@ export default {
         closeAllItems(): void
         {
             forEach(this.preparedItems, item => {
-                item.open = false;
+                if (item.open) {
+                    item.open = false;
+                    this.$emit('close', item.id);
+                }
             });
         },
 
@@ -260,7 +269,10 @@ export default {
         openAllItems(): void
         {
             forEach(this.preparedItems, item => {
-                item.open = true;
+                if (!item.open) {
+                    item.open = true;
+                    this.$emit('open', item.id);
+                }
                 if (!this.openMultiple) {
                     return false;
                 }
@@ -280,21 +292,34 @@ export default {
 
             this.openItem(item.id, !this.openMultiple);
 
-            /**
-             * Emits an event with "open" and the index of the accordion
-             */
-            this.$emit('open', item.id);
+            // @deprecated use "open" instead! The event will be removed in the next major release
             this.$emit('update:open', item.id);
         },
 
-        startTransition(el)
+        /**
+         * Triggered when the vue transition of a single item container is started
+         * @param el the html element that gets transitioned
+         * @param open True if the element gets opened or false if it gets closed
+         */
+        onBeforeTransition(el: HTMLElement, open: boolean): void
         {
             el.style.height = el.scrollHeight + 'px';
+            this.$emit((
+                           open ? 'open' : 'close'
+                       ) + ':transition:start', el);
         },
 
-        endTransition(el)
+        /**
+         * Triggered when the vue transition of a single item container was finished
+         * @param el the html element that was transitioned
+         * @param open True if the element was opened or false if it was closed
+         */
+        onAfterTransition(el: HTMLElement, open: boolean): void
         {
             el.style.height = '';
+            this.$emit((
+                           open ? 'open' : 'close'
+                       ) + ':transition:end', el);
         },
 
         /**
