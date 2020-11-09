@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.20.2](https://github.com/labor-digital/vuetiful/compare/v1.20.1...v1.20.2) (2020-11-09)
+
+
+### Bug Fixes
+
+* fix ie11 includes with indexOf ([3dae190](https://github.com/labor-digital/vuetiful/commit/3dae1907106daab7c2cccf74c77dede9d95335e3))
+
+### [1.20.1](https://github.com/labor-digital/vuetiful/compare/v1.20.0...v1.20.1) (2020-11-08)
+
+
+### Bug Fixes
+
+* **BaseAccordion:** fix broken click handler ([4abad8a](https://github.com/labor-digital/vuetiful/commit/4abad8a1c311c71b3463797f02bc04f3510ab4d2))
+
 ## [1.20.0](https://github.com/labor-digital/vuetiful/compare/v1.19.0...v1.20.0) (2020-11-08)
 
 
