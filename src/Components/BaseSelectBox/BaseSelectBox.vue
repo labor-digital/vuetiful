@@ -397,7 +397,7 @@ export default {
             // First filter the items
             return filter(map(this.preparedItems, (item: PreparedItem) => {
                 // Filter the items based on the query string
-                if (!item.labelLc.includes(searchInputLc)) {
+                if (item.labelLc.indexOf(searchInputLc) === -1) {
                     return null;
                 }
 
