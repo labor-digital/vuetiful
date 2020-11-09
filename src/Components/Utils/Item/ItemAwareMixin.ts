@@ -15,78 +15,89 @@
  *
  * Last modified: 2020.11.05 at 22:19
  */
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import Vue, {VNode} from 'vue';
 
 export interface ItemDefinition
 {
     id: number,
+    data: PlainObject,
     label: string,
     vNode: VNode
 }
 
+/**
+ * Returns an array either of the scoped slots or the default slots
+ * @param context
+ * @param slotProps
+ */
+function normalizeVueChildren(context, slotProps = {})
+{
+    if (context.$scopedSlots.default) {
+        return context.$scopedSlots.default(slotProps) || [];
+    }
+
+    return context.$slots.default || [];
+}
+
 export default {
+    data()
+    {
+        return {
+            iamItemStates: {}
+        };
+    },
     methods: {
         /**
-         * Returns an array either of the scoped slots or the default slots
-         * @param context
-         * @param slotProps
+         * Designed to be overwritten in your implementing component
+         * It can be used to store additional data for your item elements
          */
-        normalizeVueChildren(context, slotProps = {})
+        defaultItemState()
         {
-            if (context.$scopedSlots.default) {
-                return context.$scopedSlots.default(slotProps) || [];
-            }
-
-            return context.$slots.default || [];
+            return {};
         },
+
+        /**
+         * Allows you to reset the internal item state list
+         * This must be used if items are removed from the list without specific keys/ids
+         */
+        resetItemStates(): void
+        {
+            this.iamItemStates = {};
+        },
+
         /**
          * Resolves the list of item elements inside the parent that uses this mixin
-         * @param asObservable If set to true the list will be returned as vue observable object
          */
-        resolveItemList(asObservable?: boolean): Array<ItemDefinition>
+        getItems(): Array<ItemDefinition>
         {
             const items: Array<ItemDefinition> = [];
             let index = 0;
-            forEach(this.normalizeVueChildren(this), item => {
+            forEach(normalizeVueChildren(this), item => {
                 const ctor = item.componentOptions && item.componentOptions.Ctor;
                 if (!ctor || !ctor.options || !ctor.options.isVuetifulItem) {
                     return;
                 }
 
-                let id;
-                if (!isEmpty(item.componentOptions.propsData.id)) {
-                    id = item.componentOptions.propsData.id;
-                } else if (!isEmpty(item.data.key)) {
-                    id = item.data.key;
-                } else if (!isEmpty(item.key)) {
-                    id = item.key;
-                } else {
-                    id = 'itemAutoIndex_' + index++;
+                const id = item.componentOptions.propsData.id ?? item.key ?? 'itemAutoIndex_' + index++;
+
+                if (typeof this.iamItemStates[id] === 'undefined') {
+                    this.iamItemStates[id] = Vue.observable(this.defaultItemState());
                 }
 
                 item.componentOptions.propsData.id = id;
                 item.data.key = id;
                 item.key = id;
-                item.data.props = {
-                    ...(
-                        item.data.props || {}
-                    ),
-                    isClone: false,
-                    id
-                };
 
                 items.push({
                     id,
+                    data: this.iamItemStates[id],
                     label: item.componentOptions.propsData.label,
                     vNode: item
                 });
             });
 
-            if (asObservable) {
-                return Vue.observable(items);
-            }
             return items;
         }
     }

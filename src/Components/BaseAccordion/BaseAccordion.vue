@@ -24,7 +24,7 @@
             :id="'ba_' + _uid + '-' + item.id"
 
             :ref="'item_' + item.id"
-            v-for="item in preparedItems"
+            v-for="item in getItems()"
             class="accordion__container"
             :class="{...givenContainerClasses, 'accordion__container--open': item.open}">
 
@@ -33,8 +33,8 @@
                 :class="{
                 // @deprecated accordion__label--active will be removed together with accordion__label--open
                 // you should use 'accordion__container--open' on the container instead!
-                'accordion__label--active': item.open,
-                'accordion__label--open': item.open,
+                'accordion__label--active': item.data.open,
+                'accordion__label--open': item.data.open,
             }">
 
                 <!-- @slot Used to add additional elements before the label -->
@@ -54,13 +54,13 @@
                 @before-leave="onBeforeTransition($event, false)"
                 @after-leave="onAfterTransition($event, false)">
 
-                <dd v-show="item.open"
+                <dd v-show="item.data.open"
                     class="accordion__item"
                     :class="{
                     // @deprecated accordion__item--active will be removed together with accordion__item--open
                     // you should use 'accordion__container--open' on the container instead!
-                    'accordion__item--active': item.open,
-                    'accordion__item--open': item.open
+                    'accordion__item--active': item.data.open,
+                    'accordion__item--open': item.data.open
                 }">
 
                     <!-- @slot Used to add additional elements before the content -->
@@ -151,6 +151,13 @@ export default {
          */
         itemLabel: String
     },
+    defaultItemData()
+    {
+        console.log('DA');
+        return {
+            open: false
+        };
+    },
     computed: {
         /**
          * Contains all prepared given classes for the container.
@@ -187,13 +194,14 @@ export default {
             let items = [];
 
             if (this.useItems) {
-                items = this.resolveItemList();
+                items = this.getItems();
             } else {
 
                 // Legacy support
                 forEach(this.items, (item, index) => {
                     items[index] = {
                         id: index,
+                        data: {},
                         label: item.label ?? item[this.itemLabel] ?? item
                     };
                 });
@@ -209,6 +217,13 @@ export default {
         }
     },
     methods: {
+        defaultItemState()
+        {
+            return {
+                open: false
+            };
+        },
+
         /**
          * Allows you to open a single accordion element with a given id
          * @param id The id of the element to open
@@ -221,10 +236,10 @@ export default {
             if (isUndefined(closeOthers)) {
                 closeOthers = !this.openMultiple;
             }
-            forEach(this.preparedItems, item => {
+            forEach(this.getItems(), item => {
                 if (item.id === id) {
-                    if (!item.open) {
-                        item.open = true;
+                    if (!item.data.open) {
+                        item.data.open = true;
                         this.$emit('open', item.id);
                     }
 
@@ -232,8 +247,8 @@ export default {
                     if (closeOthers === false) {
                         return false;
                     }
-                } else if (closeOthers !== false && item.open) {
-                    item.open = false;
+                } else if (closeOthers !== false && item.data.open) {
+                    item.data.open = false;
                     this.$emit('close', item.id);
                 }
             });
@@ -245,10 +260,10 @@ export default {
          */
         closeItem(id: number | string): void
         {
-            forEach(this.preparedItems, item => {
+            forEach(this.getItems(), item => {
                 if (item.id === id) {
-                    if (item.open) {
-                        item.open = false;
+                    if (item.data.open) {
+                        item.data.open = false;
                         this.$emit('close', item.id);
                     }
                     return false;
@@ -262,7 +277,7 @@ export default {
          */
         closeAllItems(): void
         {
-            forEach(this.preparedItems, item => {
+            forEach(this.getItems(), item => {
                 if (item.open) {
                     item.open = false;
                     this.$emit('close', item.id);
@@ -276,7 +291,7 @@ export default {
          */
         openAllItems(): void
         {
-            forEach(this.preparedItems, item => {
+            forEach(this.getItems(), item => {
                 if (!item.open) {
                     item.open = true;
                     this.$emit('open', item.id);
@@ -293,7 +308,7 @@ export default {
          */
         onClickToggle(item: PlainObject)
         {
-            if (!item.open) {
+            if (!item.data.open) {
                 this.openItem(item.id, !this.openMultiple);
                 // @deprecated use "open" instead! The event will be removed in the next major release
                 this.$emit('update:open', item.id);
@@ -337,8 +352,8 @@ export default {
             if (isOpenArray && !this.openMultiple) {
                 return;
             }
-            forEach(this.preparedItems, item => {
-                item.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
+            forEach(this.getItems(), item => {
+                item.data.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
             });
         }
     },

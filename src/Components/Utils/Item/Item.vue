@@ -16,6 +16,7 @@
   - Last modified: 2020.11.05 at 21:52
   -->
 <script lang="ts">
+
 export default {
     name: 'Item',
     isVuetifulItem: true,

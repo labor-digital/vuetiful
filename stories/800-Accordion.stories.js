@@ -132,12 +132,89 @@ export const UsingItems = () => {
                         });
                     }
                 }
+            }
+        }
+    );
+};
+
+export const UsingItemsWithDynamicContent = () => {
+    return (
+        {
+            components: {BaseAccordion, Item},
+            template: `
+                <div>
+                {{ count }}
+                <base-accordion
+                    ref="accordion"
+                    use-items>
+                    <Item v-for="el in elements" :label="el.label" :key="el.key">
+                        Dynamic item content: {{ count }}
+                    </Item>
+                </base-accordion>
+                </div>`,
+            props: {
+                addItemBottom: {
+                    default()
+                    {
+                        button('Add a section to the bottom', () => {
+                            const chars = ['A', 'B', 'C', 'D', 'E'];
+                            this.elements.push({
+                                label: chars[Math.round(Math.random() * chars.length)],
+                                key: this.nextKey++
+                            });
+                        });
+                    }
+                },
+                addItemTop: {
+                    default()
+                    {
+                        button('Add a section to the top', () => {
+                            const chars = ['A', 'B', 'C', 'D', 'E'];
+                            this.elements.unshift({
+                                label: chars[Math.round(Math.random() * chars.length)],
+                                key: this.nextKey++
+                            });
+                        });
+                    }
+                },
+                removeItemFromTop: {
+                    default()
+                    {
+                        button('Remove section from top', () => {
+                            this.elements.shift();
+                        });
+                    }
+                },
+                removeRandomItem: {
+                    default()
+                    {
+                        button('Remove random section', () => {
+                            this.elements.splice(
+                                Math.round(Math.random() * this.elements.length),
+                                1
+                            );
+                        });
+                    }
+                }
             },
             data()
             {
                 return {
-                    v: []
+                    nextKey: 0,
+                    count: 0,
+                    i: 0,
+                    elements: [{label: 'Initial Element', key: -1}]
                 };
+            },
+            mounted()
+            {
+                this.i = setInterval(() => {
+                    console.log(this.count++);
+                }, 500);
+            },
+            beforeDestroy()
+            {
+                clearInterval(this.i);
             }
         }
     );
