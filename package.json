@@ -24,7 +24,7 @@
             "email": "k.martini@labor.digital"
         }
     ],
-    "version": "1.19.0",
+    "version": "1.20.1",
     "description": "A library of ui component skeletons",
     "main": "index.js",
     "scripts": {

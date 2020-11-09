@@ -17,15 +17,22 @@
   -->
 
 <template>
+    <!-- @todo Remove the :key in the next major release -> This should not be required-->
     <dl class="accordion" :key="'ba_' + _uid">
-        <div v-for="item in preparedItems" :id="'ba_' + _uid + '-' + item.id"
-             class="accordion__container"
-             :class="classes">
+        <!-- @todo remove the :id in the next major release -> we provide them as refs instead -->
+        <div
+            :id="'ba_' + _uid + '-' + item.id"
+
+            :ref="'item_' + item.id"
+            v-for="item in preparedItems"
+            class="accordion__container"
+            :class="{...givenContainerClasses, 'accordion__container--open': item.open}">
 
             <dt @click="onClickToggle(item)"
                 class="accordion__label"
                 :class="{
-                // @deprecated accordion__label--active will be removed in favour of accordion__label--open
+                // @deprecated accordion__label--active will be removed together with accordion__label--open
+                // you should use 'accordion__container--open' on the container instead!
                 'accordion__label--active': item.open,
                 'accordion__label--open': item.open,
             }">
@@ -42,19 +49,19 @@
 
             <transition
                 name="accordion"
-                @enter="startTransition"
-                @after-enter="endTransition"
-                @before-leave="startTransition"
-                @after-leave="endTransition">
+                @enter="onBeforeTransition($event, true)"
+                @after-enter="onAfterTransition($event, true)"
+                @before-leave="onBeforeTransition($event, false)"
+                @after-leave="onAfterTransition($event, false)">
 
                 <dd v-show="item.open"
                     class="accordion__item"
                     :class="{
-                    // @deprecated accordion__item--active will be removed in favour of accordion__item--open
+                    // @deprecated accordion__item--active will be removed together with accordion__item--open
+                    // you should use 'accordion__container--open' on the container instead!
                     'accordion__item--active': item.open,
                     'accordion__item--open': item.open
-                }"
-                    ref="contents">
+                }">
 
                     <!-- @slot Used to add additional elements before the content -->
                     <slot name="beforeContent"/>
@@ -75,6 +82,9 @@ import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject'
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
+import {isString} from '@labor-digital/helferlein/lib/Types/isString';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 import Vue from 'vue';
 import ItemAwareMixin, {ItemDefinition} from '../Utils/Item/ItemAwareMixin';
@@ -96,6 +106,8 @@ export default {
 
         /**
          * Allows you to add additional css classes to the accordion container.
+         * @todo in the next major version this should only be allowed to receive an object to make
+         * merging of the classes less painful...
          */
         containerClass: [String, Object],
 
@@ -141,6 +153,32 @@ export default {
     },
     computed: {
         /**
+         * Contains all prepared given classes for the container.
+         * Both the legacy "classes" and the "containerClass" props are combined into a single plain object.
+         */
+        givenContainerClasses(): PlainObject
+        {
+            const classes = {};
+            forEach([this.classes, this.containerClass], list => {
+                let givenClasses = list ?? {};
+                if (isString(givenClasses)) {
+                    forEach(givenClasses.split(' '), part => {
+                        if (!isEmpty(part)) {
+                            classes[part] = true;
+                        }
+                    });
+                } else if (isPlainObject(givenClasses)) {
+                    forEach(givenClasses, (v, k) => {
+                        classes[k] = !!(
+                            v
+                        );
+                    });
+                }
+            });
+            return classes;
+        },
+
+        /**
          * Returns the list of items that have been found using either the items prop, or the items child objects
          */
         preparedItems(): Array<ItemDefinition>
@@ -185,16 +223,18 @@ export default {
             }
             forEach(this.preparedItems, item => {
                 if (item.id === id) {
-                    item.open = true;
+                    if (!item.open) {
+                        item.open = true;
+                        this.$emit('open', item.id);
+                    }
 
                     // Break if we should not close the other tabs
                     if (closeOthers === false) {
                         return false;
                     }
-                } else {
-                    if (closeOthers !== false) {
-                        item.open = false;
-                    }
+                } else if (closeOthers !== false && item.open) {
+                    item.open = false;
+                    this.$emit('close', item.id);
                 }
             });
         },
@@ -207,7 +247,10 @@ export default {
         {
             forEach(this.preparedItems, item => {
                 if (item.id === id) {
-                    item.open = false;
+                    if (item.open) {
+                        item.open = false;
+                        this.$emit('close', item.id);
+                    }
                     return false;
                 }
             });
@@ -220,7 +263,10 @@ export default {
         closeAllItems(): void
         {
             forEach(this.preparedItems, item => {
-                item.open = false;
+                if (item.open) {
+                    item.open = false;
+                    this.$emit('close', item.id);
+                }
             });
         },
 
@@ -231,7 +277,10 @@ export default {
         openAllItems(): void
         {
             forEach(this.preparedItems, item => {
-                item.open = true;
+                if (!item.open) {
+                    item.open = true;
+                    this.$emit('open', item.id);
+                }
                 if (!this.openMultiple) {
                     return false;
                 }
@@ -244,28 +293,39 @@ export default {
          */
         onClickToggle(item: PlainObject)
         {
-            if (item.open) {
-                item.open = false;
-                return;
+            if (!item.open) {
+                this.openItem(item.id, !this.openMultiple);
+                // @deprecated use "open" instead! The event will be removed in the next major release
+                this.$emit('update:open', item.id);
+            } else {
+                this.closeItem(item.id);
             }
-
-            this.openItem(item.id, !this.openMultiple);
-
-            /**
-             * Emits an event with "open" and the index of the accordion
-             */
-            this.$emit('open', item.id);
-            this.$emit('update:open', item.id);
         },
 
-        startTransition(el)
+        /**
+         * Triggered when the vue transition of a single item container is started
+         * @param el the html element that gets transitioned
+         * @param open True if the element gets opened or false if it gets closed
+         */
+        onBeforeTransition(el: HTMLElement, open: boolean): void
         {
             el.style.height = el.scrollHeight + 'px';
+            this.$emit((
+                           open ? 'open' : 'close'
+                       ) + ':transition:start', el);
         },
 
-        endTransition(el)
+        /**
+         * Triggered when the vue transition of a single item container was finished
+         * @param el the html element that was transitioned
+         * @param open True if the element was opened or false if it was closed
+         */
+        onAfterTransition(el: HTMLElement, open: boolean): void
         {
             el.style.height = '';
+            this.$emit((
+                           open ? 'open' : 'close'
+                       ) + ':transition:end', el);
         },
 
         /**
