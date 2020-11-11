@@ -24,7 +24,7 @@
             :id="'ba_' + _uid + '-' + item.id"
 
             :ref="'item_' + item.id"
-            v-for="item in getItems()"
+            v-for="item in getItemsWithLegacy()"
             class="accordion__container"
             :class="{...givenContainerClasses, 'accordion__container--open': item.open}">
 
@@ -80,9 +80,9 @@
 <script lang="ts">
 import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isNumber} from '@labor-digital/helferlein/lib/Types/isNumber';
 import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
 import {isString} from '@labor-digital/helferlein/lib/Types/isString';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
@@ -151,13 +151,6 @@ export default {
          */
         itemLabel: String
     },
-    defaultItemData()
-    {
-        console.log('DA');
-        return {
-            open: false
-        };
-    },
     computed: {
         /**
          * Contains all prepared given classes for the container.
@@ -183,38 +176,13 @@ export default {
                 }
             });
             return classes;
-        },
-
-        /**
-         * Returns the list of items that have been found using either the items prop, or the items child objects
-         */
-        preparedItems(): Array<ItemDefinition>
-        {
-
-            let items = [];
-
-            if (this.useItems) {
-                items = this.getItems();
-            } else {
-
-                // Legacy support
-                forEach(this.items, (item, index) => {
-                    items[index] = {
-                        id: index,
-                        data: {},
-                        label: item.label ?? item[this.itemLabel] ?? item
-                    };
-                });
-
-            }
-
-            return Vue.observable(
-                map(items, (item) => {
-                    item.open = false;
-                    return item;
-                })
-            );
         }
+    },
+    data()
+    {
+        return {
+            legacyItemOpen: []
+        };
     },
     methods: {
         defaultItemState()
@@ -222,6 +190,57 @@ export default {
             return {
                 open: false
             };
+        },
+
+        /**
+         * @deprecated only here to support the legacy "items" definition. this will be removed in the next major version
+         */
+        getItemsWithLegacy(): Array<ItemDefinition>
+        {
+            if (this.useItems) {
+                return this.getItems();
+            } else {
+                let items = [];
+                const that = this;
+                forEach(this.items, (item, index) => {
+                    items[index] = {
+                        id: index,
+                        label: item.label ?? item[this.itemLabel] ?? item,
+                        data: {
+                            get open()
+                            {
+                                if (isNumber(that.open) && that.open === index) {
+                                    return true;
+                                } else if (isArray(that.open) && (
+                                    that.open.indexOf(index) !== -1 ||
+                                    that.open.indexOf(index + '') !== -1
+                                )) {
+                                    return true;
+                                }
+                                return that.legacyItemOpen.indexOf(index) !== -1;
+                            },
+                            set open(state: boolean)
+                            {
+                                if (!state && that.legacyItemOpen.indexOf(index) !== -1) {
+                                    that.legacyItemOpen.splice(
+                                        that.legacyItemOpen.indexOf(index), 1
+                                    );
+                                    return;
+                                }
+                                if (!that.openMultiple) {
+                                    for (let i = 0; i < that.openMultiple.length; i++) {
+                                        that.legacyItemOpen.pop();
+                                    }
+                                }
+                                if (that.legacyItemOpen.indexOf(index) === -1) {
+                                    that.legacyItemOpen.push(index);
+                                }
+                            }
+                        }
+                    };
+                });
+                return Vue.observable(items);
+            }
         },
 
         /**
@@ -236,7 +255,7 @@ export default {
             if (isUndefined(closeOthers)) {
                 closeOthers = !this.openMultiple;
             }
-            forEach(this.getItems(), item => {
+            forEach(this.getItemsWithLegacy(), item => {
                 if (item.id === id) {
                     if (!item.data.open) {
                         item.data.open = true;
@@ -260,7 +279,7 @@ export default {
          */
         closeItem(id: number | string): void
         {
-            forEach(this.getItems(), item => {
+            forEach(this.getItemsWithLegacy(), item => {
                 if (item.id === id) {
                     if (item.data.open) {
                         item.data.open = false;
@@ -277,9 +296,9 @@ export default {
          */
         closeAllItems(): void
         {
-            forEach(this.getItems(), item => {
-                if (item.open) {
-                    item.open = false;
+            forEach(this.getItemsWithLegacy(), item => {
+                if (item.data.open) {
+                    item.data.open = false;
                     this.$emit('close', item.id);
                 }
             });
@@ -291,9 +310,9 @@ export default {
          */
         openAllItems(): void
         {
-            forEach(this.getItems(), item => {
-                if (!item.open) {
-                    item.open = true;
+            forEach(this.getItemsWithLegacy(), item => {
+                if (!item.data.open) {
+                    item.data.open = true;
                     this.$emit('open', item.id);
                 }
                 if (!this.openMultiple) {
@@ -352,7 +371,7 @@ export default {
             if (isOpenArray && !this.openMultiple) {
                 return;
             }
-            forEach(this.getItems(), item => {
+            forEach(this.getItemsWithLegacy(), item => {
                 item.data.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
             });
         }
@@ -365,6 +384,22 @@ export default {
         open()
         {
             this.onChangeOpen();
+        },
+        openMultiple(n)
+        {
+            if (!n) {
+                // Close all items if we don't allow multiple anymore
+                let gotOneOpen = false;
+                forEach(this.getItemsWithLegacy(), item => {
+                    if (gotOneOpen) {
+                        this.closeItem(item.id);
+                        return;
+                    }
+                    if (item.data.open) {
+                        gotOneOpen = true;
+                    }
+                });
+            }
         }
     }
 };
