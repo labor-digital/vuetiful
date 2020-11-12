@@ -74,6 +74,7 @@
                 :class="classes"
                 v-if="useLegacyItems"
                 v-for="item in preparedItems"
+                :key="item.id"
                 :label="item.label">
                 <template v-slot:beforeContent>
                     <slot name="beforeContent"/>
