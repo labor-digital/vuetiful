@@ -21,6 +21,7 @@
         <!-- @todo remove tabs__titleContainer class -->
         <div role="tablist" class="tabs__labels tabs__titleContainer">
 
+            <pre>{{ renderItems }}</pre>
             <!-- @todo this should be an ul > li construct -> aria -->
             <div v-for="item in renderItems"
                  role="presentation"
@@ -91,10 +92,8 @@
 
 <script lang="ts">
 
-import {asArray} from '@labor-digital/helferlein/lib/FormatAndConvert/asArray';
 import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import {ReactiveMap} from '../../Utils/ReactiveMap';
@@ -184,14 +183,16 @@ export default {
          */
         renderItems(): Array<RenderItemDefinition>
         {
+            const items = [];
             let i = 0;
-            return asArray(map(this.registeredItems, (item, key) => {
-                return {
+            forEach(this.registeredItems, (item, key) => {
+                items.push({
                     id: key,
                     label: item,
                     index: i++
-                };
-            }));
+                });
+            });
+            return items;
         },
 
         /**
