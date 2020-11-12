@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.21.0](https://github.com/labor-digital/vuetiful/compare/v1.20.3...v1.21.0) (2020-11-12)
+
+
+### Features
+
+* update tabs and accordion story ([c3bda58](https://github.com/labor-digital/vuetiful/commit/c3bda5872399f18860b84873be301a5b8b29bc4f))
+* **BaseAccordion:** refactoring + new api + aria support ([6a6128d](https://github.com/labor-digital/vuetiful/commit/6a6128d0926b4dfb11de096846e458df59e9a7de))
+* **BaseCheckbox:** refactoring + new api ([b16d73b](https://github.com/labor-digital/vuetiful/commit/b16d73b45e1e9da82e3e802deff3a375e573fa3f))
+* **BaseRadio:** refactoring + new api ([e68392f](https://github.com/labor-digital/vuetiful/commit/e68392fff5c076a572da30118c2904e80a5aa271))
+* **BaseTabs:** refactoring + new api + aria support ([9e67da5](https://github.com/labor-digital/vuetiful/commit/9e67da5a4805f5497167fbf8addaa8a7caf8c16b))
+* implement ReactiveMap and ReactiveSet to use in the refactoring process ([f4172dd](https://github.com/labor-digital/vuetiful/commit/f4172dd693d2167085c3bf31732964906c09f65e))
+
+
+### Bug Fixes
+
+* **BaseTabs:** let the legacy items use keys ([8e203ad](https://github.com/labor-digital/vuetiful/commit/8e203ad7597a70f61cc2a7f4a0726df9474e2f53))
+* remove not required sass import from stories ([b100a4c](https://github.com/labor-digital/vuetiful/commit/b100a4ca2646f957c13c870c380642fe81979b06))
+* **BaseAccordion:** multiple adjustments to support legacy definition correctly ([9f9168e](https://github.com/labor-digital/vuetiful/commit/9f9168ee3923f1bd38377ba3a4c1a0dddd752d02))
+
 ### [1.20.3](https://github.com/labor-digital/vuetiful/compare/v1.20.2...v1.20.3) (2020-11-09)
 
 
