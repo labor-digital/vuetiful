@@ -1,0 +1,2 @@
+This component is deprecated use BaseRadio instead!
+It will be removed in the next major version!

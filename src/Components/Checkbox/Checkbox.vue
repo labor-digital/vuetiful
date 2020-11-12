@@ -16,6 +16,12 @@
   - Last modified: 2020.05.03 at 13:05
   -->
 
+<!--
+DEPRECATED
+================================
+This component is deprecated use BaseCheckbox instead!
+It will be removed in the next major version!
+-->
 <template>
     <div class="checkbox" v-if="hasItems">
         <label v-for="(item, index) in prepareItems" v-show="item.show"

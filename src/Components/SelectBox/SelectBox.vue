@@ -16,6 +16,12 @@
   - Last modified: 2020.04.24 at 16:44
   -->
 
+<!--
+DEPRECATED
+================================
+This component is deprecated use BaseSelectBox instead!
+It will be removed in the next major version!
+-->
 <template>
     <div ref="IZ-select" :tabindex="disableSearch ? 0 : -1"
          :class="{
