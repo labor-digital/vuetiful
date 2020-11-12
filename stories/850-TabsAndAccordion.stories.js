@@ -18,8 +18,9 @@
 
 import {boolean, object, radios, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
+import BaseAccordionItem from '../src/Components/BaseAccordion/BaseAccordionItem.vue';
+import BaseTab from '../src/Components/BaseTabs/BaseTabItem.vue';
 import BaseTabs from '../src/Components/BaseTabs/BaseTabs.vue';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -30,6 +31,56 @@ export default {
 
 // Create the stories
 export const Default = () => {
+    return (
+        {
+            template: `
+                <div>
+                <pre>BaseTabs and BaseAccordion are designed to be interchangeable with eachother.
+This allows you to show tabs on a desktop and an accordion on mobile with ease.
+                </pre>
+                <component :is="components[component].outer" :open-multiple="openMultiple">
+                    <component :is="components[component].inner" label="Label A">
+                        Content A
+                    </component>
+                    <component :is="components[component].inner" label="Label B">
+                        Content B
+                    </component>
+                    <component :is="components[component].inner" label="Label C">
+                        Content C
+                    </component>
+                    <component :is="components[component].inner" label="Label D (Disabled)" disabled>
+                        Disabled content
+                    </component>
+                </component>
+                </div>`,
+            props: {
+                component: {
+                    default: radios('Select the type you want to render', {
+                        'Render as Tabs': 'tabs',
+                        'Render as Accordion': 'accordion'
+                    }, 'tabs')
+                }
+            },
+            data()
+            {
+                return {
+                    components: {
+                        tabs: {
+                            outer: BaseTabs,
+                            inner: BaseTab
+                        },
+                        accordion: {
+                            outer: BaseAccordion,
+                            inner: BaseAccordionItem
+                        }
+                    }
+                };
+            }
+        }
+    );
+};
+
+export const Legacy = () => {
     return (
         {
             components: {BaseTabs, BaseAccordion},
