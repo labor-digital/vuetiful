@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.21.1](https://github.com/labor-digital/vuetiful/compare/v1.21.0...v1.21.1) (2020-11-12)
+
+
+### Bug Fixes
+
+* fix broken tabs and accordion story ([6277d3b](https://github.com/labor-digital/vuetiful/commit/6277d3b60441a93e31e5ef5dc8bba31e8d7a7226))
+
 ## [1.21.0](https://github.com/labor-digital/vuetiful/compare/v1.20.3...v1.21.0) (2020-11-12)
 
 
