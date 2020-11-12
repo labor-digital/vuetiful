@@ -22,7 +22,7 @@ import Chips from '../src/Components/Chips/Chips.vue';
 
 // Global configuration of your component
 export default {
-    title: 'Chips',
+    title: 'BaseChips',
     component: Chips,
     decorators: [withKnobs]
 };
@@ -34,7 +34,7 @@ export const Default = () => {
             components: {BaseChips},
             template: `
                 <div>
-                <chips
+                <BaseChips
                     v-model="v"
                     :labels="labelList"
                     :disabled="disabledItems"
@@ -107,7 +107,7 @@ export const ObjectsAsValues = () => {
             components: {BaseChips},
             template: `
                 <div>
-                <chips
+                <BaseChips
                     v-model="v"
                     @chip:click="onChipClick"
                     @chip:remove="onChipRemove"
