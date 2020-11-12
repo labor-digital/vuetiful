@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.22.0](https://github.com/labor-digital/vuetiful/compare/v1.21.1...v1.22.0) (2020-11-12)
+
+
+### Features
+
+* **Chips:** refactoring + new api + aria support ([039c5e1](https://github.com/labor-digital/vuetiful/commit/039c5e1ad57b1a9a2015b5bd2bac5b406455619c))
+
+
+### Bug Fixes
+
+* resolve strange "value" bug for baseRadio and baseCheckbox stories ([378deab](https://github.com/labor-digital/vuetiful/commit/378deab6d77388653cf36a96414ee2139268096c))
+* **BaseCheckbox:** set correct type hint for api ([2200b52](https://github.com/labor-digital/vuetiful/commit/2200b528a9c983c794eaa9df0dce8c6fb03d5bc2))
+* **BaseRadio:** set correct type hint for api ([5802d9e](https://github.com/labor-digital/vuetiful/commit/5802d9ee74f788d76cc75fd9cf6d5246f6818610))
+* **BaseTabs:** fix item order for numeric keys ([df53305](https://github.com/labor-digital/vuetiful/commit/df533052b91f35b9721c28c5e3af50a373bd6e73))
+* **BaseTabs:** remove dev output ([0c50188](https://github.com/labor-digital/vuetiful/commit/0c50188aec4b11eb083ab4839091b68f64b409d4))
+
 ### [1.21.1](https://github.com/labor-digital/vuetiful/compare/v1.21.0...v1.21.1) (2020-11-12)
 
 
