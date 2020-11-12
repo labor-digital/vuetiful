@@ -211,7 +211,7 @@ export default {
             el.style.height = el.scrollHeight + 'px';
             this.api.emit((
                               open ? 'open' : 'close'
-                          ) + ':transition:start', el);
+                          ) + ':transition:start', this);
         },
 
         /**
@@ -224,7 +224,7 @@ export default {
             el.style.height = '';
             this.api.emit((
                               open ? 'open' : 'close'
-                          ) + ':transition:end', el);
+                          ) + ':transition:end', this);
         }
     },
     created()
