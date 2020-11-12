@@ -16,9 +16,9 @@
  * Last modified: 2020.07.22 at 14:26
  */
 
-import {object, select, text, withKnobs} from '@storybook/addon-knobs';
+import {array, boolean, button, number, object, text, withKnobs} from '@storybook/addon-knobs';
+import BaseCheckbox from '../src/Components/BaseCheckbox/BaseCheckbox.vue';
 import BaseCheckboxGroup from '../src/Components/BaseCheckbox/BaseCheckboxGroup.vue';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -31,6 +31,186 @@ export default {
 export const Default = () => {
     return (
         {
+            components: {BaseCheckboxGroup, BaseCheckbox},
+            template: `
+                <div>
+                <BaseCheckboxGroup
+                    v-model="v"
+                    :name="name"
+                    :error="error"
+                >
+                    <BaseCheckbox
+                        value="A"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: A
+                    </BaseCheckbox>
+                    <BaseCheckbox
+                        value="B"
+                        disabled
+                        :label-left="labelLeft">
+                        Value: B (disabled)
+                    </BaseCheckbox>
+                    <BaseCheckbox
+                        value="C"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: C
+                    </BaseCheckbox>
+                    <BaseCheckbox
+                        :value="randomValue"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: {{ randomValue }}
+                    </BaseCheckbox>
+                    <BaseCheckbox
+                        v-for="value in additionalValues"
+                        :key="value"
+                        :disabled="disable"
+                        :value="value"
+                        :label-left="labelLeft"
+                    >
+                        Value: {{ value }}
+                    </BaseCheckbox>
+                </BaseCheckboxGroup>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            props: {
+                shuffleValue: {
+                    default()
+                    {
+                        const chars = ['D.a', 'D.b', 'D.c', 'D.d', 'D.e'];
+                        button('Shuffle value "D" to see how it responds', () => {
+                            this.randomValue = chars[Math.round(Math.random() * (
+                                chars.length - 1
+                            ))];
+                        });
+                    }
+                },
+                additionalValues: {
+                    default: () => array('Simply add and remove values on the fly', ['E', 'F'])
+                },
+                labelLeft: {
+                    default: boolean('Render the label on the left side', false)
+                },
+                disable: {
+                    default: boolean('Disable all inputs', false)
+                },
+                name: {
+                    default: text('Add an optional group name', '')
+                },
+                error: {
+                    /* Error message for input field after your validation failed */
+                    default: text('Set an error message', '')
+                }
+            },
+            data()
+            {
+                return {
+                    randomValue: 'D',
+                    v: []
+                };
+            }
+        }
+    );
+};
+
+export const WithInitialSelectedValue = () => {
+    return (
+        {
+            components: {BaseCheckboxGroup, BaseCheckbox},
+            template: `
+                <div>
+                <BaseCheckboxGroup v-model="v">
+                    <BaseCheckbox value="A">Value: A</BaseCheckbox>
+                    <BaseCheckbox value="B">Value: B (default)</BaseCheckbox>
+                    <BaseCheckbox value="C">Value: C</BaseCheckbox>
+                </BaseCheckboxGroup>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            data()
+            {
+                return {
+                    v: ['B']
+                };
+            }
+        }
+    );
+};
+
+export const WithRequiredValue = () => {
+    return (
+        {
+            components: {BaseCheckboxGroup, BaseCheckbox},
+            template: `
+                <div>
+                <form @submit.prevent.stop>
+                    <BaseCheckboxGroup v-model="v">
+                        <BaseCheckbox value="A">Value: A</BaseCheckbox>
+                        <BaseCheckbox value="B" required>Value: B (required)</BaseCheckbox>
+                    </BaseCheckboxGroup>
+                    <button>You can't click me without checking B first!</button>
+                </form>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            data()
+            {
+                return {
+                    v: []
+                };
+            }
+        }
+    );
+};
+
+export const WithMaxItems = () => {
+    return (
+        {
+            components: {BaseCheckboxGroup, BaseCheckbox},
+            template: `
+                <div>
+                You can't select more than {{ max }} items at once
+                <BaseCheckboxGroup v-model="v" :max-items="max">
+                    <BaseCheckbox value="A">Value: A</BaseCheckbox>
+                    <BaseCheckbox value="B">Value: B</BaseCheckbox>
+                    <BaseCheckbox value="C">Value: C</BaseCheckbox>
+                    <BaseCheckbox value="D">Value: D</BaseCheckbox>
+                    <BaseCheckbox value="E">Value: E</BaseCheckbox>
+                    <BaseCheckbox value="F">Value: F</BaseCheckbox>
+                    <BaseCheckbox value="G">Value: G</BaseCheckbox>
+                </BaseCheckboxGroup>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            props: {
+                max: {
+                    default: number('Maximum number of selectable items', 2)
+                }
+            },
+            data()
+            {
+                return {
+                    v: []
+                };
+            }
+        }
+    );
+};
+
+export const Legacy = () => {
+    return (
+        {
             components: {BaseCheckboxGroup},
             template: `
                 <div>
@@ -39,7 +219,6 @@ export const Default = () => {
                     :items="it"
                     :item-label="itemLabel"
                     :item-value="itemValue"
-                    :label-side="labelSide"
                     :name="name"
                     :error="error"
                 />
@@ -49,10 +228,7 @@ export const Default = () => {
                 </div>`,
             props: {
                 it: {
-                    default: object('Items', ['Test1', 'Test2', 'Test3'])
-                },
-                labelSide: {
-                    default: select('Label side', {left: 'left', right: 'right'}, 'right')
+                    default: () => object('Items', ['Test1', 'Test2', 'Test3'])
                 },
                 itemLabel: {
                     default: text('Label key', '')
@@ -61,7 +237,7 @@ export const Default = () => {
                     default: text('Value Key', '')
                 },
                 name: {
-                    default: text('Error', 'input')
+                    default: text('Group name', 'input')
                 },
                 error: {
                     /* Error message for input field after your validation failed */

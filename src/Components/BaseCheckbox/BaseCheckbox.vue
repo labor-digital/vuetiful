@@ -17,42 +17,54 @@
   -->
 
 <template>
-    <div class="checkbox">
-        <label class="checkbox__label" :class="classes" ref="checkbox">
-            <span v-if="labelSide === 'left'" class="checkbox__labelText checkbox__labelText--left">
-                {{ label }}
+    <div class="checkbox" :class="classes">
+        <label class="checkbox__label" :class="labelClasses" ref="checkbox">
+            <span v-if="labelSide === 'left' || labelLeft" class="checkbox__labelText checkbox__labelText--left">
+                <slot :label="label">
+                    {{ label }}
+                </slot>
             </span>
 
-            <input v-show="hasCustomCheckIcon"
+            <input v-show="hasCustomCheckIcon" class="checkbox__input"
                    ref="input"
-                   class="checkbox__input"
                    type="checkbox"
+                   v-model="checkedProxy"
                    :value="value"
                    :required="required"
-                   :disabled="disabled"
-                   :name="getName"
-                   @change="onChange"
+                   :disabled="realDisabled"
+                   :name="realName"
             />
 
             <!-- @slot Add your custom check icon if needed. -->
-            <slot name="customCheckIcon"></slot>
+            <slot name="customCheckIcon"
+                  :checked="checkedProxy"
+                  :value="value"
+                  :required="required"
+                  :disabled="realDisabled"
+                  :name="realName"></slot>
 
-            <span v-if="labelSide === 'right'" class="checkbox__labelText checkbox__labelText--right">
-                {{ label }}
+            <span v-if="labelSide === 'right' && !labelLeft" class="checkbox__labelText checkbox__labelText--right">
+                <slot :label="label">
+                    {{ label }}
+                </slot>
             </span>
         </label>
 
         <span v-if="hasError" class="checkbox__error">
 			<!-- @slot Use the prop or the slot to set your own error message.  -->
-			<slot name="error">{{ error }}</slot>
+			<slot name="error" :error="error">{{ error }}</slot>
 		</span>
     </div>
 </template>
 
 <script lang="ts">
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {RadioGroupApi} from '../BaseRadio/RadioGroupApi';
+import {CheckboxApi} from './CheckboxApi';
 
+// @todo we could abstract methods from baseCheckbox and baseRadio into a mixin to save one half of the code
+// The best would be to do this in the v2 refactoring orgy where the old stuff can be dropped
 export default {
     name: 'BaseCheckbox',
     model: {
@@ -60,40 +72,28 @@ export default {
         event: 'input'
     },
     inject: {
-        inGroup: {
-            from: 'isCheckGroup',
-            default: false
-        }
+        checkboxGroup: {
+            from: 'checkboxGroup',
+            default: null
+        } as CheckboxApi
     },
     props: {
-        /**
-         * Set a Label for your Checkbox.
-         * You can change the side of the label with labelSide[right, left]
-         */
-        label: String,
 
         /**
-         * Change the side of the label.
-         * Default right
-         * validate: [right, left]
+         * Set input as required for your forms and adds class checkbox--required.
          */
-        labelSide: {
-            default: 'right',
-            type: String,
-            validate: (v) => {
-                return ['left', 'right'].indexOf(v) !== -1;
-            }
+        required: {
+            type: Boolean,
+            default: false
         },
 
         /**
-         * Set input as required for your forms and adds class checkbox__required.
+         * Disable input field and adds class checkbox--disabled.
          */
-        required: false,
-
-        /**
-         * Disable input field and adds class checkbox__disabled.
-         */
-        disabled: false,
+        disabled: {
+            type: Boolean,
+            default: false
+        },
 
         /**
          * Set your value for the input
@@ -101,15 +101,6 @@ export default {
          */
         value: {
             default: true
-        },
-
-        /**
-         * If needed you can set a value in case the input is not checked.
-         * type: [String, Number, Boolean, Object]
-         * Does not work within a checkbox group
-         */
-        uncheckedValue: {
-            default: false
         },
 
         /**
@@ -125,108 +116,180 @@ export default {
         },
 
         /**
-         * v-model -> If you need preselected Items set this to the same as the value.
-         * Within a checkbox group use an array. If the values match it will preselect them.
-         * type: [String, Number, Boolean, Object, Array]
+         * v-model, keeps track of the "checked" state of this checkbox
          */
         checked: {
-            default: null
+            // @todo add this back in the next major version where only boolean values are supported here
+            // type: Boolean,
+            default: false
+        },
+
+        /**
+         * If set to true the label will be rendered on the left side instead of the right one
+         */
+        labelLeft: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
+         * Set a Label for your Checkbox.
+         * You can change the side of the label with labelSide[right, left]
+         * @deprecated will be removed in the next major version -> use the default slot instead
+         */
+        label: String,
+
+        /**
+         * Change the side of the label.
+         * Default right
+         * validate: [right, left]
+         * @deprecated use label-left instead!
+         */
+        labelSide: {
+            default: 'right',
+            type: String,
+            validate: (v) => {
+                return ['left', 'right'].indexOf(v) !== -1;
+            }
+        },
+
+        /**
+         * If needed you can set a value in case the input is not checked.
+         * type: [String, Number, Boolean, Object]
+         * Does not work within a checkbox group
+         * @deprecated will be removed in the next major version, the uncheck value will be NULL then
+         */
+        uncheckedValue: {
+            default: false
         }
     },
     computed: {
-        computedLocalChecked: {
+        /**
+         * Returns the api instance if displayed in a group
+         */
+        api(): RadioGroupApi | null
+        {
+            return this.radioGroup;
+        },
+
+        /**
+         * Resolves the "disabled" state by checking if the group tells us that we are disabled.
+         * The disabled prop on this component wins if it is set to true
+         */
+        realDisabled(): boolean
+        {
+            if (this.disabled) {
+                return true;
+            }
+            return this.isInGroup ?
+                this.checkboxGroup.getDisabledStateFor(this.value)
+                : this.disabled;
+        },
+
+        /**
+         * Used as a reactive proxy to be passed to the input element
+         */
+        checkedProxy: {
             set(v)
             {
-                if (this.isGroup) {
-                    this.inGroup.localChecked = v;
-                } else {
-                    this.localChecked = v;
+                if (this.isInGroup) {
+                    if (v) {
+                        this.checkboxGroup.enableValue(this.value);
+                    } else {
+                        this.checkboxGroup.disableValue(this.value);
+                    }
+                    return;
                 }
+
+                this.$emit('input', !!v ? this.value : this.uncheckedValue);
             }, get()
             {
-                return this.isGroup ? this.inGroup.localChecked : this.localChecked;
+                if (this.isInGroup) {
+                    return this.checkboxGroup.getStateFor(this.value) ? this.value : null;
+                }
+
+                return this.checked === this.value ? this.value : this.uncheckedValue;
             }
         },
-        isGroup()
+
+        /**
+         * Resolves the value of the name attribute, either using the current group or the local
+         * name if the group does not resolve one
+         */
+        realName(): string | undefined
         {
-            // Is this check/radio a child of check-group or radio-group?
-            return Boolean(this.inGroup);
+            if (this.isInGroup && this.checkboxGroup.name !== '') {
+                return this.checkboxGroup.name;
+            }
+            return this.name;
         },
-        getName()
+
+        /**
+         * True if the check box group was injected
+         */
+        isInGroup(): boolean
         {
-            // Group name preferred over local name
-            return (
-                       this.isGroup ? this.inGroup.name : this.name
-                   ) || null;
+            return this.checkboxGroup !== null;
         },
-        classes()
+
+        /**
+         * The modifier classes for the radio button based on the provided slots
+         */
+        classes(): PlainObject
+        {
+            return {
+                'checkbox--required': this.required,
+                'checkbox--disabled': this.realDisabled,
+                'checkbox--checked': this.checked
+            };
+        },
+
+        /**
+         * @deprecated the label classes will be removed in the next major version use the block modifiers in "classes" instead
+         */
+        labelClasses(): PlainObject
         {
             return {
                 'checkbox__label--required': this.required,
-                'checkbox__label--disabled': this.disabled,
+                'checkbox__label--disabled': this.realDisabled,
                 'checkbox__label--checked': this.checked
             };
         },
+
+        /**
+         * Checks if a custom radio icon has been added and we should therefore hide the input element
+         */
         hasCustomCheckIcon(): boolean
         {
             return isEmpty(this.$slots.customCheckIcon);
         },
+
+        /**
+         * Returns true if an error was given
+         */
         hasError(): boolean
         {
             return !isEmpty(this.$slots.error) || !isEmpty(this.error);
         }
     },
-    data()
+    created()
     {
-        return {
-            localChecked: this.isGroup ? this.inGroup.checked : this.checked
-        };
-    },
-    methods: {
-        onChange({target: {checked}})
-        {
-            let localChecked = this.computedLocalChecked;
-            const value = this.value;
-            const isArr = isArray(localChecked);
-            const uncheckedValue = isArr ? null : this.uncheckedValue;
-            // Update computedLocalChecked
-            if (isArr) {
-                const idx = localChecked.indexOf(value);
-                if (checked && idx < 0) {
-                    // Add value to array
-                    localChecked = localChecked.concat(value);
-                } else if (!checked && idx > -1) {
-                    // Remove value from array
-                    localChecked = localChecked.slice(0, idx).concat(localChecked.slice(idx + 1));
-                }
-            } else {
-                localChecked = checked ? value : uncheckedValue;
-            }
-            this.computedLocalChecked = localChecked;
+        if (this.isInGroup) {
+            this.checkboxGroup.registerValue(this.value);
         }
     },
-    mounted()
+    beforeDestroy()
     {
-        if (!this.isGroup) {
-            if (this.checked === this.value) {
-                this.$refs.input.checked = true;
-            } else {
-                this.computedLocalChecked = this.checked === this.value ? this.value : this.uncheckedValue;
-            }
-        } else {
-            if (this.inGroup.checked.includes(this.value)) {
-                this.$refs.input.checked = true;
-            }
+        if (this.isInGroup) {
+            this.checkboxGroup.removeValue(this.value);
         }
     },
     watch: {
-        checked(newVal)
+        value(n, o)
         {
-            this.computedLocalChecked = newVal;
-        },
-        computedLocalChecked(newVal)
-        {
-            this.$emit('input', newVal);
+            if (this.isInGroup) {
+                this.checkboxGroup.replaceValue(n, o);
+            }
         }
     }
 
