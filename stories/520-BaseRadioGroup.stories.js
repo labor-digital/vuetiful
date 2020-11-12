@@ -16,9 +16,9 @@
  * Last modified: 2020.07.22 at 14:26
  */
 
-import {object, select, text, withKnobs} from '@storybook/addon-knobs';
+import {array, boolean, button, object, text, withKnobs} from '@storybook/addon-knobs';
+import BaseRadio from '../src/Components/BaseRadio/BaseRadio.vue';
 import BaseRadioGroup from '../src/Components/BaseRadio/BaseRadioGroup.vue';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -31,6 +31,151 @@ export default {
 export const Default = () => {
     return (
         {
+            components: {BaseRadioGroup, BaseRadio},
+            template: `
+                <div>
+                <base-radio-group
+                    v-model="v"
+                    :name="name"
+                    :error="error"
+                >
+                    <base-radio
+                        value="A"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: A
+                    </base-radio>
+                    <base-radio
+                        value="B"
+                        disabled
+                        :label-left="labelLeft">
+                        Value: B (disabled)
+                    </base-radio>
+                    <base-radio
+                        value="C"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: C
+                    </base-radio>
+                    <base-radio
+                        :value="randomValue"
+                        :disabled="disable"
+                        :label-left="labelLeft">
+                        Value: {{ randomValue }}
+                    </base-radio>
+                    <base-radio
+                        v-for="value in additionalValues"
+                        :key="value"
+                        :disabled="disable"
+                        :value="value"
+                        :label-left="labelLeft"
+                    >
+                        Value: {{ value }}
+                    </base-radio>
+                </base-radio-group>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            props: {
+                shuffleValue: {
+                    default()
+                    {
+                        const chars = ['D.a', 'D.b', 'D.c', 'D.d', 'D.e'];
+                        button('Shuffle value "D" to see how it responds', () => {
+                            this.randomValue = chars[Math.round(Math.random() * (
+                                chars.length - 1
+                            ))];
+                        });
+                    }
+                },
+                additionalValues: {
+                    default: () => array('Simply add and remove values on the fly', ['E', 'F'])
+                },
+                labelLeft: {
+                    default: boolean('Render the label on the left side', false)
+                },
+                disable: {
+                    default: boolean('Disable all inputs', false)
+                },
+                name: {
+                    default: text('Add an optional group name', '')
+                },
+                error: {
+                    /* Error message for input field after your validation failed */
+                    default: text('Set an error message', '')
+                }
+            },
+            data()
+            {
+                return {
+                    randomValue: 'D',
+                    v: null
+                };
+            }
+        }
+    );
+};
+
+export const WithInitialSelectedValue = () => {
+    return (
+        {
+            components: {BaseRadioGroup, BaseRadio},
+            template: `
+                <div>
+                <base-radio-group v-model="v">
+                    <base-radio value="A">Value: A</base-radio>
+                    <base-radio value="B">Value: B (default)</base-radio>
+                    <base-radio value="C">Value: C</base-radio>
+                </base-radio-group>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            data()
+            {
+                return {
+                    v: 'B'
+                };
+            }
+        }
+    );
+};
+
+export const WithRequiredValue = () => {
+    return (
+        {
+            components: {BaseRadioGroup, BaseRadio},
+            template: `
+                <div>
+                <form @submit.prevent.stop>
+                    <base-radio-group v-model="v" start-empty name="input">
+                        <base-radio value="A" required>Value: A</base-radio>
+                        <base-radio value="B">Value: B</base-radio>
+                        <base-radio value="C">Value: C</base-radio>
+                    </base-radio-group>
+                    <button>You can't click me without checking one of the above first!</button>
+                </form>
+                <span style="display:block;color:#888;margin-top: 50px">
+                    Current model value:
+                    <pre>{{ v }}</pre>
+                </span>
+                </div>`,
+            data()
+            {
+                return {
+                    v: null
+                };
+            }
+        }
+    );
+};
+
+export const Legacy = () => {
+    return (
+        {
             components: {BaseRadioGroup},
             template: `
                 <div>
@@ -39,7 +184,6 @@ export const Default = () => {
                     :items="it"
                     :item-label="itemLabel"
                     :item-value="itemValue"
-                    :label-side="labelSide"
                     :name="name"
                     :error="error"
                 />
@@ -49,10 +193,7 @@ export const Default = () => {
                 </div>`,
             props: {
                 it: {
-                    default: object('Items', ['Test1', 'Test2', 'Test3'])
-                },
-                labelSide: {
-                    default: select('Label side', {left: 'left', right: 'right'}, 'right')
+                    default: () => object('Items', ['Test1', 'Test2', 'Test3'])
                 },
                 itemLabel: {
                     default: text('Label key', '')
@@ -61,7 +202,7 @@ export const Default = () => {
                     default: text('Value Key', '')
                 },
                 name: {
-                    default: text('Error', 'input')
+                    default: text('Group name', 'input')
                 },
                 error: {
                     /* Error message for input field after your validation failed */

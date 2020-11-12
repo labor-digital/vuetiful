@@ -17,22 +17,35 @@
   -->
 
 <template>
-    <div class="checkboxGroup">
-        <base-radio v-for="(item,index) in prepareItems" :key="'checkbox-' + index"
-                    :class="item.classes"
-                    v-model="localChecked"
-                    :label="item.label"
-                    :value="item.value"
-                    :required="item.required"
-                    :disabled="item.disabled">
+    <div class="radioGroup">
+        <slot/>
+
+        <!-- @deprecated will be removed when items prop is removed -->
+        <base-radio
+            v-if="useLegacyItems"
+            v-for="(item,index) in prepareItems"
+            :key="'checkbox-' + index"
+            :class="item.classes"
+            :label="item.label"
+            :value="item.value"
+            :required="item.required"
+            :disabled="item.disabled">
         </base-radio>
+
+        <span v-if="hasError" class="radioGroup__error">
+			<!-- @slot Use the prop or the slot to set your own error message.  -->
+			<slot name="error" :error="error">{{ error }}</slot>
+		</span>
     </div>
 </template>
 
 <script lang="ts">
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
+import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {ReactiveSet} from '../../Utils/ReactiveSet';
 import BaseRadio from './BaseRadio.vue';
+import {RadioGroupApi} from './RadioGroupApi';
 
 export default {
     name: 'BaseRadioGroup',
@@ -44,12 +57,47 @@ export default {
     provide()
     {
         return {
+            radioGroup: new RadioGroupApi(this),
+            // @deprecated use radioGroup instead
             isRadioGroup: this
         };
     },
     props: {
         /**
+         * Set the required group name so that the inputs work together.
+         */
+        name: {
+            type: String,
+            default: ''
+        },
+
+        /**
+         * v-model -> An array with selected values
+         */
+        checked: {
+            default: () => []
+        },
+
+        /**
+         * Set error message in span and adds class checkbox__error
+         */
+        error: {
+            type: String
+        },
+
+        /**
+         * By default the group will always select the first item in the list,
+         * if you set this flag to true, the list will start of empty.
+         * NOTE: If you use this, make sure to start off with NULL as value
+         */
+        startEmpty: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
          * Set your items/checkboxes as an Array or Object.
+         * @deprecated will be removed in the next major version use BaseRadio child components instead!
          */
         items: {
             type: [Array, Object],
@@ -59,6 +107,7 @@ export default {
         /**
          * If "items" contains an array of objects, this prop is used to select the object's property
          * which should be used as a label.
+         * @deprecated will be removed in the next major version use BaseRadio child components instead!
          */
         itemLabel: {
             type: String,
@@ -69,31 +118,34 @@ export default {
         /**
          * If "items" contains an array of objects, this prop is used to select the object's property
          * which should be used as a value.
+         * @deprecated will be removed in the next major version use BaseRadio child components instead!
          */
         itemValue: {
             type: String,
             default: 'value',
             note: 'property in item for value.'
-        },
-
-        /**
-         * Set the required group name so that the inputs work together.
-         */
-        name: {
-            type: String,
-            required: true
-        },
-
-        /**
-         * v-model -> If you need preselected Items set this to the same as the value.
-         * Within a checkbox group use an array. If the values match it will preselect them.
-         * type: [String, Number, Boolean]
-         */
-        checked: {
-            default: null
         }
     },
+    data()
+    {
+        return {
+            values: new ReactiveSet<any>()
+        };
+    },
     computed: {
+        /**
+         * True if we should use the legacy item definition instead of using child components
+         * @deprecated only here to support the legacy mode
+         */
+        useLegacyItems(): boolean
+        {
+            return isEmpty(this.$slots.default);
+        },
+
+        /**
+         * Returns the prepared item list for the legacy api
+         * @deprecated use radio child elements instead
+         */
         prepareItems()
         {
             let preparedItems = [];
@@ -115,25 +167,39 @@ export default {
             });
 
             return preparedItems;
+        },
+        /**
+         * Returns true if an error was given
+         */
+        hasError(): boolean
+        {
+            return !isEmpty(this.$slots.error) || !isEmpty(this.error);
         }
     },
-    data()
-    {
-        return {
-            localChecked: this.checked || ''
-        };
-    },
-    watch: {
-        checked(newVal)
+    methods: {
+        /**
+         * Internal helper to force the value to be in the valid range
+         * @internal
+         */
+        forceValidValue(): void
         {
-            this.localChecked = newVal;
-        },
-        localChecked(newVal, oldVal)
-        {
-            if (newVal != oldVal) {
-                this.$emit('input', newVal);
+            // Don't force the value if we start off empty and are allowed to do so
+            if (this.checked === null && this.startEmpty) {
+                return;
+            }
+
+            if (!this.values.has(this.checked)) {
+                this.$emit('input', this.values.getFirst());
             }
         }
+    },
+    updated()
+    {
+        this.forceValidValue();
+    },
+    mounted()
+    {
+        this.forceValidValue();
     }
 };
 </script>

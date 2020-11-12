@@ -16,9 +16,8 @@
  * Last modified: 2020.07.22 at 14:26
  */
 
-import {select, text, withKnobs} from '@storybook/addon-knobs';
+import {boolean, text, withKnobs} from '@storybook/addon-knobs';
 import BaseRadio from '../src/Components/BaseRadio/BaseRadio.vue';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -34,38 +33,37 @@ export const Default = () => {
             components: {BaseRadio},
             template: `
                 <div>
-                    <base-radio
-                        v-model="v"
-                        :value="value"
-                        :unchecked-value="uncheckedValue"
-                        :label="label"
-                        :label-side="labelSide"
-                        :error="error"
-                        :name="name"
-                    />
-                    <span style="display:block;color:#888;margin-top: 50px">Current model value:
-                    <pre>{{v}}</pre>
+                <base-radio
+                    v-model="v"
+                    :value="value"
+                    :label-left="labelLeft"
+                    :disabled="disable"
+                    :error="error"
+                    :name="name"
+                >{{ label }}</base-radio>
+                <span style="display:block;color:#888;margin-top: 50px">Current model value:
+                    <pre>{{ v }}</pre>
                 </span>
                 </div>`,
             props: {
                 label: {
-                    default: text('Label', 'Test Label')
+                    default: text('A label to show', 'Radio Label')
                 },
-                labelSide: {
-                    default: select('Label side', {left: 'left', right: 'right'}, 'right')
+                labelLeft: {
+                    default: boolean('Render the label on the left side', false)
                 },
                 value: {
-                    default: text('Value', 'Checked')
-                },
-                uncheckedValue: {
-                    default: text('Unchecked value', '123')
+                    default: text('The value for the when the item was checked', 'Checked')
                 },
                 name: {
-                    default: text('Name', 'input')
+                    default: text('Add an optional name', 'input')
+                },
+                disable: {
+                    default: boolean('Disable the input', false)
                 },
                 error: {
                     /* Error message for input field after your validation failed */
-                    default: text('Error', '')
+                    default: text('Set an error message', '')
                 }
             },
             data()
