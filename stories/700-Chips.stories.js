@@ -17,6 +17,7 @@
  */
 
 import {array, object, withKnobs} from '@storybook/addon-knobs';
+import BaseChips from '../src/Components/BaseChips/BaseChips.vue';
 import Chips from '../src/Components/Chips/Chips.vue';
 
 // Global configuration of your component
@@ -30,7 +31,7 @@ export default {
 export const Default = () => {
     return (
         {
-            components: {Chips},
+            components: {BaseChips},
             template: `
                 <div>
                 <chips
@@ -103,7 +104,7 @@ export const Default = () => {
 export const ObjectsAsValues = () => {
     return (
         {
-            components: {Chips},
+            components: {BaseChips},
             template: `
                 <div>
                 <chips

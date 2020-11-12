@@ -161,4 +161,4 @@ export default {
 };
 </script>
 
-<style scoped lang="sass" src="./Chip.sass"></style>
+<style scoped lang="sass" src="./BaseChip.sass"></style>

@@ -19,15 +19,15 @@
 <template>
     <div class="chips" :id="identifier">
 
-        <chip v-for="item in preparedItems"
-              class="chips__item"
-              :id="item.id"
-              :key="item.id"
-              :disabled="item.disabled"
-              :removable="item.removable"
-              @click="onChipClick(item)"
-              @remove="onChipRemove(item)"
-              :ref="'chip_' + item.id"
+        <BaseChip v-for="item in preparedItems"
+                  class="chips__item"
+                  :id="item.id"
+                  :key="item.id"
+                  :disabled="item.disabled"
+                  :removable="item.removable"
+                  @click="onChipClick(item)"
+                  @remove="onChipRemove(item)"
+                  :ref="'chip_' + item.id"
         >
 
             <!-- @slot Used to overwrite the close icon for a single chip -->
@@ -39,7 +39,7 @@
             <slot name="chipLabel" :item="item">
                 {{ item.label }}
             </slot>
-        </chip>
+        </BaseChip>
 
     </div>
 </template>
@@ -51,7 +51,7 @@ import {md5} from '@labor-digital/helferlein/lib/Misc/md5';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isObject} from '@labor-digital/helferlein/lib/Types/isObject';
 import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
-import Chip from './Chip.vue';
+import BaseChip from './BaseChip.vue';
 
 export interface ChipItemDefinition
 {
@@ -63,8 +63,8 @@ export interface ChipItemDefinition
 }
 
 export default {
-    name: 'Chips',
-    components: {Chip},
+    name: 'BaseChips',
+    components: {BaseChip},
     props: {
         /**
          * v-model Can be either an array of values or an array of objects that can contain multiple
