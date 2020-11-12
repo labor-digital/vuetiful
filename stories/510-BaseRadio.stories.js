@@ -35,15 +35,17 @@ export const Default = () => {
                 <div>
                 <base-radio
                     v-model="v"
-                    :value="value"
+                    :value="_value"
                     :label-left="labelLeft"
                     :disabled="disable"
                     :error="error"
                     :name="name"
                 >{{ label }}</base-radio>
+
                 <span style="display:block;color:#888;margin-top: 50px">Current model value:
                     <pre>{{ v }}</pre>
                 </span>
+
                 </div>`,
             props: {
                 label: {
@@ -52,8 +54,8 @@ export const Default = () => {
                 labelLeft: {
                     default: boolean('Render the label on the left side', false)
                 },
-                value: {
-                    default: text('The value for the when the item was checked', 'Checked')
+                _value: {
+                    default: () => text('The value for the when the item was checked', 'Checked')
                 },
                 name: {
                     default: text('Add an optional name', 'input')
@@ -71,6 +73,12 @@ export const Default = () => {
                 return {
                     v: 'Checked'
                 };
+            },
+            watch: {
+                _value(n)
+                {
+                    this.v = n;
+                }
             }
         }
     );

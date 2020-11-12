@@ -35,7 +35,7 @@ export const Default = () => {
                 <div>
                 <base-checkbox
                     v-model="v"
-                    :value="value"
+                    :value="_value"
                     :disabled="disable"
                     :label-left="labelLeft"
                     :error="error"
@@ -52,8 +52,8 @@ export const Default = () => {
                 labelLeft: {
                     default: boolean('Render the label on the left side', false)
                 },
-                value: {
-                    default: text('The value for the when the item was checked', 'Checked')
+                _value: {
+                    default: () => text('The value for the when the item was checked', 'Checked')
                 },
                 name: {
                     default: text('Add an optional group name', 'input')
@@ -69,8 +69,14 @@ export const Default = () => {
             data()
             {
                 return {
-                    v: false
+                    v: 'Checked'
                 };
+            },
+            watch: {
+                _value(n)
+                {
+                    this.v = n;
+                }
             }
         }
     );
