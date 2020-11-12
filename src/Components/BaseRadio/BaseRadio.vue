@@ -74,7 +74,7 @@ export default {
         api: {
             from: 'radioGroup',
             default: null
-        }
+        } as unknown as RadioGroupApi
     },
     props: {
 
