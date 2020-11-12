@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.20.3](https://github.com/labor-digital/vuetiful/compare/v1.20.2...v1.20.3) (2020-11-09)
+
+
+### Bug Fixes
+
+* **BaseAccordion:** make sure contents stay reactive ([10d41ec](https://github.com/labor-digital/vuetiful/commit/10d41ec15ad51d43a65eec33e5e2a0be50396aa6))
+
 ### [1.20.2](https://github.com/labor-digital/vuetiful/compare/v1.20.1...v1.20.2) (2020-11-09)
 
 
