@@ -17,11 +17,27 @@
   -->
 
 <template>
-    <div class="chip">
-		<span class="chip__item" :class="classes">
-			  <slot/> <span v-if="isRemovable" class="chip__removeBtn" @click="$emit('remove', $event)">&times;</span>
+    <a href="#"
+       :class="classes"
+       class="chip"
+       @click.prevent="onClick"
+       @keyup="onKeyUp"
+       role="option"
+       :tabindex="disabledInternal ? -1 : null"
+       :aria-disabled="disabledInternal ? 'true': 'false'"
+    >
+		<span class="chip__item">
+            <slot/>
+
+            <span v-if="removableInternal && !disabledInternal"
+                  aria-hidden="true"
+                  class="chip__removeBtn"
+                  @click.stop.prevent="onRemoveClick">
+                <slot name="removeIcon">&times;</slot>
+            </span>
+
 		</span>
-    </div>
+    </a>
 </template>
 
 <script lang="ts">
@@ -29,22 +45,117 @@
 export default {
     name: 'Chip',
     props: {
-        item: String,
-        isRemovable: {
+
+        /**
+         * By default all chips can be removed again, if you set this to false this one can't
+         */
+        removable: {
             type: Boolean,
             default: true
         },
-        isDisabled: {
+
+        /**
+         * Allows you to disable the chip's interaction
+         */
+        disabled: {
             type: Boolean,
             default: false
+        },
+
+        /**
+         * @deprecated it does nothing(?) o.O
+         */
+        item: String,
+
+        /**
+         * @deprecated use "disabled" instead
+         */
+        isDisabled: {
+            type: [Boolean, Number],
+            validator: (v) => [-1, true, false].indexOf(v) !== -1,
+            default: -1
+        },
+
+        /**
+         * @deprecated use "removable" instead
+         */
+        isRemovable: {
+            type: [Boolean, Number],
+            validator: (v) => [-1, true, false].indexOf(v) !== -1,
+            default: -1
         }
     },
     computed: {
+        /**
+         * The list of the css classes based on the given props
+         */
         classes(): Object
         {
             return {
-                'chip__item--disabled': this.isDisabled
+                'chip--nonRemovable': !this.removableInternal,
+                'chip--disabled': this.disabledInternal
             };
+        },
+
+        /**
+         * @deprecated temporary helper to handle both the legacy and the new disabled state
+         */
+        removableInternal(): boolean
+        {
+            if (this.isRemovable !== -1) {
+                return this.isRemovable;
+            }
+            return this.removable;
+        },
+
+        /**
+         * @deprecated temporary helper to handle both the legacy and the new disabled state
+         */
+        disabledInternal(): boolean
+        {
+            if (this.isDisabled !== -1) {
+                return this.isDisabled;
+            }
+            return this.disabled;
+        }
+    },
+    methods: {
+        /**
+         * Removes this chip from the chip list
+         * This has an effect only if triggered inside a chips list
+         * @public
+         */
+        remove(): void
+        {
+            this.$emit('remove');
+        },
+
+        /**
+         * Handles keyboard events
+         */
+        onKeyUp(e: KeyboardEvent): void
+        {
+            if (e.code === 'Delete' && this.removableInternal) {
+                this.remove();
+            }
+        },
+
+        /**
+         * Emits a non-native "click" event if the chip was clicked
+         */
+        onClick()
+        {
+            if (!this.disabledInternal) {
+                this.$emit('click');
+            }
+        },
+
+        /**
+         * Emits the close event if the chip is allowed to be closed
+         */
+        onRemoveClick()
+        {
+            this.remove();
         }
     }
 };

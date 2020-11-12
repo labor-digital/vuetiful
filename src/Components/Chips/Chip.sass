@@ -17,5 +17,18 @@
  /
 
 .chip
+  display: block
+  color: inherit
+  text-decoration: inherit
+  cursor: default
+
+  &--disabled
+
+    &:focus,
+    &:active,
+    a:focus,
+    a:active
+      outline: 0
+
   &__removeBtn
     cursor: pointer
