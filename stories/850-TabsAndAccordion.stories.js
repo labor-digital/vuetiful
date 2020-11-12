@@ -38,7 +38,7 @@ export const Default = () => {
                 <pre>BaseTabs and BaseAccordion are designed to be interchangeable with eachother.
 This allows you to show tabs on a desktop and an accordion on mobile with ease.
                 </pre>
-                <component :is="components[component].outer" :open-multiple="openMultiple">
+                <component :is="components[component].outer">
                     <component :is="components[component].inner" label="Label A">
                         Content A
                     </component>
