@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.2](https://github.com/labor-digital/vuetiful/compare/v1.22.1...v1.22.2) (2020-11-12)
+
+
+### Bug Fixes
+
+* **BaseAccordionItem:** emit this instead of el for transition events ([5b58f6d](https://github.com/labor-digital/vuetiful/commit/5b58f6d1834a793b619c3ac063a81b64b746ad25))
+
 ### [1.22.1](https://github.com/labor-digital/vuetiful/compare/v1.22.0...v1.22.1) (2020-11-12)
 
 ## [1.22.0](https://github.com/labor-digital/vuetiful/compare/v1.21.1...v1.22.0) (2020-11-12)
