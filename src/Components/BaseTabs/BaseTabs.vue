@@ -21,7 +21,6 @@
         <!-- @todo remove tabs__titleContainer class -->
         <div role="tablist" class="tabs__labels tabs__titleContainer">
 
-            <pre>{{ renderItems }}</pre>
             <!-- @todo this should be an ul > li construct -> aria -->
             <div v-for="item in renderItems"
                  role="presentation"
