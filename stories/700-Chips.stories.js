@@ -18,7 +18,6 @@
 
 import {object, text, withKnobs} from '@storybook/addon-knobs';
 import Chips from '../src/Components/Chips/Chips.vue';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {

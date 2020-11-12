@@ -16,63 +16,70 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {boolean, button, text, withKnobs} from "@storybook/addon-knobs";
-import Vue from "vue";
-import Modal from "../src/Components/Modal/Modal";
-import "../src/Components/SelectBox/Storybook.sass";
+import {boolean, button, text, withKnobs} from '@storybook/addon-knobs';
+import Vue from 'vue';
+import Modal from '../src/Components/Modal/Modal';
 
 // Global configuration of your component
 export default {
-	title: "Modal",
-	component: Modal,
-	decorators: [withKnobs]
+    title: 'Modal',
+    component: Modal,
+    decorators: [withKnobs]
 };
 
 const bus = Vue.observable({});
-Vue.set(bus, "isOpen", true);
+Vue.set(bus, 'isOpen', true);
 
 // Create the stories
 export const Default = () => {
-	return ({
-		components: {Modal},
-		template: `
-			<modal v-model="isOpen" :isSmall="isSmall"
-					:isVerticallyCentered='isVerticallyCentered'>
-				<span v-html="contentHtml"></span>
-			</modal>`,
-		data() {
-			return {
-				isOpen: bus.isOpen
-			};
-		},
-		computed: {
-			contentHtml() {
-				return this.content.replace(/\r?\n/g, "<br>");
-			}
-		},
-		created() {
-			this.$watch(() => bus.isOpen, () => this.isOpen = bus.isOpen);
-		},
-		watch: {
-			isOpen(v) {
-				if (v === false && bus.isOpen) bus.isOpen = false;
-			}
-		},
-		props: {
-			open: {
-				default: button("Toggle Modal", () => {
-					Vue.set(bus, "isOpen", !bus.isOpen);
-				})
-			},
-			isSmall: {
-				default: boolean("Use Small", false)
-			},
-			isVerticallyCentered: {
-				default: boolean("Center vertically", false)
-			},
-			content: {
-				default: text("Content", "Content of your modal")
-			}
-		}
-	});
+    return (
+        {
+            components: {Modal},
+            template: `
+                <modal v-model="isOpen" :isSmall="isSmall"
+                       :isVerticallyCentered='isVerticallyCentered'>
+                <span v-html="contentHtml"></span>
+                </modal>`,
+            data()
+            {
+                return {
+                    isOpen: bus.isOpen
+                };
+            },
+            computed: {
+                contentHtml()
+                {
+                    return this.content.replace(/\r?\n/g, '<br>');
+                }
+            },
+            created()
+            {
+                this.$watch(() => bus.isOpen, () => this.isOpen = bus.isOpen);
+            },
+            watch: {
+                isOpen(v)
+                {
+                    if (v === false && bus.isOpen) {
+                        bus.isOpen = false;
+                    }
+                }
+            },
+            props: {
+                open: {
+                    default: button('Toggle Modal', () => {
+                        Vue.set(bus, 'isOpen', !bus.isOpen);
+                    })
+                },
+                isSmall: {
+                    default: boolean('Use Small', false)
+                },
+                isVerticallyCentered: {
+                    default: boolean('Center vertically', false)
+                },
+                content: {
+                    default: text('Content', 'Content of your modal')
+                }
+            }
+        }
+    );
 };

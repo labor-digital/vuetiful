@@ -18,7 +18,6 @@
 
 import {boolean, object, withKnobs} from '@storybook/addon-knobs';
 import BaseSelectBox from '../src/Components/BaseSelectBox/BaseSelectBox';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {

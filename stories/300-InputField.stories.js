@@ -18,7 +18,6 @@
 
 import {boolean, select, text, withKnobs} from '@storybook/addon-knobs';
 import InputField from '../src/Components/InputField/InputField';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -33,12 +32,13 @@ export const Default = () => {
         {
             components: {InputField},
             template: `
-			<div>
-				<input-field v-model="value" :type="type" :clear-icon="clearIcon" :error="error" :placeholder="placeholder" :required="required">
-					{{label}}
-				</input-field>
-				<span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
-				<span style="display:block;color:#333;margin-top: 10px">{{value}}</span></div>`,
+                <div>
+                <input-field v-model="value" :type="type" :clear-icon="clearIcon" :error="error"
+                             :placeholder="placeholder" :required="required">
+                    {{ label }}
+                </input-field>
+                <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
+                <span style="display:block;color:#333;margin-top: 10px">{{ value }}</span></div>`,
             props: {
                 required: {
                     default: boolean('Required?', false)

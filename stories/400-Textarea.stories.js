@@ -18,7 +18,6 @@
 
 import {boolean, text, withKnobs} from '@storybook/addon-knobs';
 import BaseTextArea from '../src/Components/BaseTextArea/BaseTextArea';
-import '../src/Components/SelectBox/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -34,11 +33,11 @@ export const Default = () => {
             components: {BaseTextArea},
             template: `
                 <div>
-                    <BaseTextArea v-model="v" :error="error" :placeholder="placeholder" :required="required">
-                        {{label}}
-                    </BaseTextArea>
-                    <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
-                    <span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{v}}</span>
+                <BaseTextArea v-model="v" :error="error" :placeholder="placeholder" :required="required">
+                    {{ label }}
+                </BaseTextArea>
+                <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
+                <span style="display:block;color:#333;margin-top: 10px;white-space: pre-wrap;">{{ v }}</span>
                 </div>`,
             props: {
                 required: {
