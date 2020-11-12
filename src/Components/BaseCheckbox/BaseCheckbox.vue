@@ -75,7 +75,7 @@ export default {
         checkboxGroup: {
             from: 'checkboxGroup',
             default: null
-        } as CheckboxApi
+        } as unknown as CheckboxApi
     },
     props: {
 
