@@ -13,34 +13,20 @@
  / See the License for the specific language governing permissions and
  / limitations under the License.
  /
- / Last modified: 2020.07.01 at 14:12
+ / Last modified: 2020.11.11 at 21:34
  /
+
 .tabs
 
+  &__labels
+    display: flex
+    padding-bottom: 20px
+
   &__label
-    cursor: pointer
+    padding: 0 20px 0 0
 
     &--disabled
-      cursor: default
+      color: gray
 
-      &:focus,
-      &:active,
-      a:focus,
-      a:active
-        outline: 0
-
-      a
-        cursor: default
-
-    a
-      display: inherit
-      text-decoration: inherit
-      color: inherit
-
-  &__tabs
-    position: relative
-    transition: height .3s
-    overflow: hidden
-
-
-
+    &--open
+      font-weight: bold

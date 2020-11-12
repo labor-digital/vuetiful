@@ -16,10 +16,11 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {number, object, text, withKnobs} from '@storybook/addon-knobs';
+import {array, boolean, button, number, object, text, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
+import BaseTabsItem from '../src/Components/BaseTabs/BaseTabItem.vue';
 import BaseTabs from '../src/Components/BaseTabs/BaseTabs.vue';
-import '../src/Components/SelectBox/Storybook.sass';
+import '../src/Components/BaseTabs/Storybook.sass';
 
 // Global configuration of your component
 export default {
@@ -32,9 +33,89 @@ export default {
 export const Default = () => {
     return (
         {
+            components: {BaseTabs, BaseTabsItem},
+            template: `
+                <div>
+                <pre>Please note, that we styled the tabs a bit here to make the demonstration
+easier to understand. Normally the tabs can be styled from ground up if you
+use them in your own project.</pre>
+                <BaseTabs ref="tabs">
+                    <BaseTabsItem label="Tab A">
+                        Content A
+                    </BaseTabsItem>
+                    <BaseTabsItem label="Tab B">
+                        Content B
+                    </BaseTabsItem>
+                    <BaseTabsItem label="Tab C" key="c">
+                        Content C
+                    </BaseTabsItem>
+                    <BaseTabsItem :label="'Tab D' + (disabled ? '(Disabled)' : '')" :disabled="disabled">
+                        You {{ disabled ? 'can\\'t' : 'can' }} touch this
+                    </BaseTabsItem>
+                    <BaseTabsItem label="Tab E">
+                        Content E
+                    </BaseTabsItem>
+                    <BaseTabsItem
+                        v-for="value in additionalValues"
+                        :key="value"
+                        :label="'Tab ' + value">
+                        Content {{ value }}
+                    </BaseTabsItem>
+                </BaseTabs>
+                </div>`,
+            props: {
+                additionalValues: {
+                    default: () => array('Simply add and remove values on the fly', ['F', 'G'])
+                },
+                openItem: {
+                    default()
+                    {
+                        button('Open item "C" programmatically', () => {
+                            this.$refs.tabs.openItem('c');
+                        });
+                    }
+                },
+                disabled: {
+                    default: boolean('Disable tab D', true)
+                },
+                openPrevious: {
+                    default()
+                    {
+                        button('Open the previous item programmatically', () => {
+                            this.$refs.tabs.openPreviousItem();
+                        });
+                    }
+                },
+                openNext: {
+                    default()
+                    {
+                        button('Open the next item programmatically', () => {
+                            this.$refs.tabs.openNextItem();
+                        });
+                    }
+                }
+
+            },
+            data()
+            {
+                return {
+                    testItems1: ['Lorem 1', 'Lorem 2'],
+                    testItems2: ['Lorem 3', 'Lorem 4']
+                };
+            }
+        }
+    );
+};
+
+export const Legacy = () => {
+    return (
+        {
             components: {BaseTabs, BaseAccordion},
             template: `
                 <div>
+                <pre>Please note, that we styled the tabs a bit here to make the demonstration
+easier to understand. Normally the tabs can be styled from ground up if you
+use them in your own project.</pre>
                 <base-tabs :open="open" :items="items" :item-label="itemLabel">
                     <template :slot="items[0].label">
                         <base-accordion :items="testItems1">
@@ -65,7 +146,6 @@ export const Default = () => {
                         </base-accordion>
                     </template>
                 </base-tabs>
-                <div style="height: 100px; width: 100%; background: red"></div>
                 </div>`,
             props: {
                 items: {
