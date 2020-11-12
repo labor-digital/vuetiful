@@ -16,10 +16,9 @@
  * Last modified: 2020.04.27 at 15:43
  */
 
-import {boolean, button, number, object, text, withKnobs} from '@storybook/addon-knobs';
+import {array, boolean, button, object, text, withKnobs} from '@storybook/addon-knobs';
 import BaseAccordion from '../src/Components/BaseAccordion/BaseAccordion.vue';
-import '../src/Components/SelectBox/Storybook.sass';
-import Item from '../src/Components/Utils/Item/Item.vue';
+import BaseAccordionItem from '../src/Components/BaseAccordion/BaseAccordionItem.vue';
 
 // Global configuration of your component
 export default {
@@ -32,71 +31,35 @@ export default {
 export const Default = () => {
     return (
         {
-            components: {BaseAccordion},
-            template: `
-                <div>
-                <base-accordion :open="[0,1]" :items="it" :open-multiple="openMultiple" :item-label="itemLabel">
-                    <template :slot="it[0].label">
-                        <div style="padding-bottom: 30px">HALLO FOO</div>
-                    </template>
-                    <template :slot="it[1]">
-                        <div style="padding-bottom: 30px">HALLO BAR</div>
-                    </template>
-                </base-accordion>
-                </div>`,
-            props: {
-                it: {
-                    default: () => object('Input', [
-                        {
-                            'label': 'Acc Title 1'
-                        },
-                        'Acc Title 2'
-                    ], 'group')
-                },
-                openMultiple: {
-                    default: () => boolean('Multiple?', false)
-                },
-                itemLabel: {
-                    default: () => text('key from array for label', 'label')
-                },
-                open: {
-                    default: () => number('open', 0)
-                }
-            },
-            data()
-            {
-                return {
-                    v: []
-                };
-            }
-        }
-    );
-};
-
-export const UsingItems = () => {
-    return (
-        {
-            components: {BaseAccordion, Item},
+            components: {BaseAccordion, BaseAccordionItem},
             template: `
                 <div>
                 <base-accordion
                     ref="accordion"
                     :open-multiple="openMultiple"
                     use-items>
-                    <Item label="A">
+                    <BaseAccordionItem label="Label: A">
                         A Content
-                    </Item>
-                    <Item label="B">
+                    </BaseAccordionItem>
+                    <BaseAccordionItem label="Label: B">
                         B Content
-                    </Item>
-                    // use either "key" or "id" to define a unique name for this item
-                    // you can later use this in openItem() and closeItem() for programmatic access
-                    <Item label="C" key="c">
+                    </BaseAccordionItem>
+                    <!--
+                    use "key" to define a unique name for this item
+                    you can later use this in openItem() and closeItem() for programmatic access
+                    -->
+                    <BaseAccordionItem label="Label: C" key="c">
                         C Content
-                    </Item>
+                    </BaseAccordionItem>
+                    <BaseAccordionItem :label="'Label: D' + (disabled ? ' (Disabled)' : '')" :disabled="disabled">
+                        You {{ disabled ? 'can\\'t' : 'can' }} touch this
+                    </BaseAccordionItem>
                 </base-accordion>
                 </div>`,
             props: {
+                disabled: {
+                    default: boolean('Disable element D', true)
+                },
                 openMultiple: {
                     default: () => boolean('Allow to open multiple items', false)
                 },
@@ -140,16 +103,19 @@ export const UsingItems = () => {
 export const UsingItemsWithDynamicContent = () => {
     return (
         {
-            components: {BaseAccordion, Item},
+            components: {BaseAccordion, BaseAccordionItem},
             template: `
                 <div>
-                {{ count }}
+                <pre>A dynamic counter as baseline: {{ count }}</pre>
                 <base-accordion
                     ref="accordion"
                     use-items>
-                    <Item v-for="el in elements" :label="el.label" :key="el.key">
-                        Dynamic item content: {{ count }}
-                    </Item>
+                    <BaseAccordionItem
+                        v-for="el in elements"
+                        :label="'Label ' + el.label + ' (' + count + ')'"
+                        :key="el.key">
+                        Dynamic item content: {{ count }} ({{ el.label }})
+                    </BaseAccordionItem>
                 </base-accordion>
                 </div>`,
             props: {
@@ -159,7 +125,9 @@ export const UsingItemsWithDynamicContent = () => {
                         button('Add a section to the bottom', () => {
                             const chars = ['A', 'B', 'C', 'D', 'E'];
                             this.elements.push({
-                                label: chars[Math.round(Math.random() * chars.length)],
+                                label: chars[Math.round(Math.random() * (
+                                    chars.length - 1
+                                ))],
                                 key: this.nextKey++
                             });
                         });
@@ -209,12 +177,57 @@ export const UsingItemsWithDynamicContent = () => {
             mounted()
             {
                 this.i = setInterval(() => {
-                    console.log(this.count++);
+                    this.count++;
                 }, 500);
             },
             beforeDestroy()
             {
                 clearInterval(this.i);
+            }
+        }
+    );
+};
+
+
+export const Legacy = () => {
+    return (
+        {
+            components: {BaseAccordion},
+            template: `
+                <div>
+                <base-accordion :open="open" :items="it" :open-multiple="openMultiple" :item-label="itemLabel">
+                    <template :slot="it[0].label">
+                        <div style="padding-bottom: 30px">HALLO FOO</div>
+                    </template>
+                    <template :slot="it[1]">
+                        <div style="padding-bottom: 30px">HALLO BAR</div>
+                    </template>
+                </base-accordion>
+                </div>`,
+            props: {
+                it: {
+                    default: () => object('Input', [
+                        {
+                            'label': 'Acc Title 1'
+                        },
+                        'Acc Title 2'
+                    ], 'group')
+                },
+                openMultiple: {
+                    default: () => boolean('Multiple?', false)
+                },
+                itemLabel: {
+                    default: () => text('key from array for label', 'label')
+                },
+                open: {
+                    default: () => array('Allows you to manually open specific ids', [])
+                }
+            },
+            data()
+            {
+                return {
+                    v: []
+                };
             }
         }
     );

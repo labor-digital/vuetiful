@@ -18,82 +18,43 @@
 
 <template>
     <!-- @todo Remove the :key in the next major release -> This should not be required-->
-    <dl class="accordion" :key="'ba_' + _uid">
-        <!-- @todo remove the :id in the next major release -> we provide them as refs instead -->
-        <div
-            :id="'ba_' + _uid + '-' + item.id"
+    <!-- @todo this should be a simple div element-->
+    <dl class="accordion" :key="'ba_' + _uid" :id="identifier">
+        <slot/>
 
-            :ref="'item_' + item.id"
-            v-for="item in getItemsWithLegacy()"
-            class="accordion__container"
-            :class="{...givenContainerClasses, 'accordion__container--open': item.open}">
+        <!-- @deprecated removed in the next major release -->
+        <BaseAccordionItem
+            v-if="useLegacyItems"
+            v-for="label in legacyItems"
+            :key="label"
+            :label="label">
+            <slot :name="label"/>
+        </BaseAccordionItem>
 
-            <dt @click="onClickToggle(item)"
-                class="accordion__label"
-                :class="{
-                // @deprecated accordion__label--active will be removed together with accordion__label--open
-                // you should use 'accordion__container--open' on the container instead!
-                'accordion__label--active': item.data.open,
-                'accordion__label--open': item.data.open,
-            }">
-
-                <!-- @slot Used to add additional elements before the label -->
-                <slot name="beforeLabel"/>
-
-                <!-- @slot Default label slot for your elements. As default the label from the given items will be used -->
-                <slot name="label" :label="item.label">{{ item.label }}</slot>
-
-                <!-- @slot Used to add additional elements after the label -->
-                <slot name="afterLabel"/>
-            </dt>
-
-            <transition
-                name="accordion"
-                @enter="onBeforeTransition($event, true)"
-                @after-enter="onAfterTransition($event, true)"
-                @before-leave="onBeforeTransition($event, false)"
-                @after-leave="onAfterTransition($event, false)">
-
-                <dd v-show="item.data.open"
-                    class="accordion__item"
-                    :class="{
-                    // @deprecated accordion__item--active will be removed together with accordion__item--open
-                    // you should use 'accordion__container--open' on the container instead!
-                    'accordion__item--active': item.data.open,
-                    'accordion__item--open': item.data.open
-                }">
-
-                    <!-- @slot Used to add additional elements before the content -->
-                    <slot name="beforeContent"/>
-                    <!-- @slot Default item slot for your elements -->
-                    <slot :name="item.label" v-if="!useItems"></slot>
-                    <ItemContentRenderer :vnode="item.vNode" v-else/>
-
-                    <!-- @slot Used to add additional elements after the content -->
-                    <slot name="afterContent"/>
-                </dd>
-            </transition>
-        </div>
     </dl>
 </template>
 
 <script lang="ts">
 import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isNumber} from '@labor-digital/helferlein/lib/Types/isNumber';
 import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
 import {isString} from '@labor-digital/helferlein/lib/Types/isString';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
-import Vue from 'vue';
-import ItemAwareMixin, {ItemDefinition} from '../Utils/Item/ItemAwareMixin';
-import ItemContentRenderer from '../Utils/Item/ItemContentRenderer.vue';
+import {ReactiveSet} from '../../Utils/ReactiveSet';
+import {AccordionApi} from './AccordionApi';
+import BaseAccordionItem from './BaseAccordionItem.vue';
 
 export default {
     name: 'BaseAccordion',
-    components: {ItemContentRenderer},
-    mixins: [ItemAwareMixin],
+    components: {BaseAccordionItem},
+    provide()
+    {
+        return {
+            accordion: new AccordionApi(this)
+        };
+    },
     props: {
         /**
          * Set this to true if you want to open multiple accordion entries at the same time
@@ -106,30 +67,20 @@ export default {
 
         /**
          * Allows you to add additional css classes to the accordion container.
-         * @todo in the next major version this should only be allowed to receive an object to make
-         * merging of the classes less painful...
+         * @deprecated set the classes on the child component directly
          */
         containerClass: [String, Object],
 
         /**
-         * If this is set to true the component expects the new, "item" sub-component based definition
-         * @todo remove this in the next major release and make it the new default
-         */
-        useItems: {
-            type: Boolean,
-            default: false
-        },
-
-        /**
          * Add custom classes if necessary to the accordion container.
-         * @deprecated use "containerClass" instead!
+         * @deprecated set the classes on the child component directly
          */
         classes: [String, Object],
 
         /**
          * The list of items that should be used. The items are also the name
          * for the looped slots in which you can put your content in.
-         * @deprecated You should migrate to the new "use-item" variant. This will be removed in the next major version
+         * @deprecated You should migrate to the new child component based variant. This will be removed in the next major version
          */
         items: {
             type: Array,
@@ -139,7 +90,7 @@ export default {
         /**
          * If index of the element given it opens the accordion. Use open.sync to get the value back if needed.
          * The component will listen to changes of the prop. If openMultiple is true you can give an array of indexes to open multiple
-         * @deprecated This will not work with "use-items" and will be removed in the next major release
+         * @deprecated This will not work with the new child component based api and will be removed in the next major release
          * please use the "openItem()" method we provide as public api
          */
         open: [Number, Array],
@@ -147,9 +98,18 @@ export default {
         /**
          * If "items" contains an array of objects, this prop is used to select the object's property
          * which should be used as a label.
-         * @deprecated You should migrate to the new "use-item" variant. This will be removed in the next major version
+         * @deprecated You should migrate to the new child component based variant. This will be removed in the next major version
          */
         itemLabel: String
+    },
+    data()
+    {
+        return {
+            registeredItems: new ReactiveSet<string>(),
+            disabledItems: new ReactiveSet<string>(),
+            openItems: new ReactiveSet<string>(),
+            identifier: this.$attrs.id ?? this.$vnode.key ?? getGuid('accordion_')
+        };
     },
     computed: {
         /**
@@ -176,73 +136,32 @@ export default {
                 }
             });
             return classes;
-        }
-    },
-    data()
-    {
-        return {
-            legacyItemOpen: []
-        };
-    },
-    methods: {
-        defaultItemState()
-        {
-            return {
-                open: false
-            };
         },
 
         /**
-         * @deprecated only here to support the legacy "items" definition. this will be removed in the next major version
+         * True if we should use the legacy item definition instead of using child components
+         * @deprecated only here to support the legacy mode
          */
-        getItemsWithLegacy(): Array<ItemDefinition>
+        useLegacyItems(): boolean
         {
-            if (this.useItems) {
-                return this.getItems();
-            } else {
-                let items = [];
-                const that = this;
-                forEach(this.items, (item, index) => {
-                    items[index] = {
-                        id: index,
-                        label: item.label ?? item[this.itemLabel] ?? item,
-                        data: {
-                            get open()
-                            {
-                                if (isNumber(that.open) && that.open === index) {
-                                    return true;
-                                } else if (isArray(that.open) && (
-                                    that.open.indexOf(index) !== -1 ||
-                                    that.open.indexOf(index + '') !== -1
-                                )) {
-                                    return true;
-                                }
-                                return that.legacyItemOpen.indexOf(index) !== -1;
-                            },
-                            set open(state: boolean)
-                            {
-                                if (!state && that.legacyItemOpen.indexOf(index) !== -1) {
-                                    that.legacyItemOpen.splice(
-                                        that.legacyItemOpen.indexOf(index), 1
-                                    );
-                                    return;
-                                }
-                                if (!that.openMultiple) {
-                                    for (let i = 0; i < that.openMultiple.length; i++) {
-                                        that.legacyItemOpen.pop();
-                                    }
-                                }
-                                if (that.legacyItemOpen.indexOf(index) === -1) {
-                                    that.legacyItemOpen.push(index);
-                                }
-                            }
-                        }
-                    };
-                });
-                return Vue.observable(items);
-            }
+            return isEmpty(this.$slots.default);
         },
 
+        /**
+         * The legacy item definition normalized into a simple array
+         * @deprecated
+         */
+        legacyItems(): Array<String>
+        {
+            let items = [];
+            forEach(this.items, item => {
+                items.push(item.label ?? item[this.itemLabel] ?? item);
+            });
+            return items;
+        }
+
+    },
+    methods: {
         /**
          * Allows you to open a single accordion element with a given id
          * @param id The id of the element to open
@@ -252,25 +171,16 @@ export default {
          */
         openItem(id: number | string, closeOthers?: boolean): void
         {
-            if (isUndefined(closeOthers)) {
-                closeOthers = !this.openMultiple;
+            if (!this.registeredItems.has(id) || this.openItems.has(id) || this.disabledItems.has(id)) {
+                return;
             }
-            forEach(this.getItemsWithLegacy(), item => {
-                if (item.id === id) {
-                    if (!item.data.open) {
-                        item.data.open = true;
-                        this.$emit('open', item.id);
-                    }
 
-                    // Break if we should not close the other tabs
-                    if (closeOthers === false) {
-                        return false;
-                    }
-                } else if (closeOthers !== false && item.data.open) {
-                    item.data.open = false;
-                    this.$emit('close', item.id);
-                }
-            });
+            if (closeOthers ?? !this.openMultiple) {
+                this.openItems.clear();
+            }
+
+            this.openItems.add(id);
+            this.$emit('open', id);
         },
 
         /**
@@ -279,15 +189,11 @@ export default {
          */
         closeItem(id: number | string): void
         {
-            forEach(this.getItemsWithLegacy(), item => {
-                if (item.id === id) {
-                    if (item.data.open) {
-                        item.data.open = false;
-                        this.$emit('close', item.id);
-                    }
-                    return false;
-                }
-            });
+            if (!this.registeredItems.has(id) || !this.openItems.has(id)) {
+                return;
+            }
+            this.openItems.delete(id);
+            this.$emit('close', id);
         },
 
         /**
@@ -296,12 +202,7 @@ export default {
          */
         closeAllItems(): void
         {
-            forEach(this.getItemsWithLegacy(), item => {
-                if (item.data.open) {
-                    item.data.open = false;
-                    this.$emit('close', item.id);
-                }
-            });
+            forEach(this.openItems, (item) => this.closeItem(item));
         },
 
         /**
@@ -310,56 +211,11 @@ export default {
          */
         openAllItems(): void
         {
-            forEach(this.getItemsWithLegacy(), item => {
-                if (!item.data.open) {
-                    item.data.open = true;
-                    this.$emit('open', item.id);
-                }
-                if (!this.openMultiple) {
-                    return false;
-                }
-            });
-        },
-
-        /**
-         * Event handler when the label of an item was clicked
-         * @param item
-         */
-        onClickToggle(item: PlainObject)
-        {
-            if (!item.data.open) {
-                this.openItem(item.id, !this.openMultiple);
-                // @deprecated use "open" instead! The event will be removed in the next major release
-                this.$emit('update:open', item.id);
+            if (this.openMultiple) {
+                forEach(this.registeredItems, (item) => this.openItem(item));
             } else {
-                this.closeItem(item.id);
+                this.openItem(this.registeredItems.getFirst());
             }
-        },
-
-        /**
-         * Triggered when the vue transition of a single item container is started
-         * @param el the html element that gets transitioned
-         * @param open True if the element gets opened or false if it gets closed
-         */
-        onBeforeTransition(el: HTMLElement, open: boolean): void
-        {
-            el.style.height = el.scrollHeight + 'px';
-            this.$emit((
-                           open ? 'open' : 'close'
-                       ) + ':transition:start', el);
-        },
-
-        /**
-         * Triggered when the vue transition of a single item container was finished
-         * @param el the html element that was transitioned
-         * @param open True if the element was opened or false if it was closed
-         */
-        onAfterTransition(el: HTMLElement, open: boolean): void
-        {
-            el.style.height = '';
-            this.$emit((
-                           open ? 'open' : 'close'
-                       ) + ':transition:end', el);
         },
 
         /**
@@ -371,39 +227,52 @@ export default {
             if (isOpenArray && !this.openMultiple) {
                 return;
             }
-            forEach(this.getItemsWithLegacy(), item => {
-                item.data.open = isOpenArray ? this.open.includes(item.id) : this.open === item.id;
+            forEach(this.registeredItems, (item) => {
+                if (isOpenArray ? this.open.includes(item) : this.open === item) {
+                    this.openItems.add(item);
+                } else {
+                    this.openItems.delete(item);
+                }
+            });
+        },
+
+        /**
+         * Internal helper to force the opened tab to be in the valid range
+         * @internal
+         */
+        forceValidValue(): void
+        {
+            let openCountLimit = this.openMultiple ? 9999 : 1;
+            let openCount = 0;
+            forEach(this.openItems, id => {
+                if (this.disabledItems.has(id)) {
+                    this.closeItem(id);
+                    return;
+                }
+
+                if (++openCount > openCountLimit) {
+                    this.closeItem(id);
+                }
             });
         }
     },
     mounted()
     {
         this.onChangeOpen();
+        this.forceValidValue();
     },
     watch: {
         open()
         {
             this.onChangeOpen();
         },
-        openMultiple(n)
+        openMultiple()
         {
-            if (!n) {
-                // Close all items if we don't allow multiple anymore
-                let gotOneOpen = false;
-                forEach(this.getItemsWithLegacy(), item => {
-                    if (gotOneOpen) {
-                        this.closeItem(item.id);
-                        return;
-                    }
-                    if (item.data.open) {
-                        gotOneOpen = true;
-                    }
-                });
-            }
+            this.forceValidValue();
         }
     }
 };
 </script>
 
-<style scoped lang="sass" src="./BaseAccordion.sass"></style>
+<style lang="sass" src="./BaseAccordion.sass"></style>
 
