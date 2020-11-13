@@ -19,33 +19,35 @@
 .accordionItem
 
   &--disabled
+    & .accordionItem__labelWrap,
     & .accordionItem__label
       cursor: default
 
       &:focus,
       &:active,
-      &Button:focus,
-      &Button:active
+      .accordionItem__label:focus,
+      .accordionItem__label:active
         outline: 0
 
 
-  &__label
+  &__labelWrap
     cursor: pointer
 
-    Button
-      // Reset all button properties so it behaves like a normal block element
-      cursor: inherit
-      appearance: inherit
-      display: block
-      background: transparent
-      border: none
-      letter-spacing: inherit
-      word-spacing: inherit
-      font-family: inherit
-      font-size: inherit
-      line-height: inherit
-      margin: inherit
-      overflow: visible
-      text-transform: none
-      color: inherit
+  &__label
+    // Reset all button properties so it behaves like a normal block element
+    cursor: inherit
+    appearance: inherit
+    display: block
+    background: transparent
+    border: none
+    letter-spacing: inherit
+    word-spacing: inherit
+    font-family: inherit
+    font-size: inherit
+    line-height: inherit
+    margin: inherit
+    overflow: visible
+    text-transform: none
+    color: inherit
+    text-decoration: inherit
 

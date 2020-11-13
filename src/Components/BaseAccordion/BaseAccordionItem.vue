@@ -31,7 +31,7 @@
 
             <!-- @todo this should be a header element -> aria -->
             <dt @click="onToggleClick"
-                class="accordionItem__label accordion__label"
+                class="accordionItem__labelWrap"
                 :class="{
                 // @deprecated accordion__label--active will be removed together with accordion__label--open
                 // you should use 'accordionItem--open' on the container instead!
@@ -42,7 +42,7 @@
                 <slot name="labelWrap">
                     <!-- aria support | NOTE: Yeah it's a button now, if I broke your code, I'm sorry -->
                     <button
-                        class="accordionItem__labelButton"
+                        class="accordionItem__label accordion__label"
                         :tabindex="disabled ? -1 : null"
                         @click.prevent
                         :id="elementId + '_label'"
