@@ -75,7 +75,6 @@
                     class="accordion__item"
                     :id="elementId + '_content'"
                     :aria-labelledby="elementId + '_label'"
-                    :hidden="!isOpen"
                     :class="{
                                 // @deprecated accordion__item--active will be removed together with accordion__item--open
                                 // you should use 'accordionItem--open' on the container instead!
@@ -186,7 +185,7 @@ export default {
          */
         close()
         {
-            this.api.openItem(this.identifier);
+            this.api.closeItem(this.identifier);
         },
 
         /**
@@ -195,9 +194,9 @@ export default {
         onToggleClick()
         {
             if (this.isOpen) {
-                this.api.closeItem(this.identifier);
+                this.close();
             } else {
-                this.api.openItem(this.identifier);
+                this.open();
             }
         },
 
