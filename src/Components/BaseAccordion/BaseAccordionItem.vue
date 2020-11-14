@@ -231,7 +231,7 @@ export default {
         if (this.api === null) {
             throw new Error('You have to place the accordion items inside a accordion element!');
         }
-        this.api.registerItem(this.identifier, this.disabled);
+        this.api.registerItem(this.identifier, this, this.disabled);
     },
     beforeDestroy()
     {
