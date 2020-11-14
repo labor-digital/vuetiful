@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.23.0](https://github.com/labor-digital/vuetiful/compare/v1.22.6...v1.23.0) (2020-11-14)
+
+
+### Features
+
+* emit open:wasOpen / close:wasClosed events when accordion + tab items are triggered but already at the required state ([e469390](https://github.com/labor-digital/vuetiful/commit/e469390fd526633b093195e6dfc55684f87bdad9))
+
 ### [1.22.6](https://github.com/labor-digital/vuetiful/compare/v1.22.5...v1.22.6) (2020-11-14)
 
 
