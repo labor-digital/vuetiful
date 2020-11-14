@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.24.0](https://github.com/labor-digital/vuetiful/compare/v1.23.0...v1.24.0) (2020-11-14)
+
+
+### Features
+
+* **BaseAccordion:** emit the child instance on open:wasOpen and close:wasClosed ([d78b75f](https://github.com/labor-digital/vuetiful/commit/d78b75f823b73108c20ee1d9609ed3cc56fa9c63))
+
 ## [1.23.0](https://github.com/labor-digital/vuetiful/compare/v1.22.6...v1.23.0) (2020-11-14)
 
 
