@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.5](https://github.com/labor-digital/vuetiful/compare/v1.22.4...v1.22.5) (2020-11-14)
+
+
+### Bug Fixes
+
+* don't override slot name with groupName in baseRadio and baseCheckbox ([c8bfa30](https://github.com/labor-digital/vuetiful/commit/c8bfa30bc377d94b7a92bde0f55c929bee7a001e))
+
 ### [1.22.4](https://github.com/labor-digital/vuetiful/compare/v1.22.3...v1.22.4) (2020-11-14)
 
 
