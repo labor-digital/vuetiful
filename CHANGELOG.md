@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.4](https://github.com/labor-digital/vuetiful/compare/v1.22.3...v1.22.4) (2020-11-14)
+
+
+### Bug Fixes
+
+* register child components after they have been removed ([4c21c86](https://github.com/labor-digital/vuetiful/commit/4c21c869f1adb1217b8e26d6f38f3afef9b76392))
+* **BaseAccordionItem:** fix multiple issues with opening and closing ([889397c](https://github.com/labor-digital/vuetiful/commit/889397c4e24b7a644e859fcafcc28565f8f82e87))
+
 ### [1.22.3](https://github.com/labor-digital/vuetiful/compare/v1.22.2...v1.22.3) (2020-11-13)
 
 
