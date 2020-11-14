@@ -33,17 +33,25 @@ export const Default = () => {
             components: {InputField},
             template: `
                 <div>
-                <input-field v-model="value" :type="type" :clear-icon="clearIcon" :error="error"
-                             :placeholder="placeholder" :required="required">
+                <input-field
+                    v-model="value"
+                    :type="fieldType"
+                    :clear-icon="clearIcon"
+                    :error="error"
+                    :placeholder="placeholder"
+                    :required="required"
+                    maxlength="50"
+                >
                     {{ label }}
                 </input-field>
+                Characters left: {{ 50 - value.length }}
                 <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
                 <span style="display:block;color:#333;margin-top: 10px">{{ value }}</span></div>`,
             props: {
                 required: {
-                    default: boolean('Required?', false)
+                    default: boolean('Mark the field as being required', false)
                 },
-                type: {
+                fieldType: {
                     default: select('Types', {
                         text: 'text',
                         password: 'password',

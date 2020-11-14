@@ -25,10 +25,13 @@
         <span class="inputField__inputContainer">
 			<!-- @slot Optional content at the start of the input container -->
 			<slot name="beforeInput"></slot>
+
             <span v-if="type === 'date' && !focus && this.placeholder !== ''" class="inputField__placeholder">
                 {{ isEmpty ? placeholder : '' }}
             </span>
+
             <input class="inputField__input"
+                   ref="input"
                    :style="stylesDate"
                    :value="value"
                    :type="type"
@@ -36,10 +39,12 @@
                    :required="required"
                    :readonly="readOnly"
                    :disabled="disabled"
+                   v-bind="filteredAttributes"
                    @input="updateValue"
                    @change="updateValue"
                    @blur="onBlur"
                    @focus="onFocus"/>
+
             <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
             <slot name="icon"></slot>
 
@@ -62,6 +67,8 @@
 </template>
 
 <script lang="ts">
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 
@@ -75,19 +82,16 @@ export default {
         label: {
             type: String
         },
+
         /**
          * Change input type of field. default: text
-         * ('text', 'password', 'email', 'url', 'date', 'datetime', 'number')
-         * css class: inputField__input
          * If email is set the mail will be validated with a simple regex. A default error message will show up. To override this error message simply put your custom error in the error prop or in the error slot.
          */
         type: {
             default: 'text',
-            type: String,
-            validator: (v) => {
-                return ['text', 'password', 'email', 'url', 'date', 'datetime', 'number'].indexOf(v) !== -1;
-            }
+            type: String
         },
+
         /**
          * set error message in span
          * css class: inputField__error
@@ -102,6 +106,7 @@ export default {
         placeholder: {
             type: String
         },
+
         /**
          * show clear icon on the right to easily clear the input field
          */
@@ -109,6 +114,7 @@ export default {
             default: true,
             type: Boolean
         },
+
         /**
          * set input as required
          */
@@ -116,6 +122,7 @@ export default {
             default: false,
             type: Boolean
         },
+
         /**
          * set input as read-only
          */
@@ -123,6 +130,7 @@ export default {
             default: false,
             type: Boolean
         },
+
         /**
          * set input as disabled
          */
@@ -153,6 +161,20 @@ export default {
         };
     },
     computed: {
+        filteredAttributes(): PlainObject
+        {
+            const allowedAttrs = [
+                'accept', 'alt', 'autofocus', 'autocomplete', 'form', 'formaction',
+                'list', 'maxlength', 'minlength', 'size'
+            ];
+            const result = {};
+            forEach(allowedAttrs, (attr) => {
+                if (this.$attrs[attr]) {
+                    result[attr] = this.$attrs[attr];
+                }
+            });
+            return result;
+        },
         isEmpty(): boolean
         {
             return isEmpty(this.value);
@@ -181,7 +203,11 @@ export default {
         stylesDate(): Object
         {
             return {
-                color: this.isEmpty && !this.focus && this.type === 'date' && this.placeholder !== '' ? 'transparent' : ''
+                color: this.isEmpty
+                       && !this.focus
+                       && this.type === 'date'
+                       && this.placeholder !== ''
+                    ? 'transparent' : ''
             };
         }
     },
