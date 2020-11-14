@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.24.1](https://github.com/labor-digital/vuetiful/compare/v1.24.0...v1.24.1) (2020-11-14)
+
+
+### Bug Fixes
+
+* **BaseAccordionItem:** pass the instance to the registerItem method ([1a713a6](https://github.com/labor-digital/vuetiful/commit/1a713a605e2e0650d344ef795497461d026dbf97))
+
 ## [1.24.0](https://github.com/labor-digital/vuetiful/compare/v1.23.0...v1.24.0) (2020-11-14)
 
 
