@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.22.6](https://github.com/labor-digital/vuetiful/compare/v1.22.5...v1.22.6) (2020-11-14)
+
+
+### Bug Fixes
+
+* set --checked modifier correctly in baseRadio and baseCheckbox ([96f82dc](https://github.com/labor-digital/vuetiful/commit/96f82dc27eb5ddfad19ce74251a2bf7eaf2ba8c7))
+
 ### [1.22.5](https://github.com/labor-digital/vuetiful/compare/v1.22.4...v1.22.5) (2020-11-14)
 
 
