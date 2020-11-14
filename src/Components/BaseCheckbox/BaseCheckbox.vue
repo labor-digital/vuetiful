@@ -272,7 +272,7 @@ export default {
             return !isEmpty(this.$slots.error) || !isEmpty(this.error);
         }
     },
-    created()
+    mounted()
     {
         if (this.isInGroup) {
             this.checkboxGroup.registerValue(this.value);

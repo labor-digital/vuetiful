@@ -268,7 +268,7 @@ export default {
             }
         }
     },
-    created()
+    mounted()
     {
         if (this.isInGroup) {
             this.api.registerValue(this.value);

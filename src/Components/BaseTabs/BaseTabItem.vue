@@ -107,7 +107,7 @@ export default {
             };
         }
     },
-    created()
+    mounted()
     {
         if (this.api === null) {
             throw new Error('You have to place the tab items inside a tabs element!');
