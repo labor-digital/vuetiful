@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.0](https://github.com/labor-digital/vuetiful/compare/v1.24.1...v1.25.0) (2020-11-14)
+
+
+### Features
+
+* update dependencies ([1df0f43](https://github.com/labor-digital/vuetiful/commit/1df0f432a38d8742123c0210532d7bc9846c4bcd))
+* **InputField:** pass through some attributes to the input field ([a5cdd4b](https://github.com/labor-digital/vuetiful/commit/a5cdd4b273846fd5071186309761a4a88ccba7f2))
+
 ### [1.24.1](https://github.com/labor-digital/vuetiful/compare/v1.24.0...v1.24.1) (2020-11-14)
 
 
