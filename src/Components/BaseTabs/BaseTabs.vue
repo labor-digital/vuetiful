@@ -218,8 +218,12 @@ export default {
          */
         openItem(identifier: string): void
         {
+            if (this.selectedItem === identifier) {
+                this.$emit('open:wasOpen', identifier);
+                return;
+            }
+
             if (this.registeredItems.has(identifier)
-                && this.selectedItem !== identifier
                 && !this.disabledItems.has(identifier)) {
                 this.selectedItem = identifier;
 

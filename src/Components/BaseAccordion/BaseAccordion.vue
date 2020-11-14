@@ -171,7 +171,12 @@ export default {
          */
         openItem(id: number | string, closeOthers?: boolean): void
         {
-            if (!this.registeredItems.has(id) || this.openItems.has(id) || this.disabledItems.has(id)) {
+            if (this.openItems.has(id)) {
+                this.$emit('open:wasOpen', id);
+                return;
+            }
+
+            if (!this.registeredItems.has(id) || this.disabledItems.has(id)) {
                 return;
             }
 
@@ -189,9 +194,15 @@ export default {
          */
         closeItem(id: number | string): void
         {
-            if (!this.registeredItems.has(id) || !this.openItems.has(id)) {
+            if (!this.openItems.has(id)) {
+                this.$emit('close:wasClosed', id);
                 return;
             }
+
+            if (!this.registeredItems.has(id)) {
+                return;
+            }
+
             this.openItems.delete(id);
             this.$emit('close', id);
         },
