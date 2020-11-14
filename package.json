@@ -24,7 +24,7 @@
             "email": "k.martini@labor.digital"
         }
     ],
-    "version": "1.22.2",
+    "version": "1.22.3",
     "description": "A library of ui component skeletons for vue.js",
     "main": "index.js",
     "scripts": {
