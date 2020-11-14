@@ -42,6 +42,7 @@ import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
 import {isString} from '@labor-digital/helferlein/lib/Types/isString';
+import {ReactiveMap} from '../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 import {AccordionApi} from './AccordionApi';
 import BaseAccordionItem from './BaseAccordionItem.vue';
@@ -106,6 +107,7 @@ export default {
     {
         return {
             registeredItems: new ReactiveSet<string>(),
+            itemInstances: new ReactiveMap<string, PlainObject>(),
             disabledItems: new ReactiveSet<string>(),
             openItems: new ReactiveSet<string>(),
             identifier: this.$attrs.id ?? this.$vnode.key ?? getGuid('accordion_')
@@ -172,7 +174,7 @@ export default {
         openItem(id: number | string, closeOthers?: boolean): void
         {
             if (this.openItems.has(id)) {
-                this.$emit('open:wasOpen', id);
+                this.$emit('open:wasOpen', this.itemInstances.get(id));
                 return;
             }
 
@@ -194,12 +196,12 @@ export default {
          */
         closeItem(id: number | string): void
         {
-            if (!this.openItems.has(id)) {
-                this.$emit('close:wasClosed', id);
+            if (!this.registeredItems.has(id)) {
                 return;
             }
 
-            if (!this.registeredItems.has(id)) {
+            if (!this.openItems.has(id)) {
+                this.$emit('close:wasClosed', this.itemInstances.get(id));
                 return;
             }
 

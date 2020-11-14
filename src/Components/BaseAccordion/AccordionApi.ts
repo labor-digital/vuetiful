@@ -17,6 +17,7 @@
  */
 
 import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {ReactiveMap} from '../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 
 export class AccordionApi
@@ -63,9 +64,10 @@ export class AccordionApi
     /**
      * Registers a new item to be watched by this element
      */
-    public registerItem(identifier: string, disabled: boolean): void
+    public registerItem(identifier: string, instance: PlainObject, disabled: boolean): void
     {
         this.registeredItems.add(identifier);
+        this.itemInstances.set(identifier, instance);
         if (disabled) {
             this.disabledItems.add(identifier);
         }
@@ -78,6 +80,7 @@ export class AccordionApi
     {
         this.closeItem(identifier);
         this.registeredItems.delete(identifier);
+        this.itemInstances.delete(identifier);
     }
 
     /**
@@ -111,6 +114,11 @@ export class AccordionApi
     public legacyContainerClasses(): PlainObject
     {
         return this._parent.givenContainerClasses;
+    }
+
+    protected get itemInstances(): ReactiveMap<string, PlainObject>
+    {
+        return this._parent.itemInstances;
     }
 
     protected get registeredItems(): ReactiveSet<string>
