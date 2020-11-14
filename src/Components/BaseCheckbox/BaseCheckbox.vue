@@ -32,7 +32,7 @@
                    :value="value"
                    :required="required"
                    :disabled="realDisabled"
-                   :name="realName"
+                   :groupName="realName"
             />
 
             <!-- @slot Add your custom check icon if needed. -->
@@ -41,7 +41,7 @@
                   :value="value"
                   :required="required"
                   :disabled="realDisabled"
-                  :name="realName"></slot>
+                  :groupName="realName"></slot>
 
             <span v-if="labelSide === 'right' && !labelLeft" class="checkbox__labelText checkbox__labelText--right">
                 <slot :label="label">

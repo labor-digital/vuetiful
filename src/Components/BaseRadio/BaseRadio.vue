@@ -32,7 +32,7 @@
                    :value="value"
                    :required="required"
                    :disabled="disabled"
-                   :name="realName"/>
+                   :groupName="realName"/>
 
             <!-- @slot Add your custom check icon if needed. -->
             <slot name="customCheckIcon"
@@ -40,7 +40,7 @@
                   :value="value"
                   :required="required"
                   :disabled="disabled"
-                  :name="realName">
+                  :groupName="realName">
             </slot>
 
             <span v-if="labelSide === 'right' && !labelLeft" class="radio__labelText radio__labelText--right">
