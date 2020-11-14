@@ -225,7 +225,7 @@ export default {
             return {
                 'radio--required': this.required,
                 'radio--disabled': this.disabled,
-                'radio--checked': this.checked
+                'radio--checked': this.checkedProxy === this.value
             };
         },
 
@@ -237,7 +237,7 @@ export default {
             return {
                 'radio__label--required': this.required,
                 'radio__label--disabled': this.disabled,
-                'radio__label--checked': this.checked
+                'radio__label--checked': this.checkedProxy === this.value
             };
         },
 

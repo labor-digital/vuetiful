@@ -240,7 +240,7 @@ export default {
             return {
                 'checkbox--required': this.required,
                 'checkbox--disabled': this.realDisabled,
-                'checkbox--checked': this.checked
+                'checkbox--checked': this.checkedProxy === this.value
             };
         },
 
@@ -252,7 +252,7 @@ export default {
             return {
                 'checkbox__label--required': this.required,
                 'checkbox__label--disabled': this.realDisabled,
-                'checkbox__label--checked': this.checked
+                'checkbox__label--checked': this.checkedProxy === this.value
             };
         },
 
