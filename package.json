@@ -33,12 +33,12 @@
     },
     "license": "Apache-2.0",
     "dependencies": {
-        "@labor-digital/helferlein": "^3.25.0",
+        "@labor-digital/helferlein": "^3.26.0",
         "vue-cool-select": "^3.5.2"
     },
     "devDependencies": {
         "@babel/core": "^7.12.3",
-        "@labor-digital/asset-building": "8.0.5",
+        "@labor-digital/asset-building": "8.0.6",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
         "@storybook/addon-actions": "^6.0.28",
         "@storybook/addon-docs": "^6.0.28",
@@ -48,8 +48,8 @@
         "@storybook/addons": "^6.0.28",
         "@storybook/preset-typescript": "^3.0.0",
         "@storybook/vue": "^6.0.28",
-        "babel-loader": "^8.1.0",
+        "babel-loader": "^8.2.1",
         "babel-preset-vue": "^2.0.2",
-        "fork-ts-checker-webpack-plugin": "^5.2.1"
+        "fork-ts-checker-webpack-plugin": "^6.0.1"
     }
 }
