@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.25.1](https://github.com/labor-digital/vuetiful/compare/v1.25.0...v1.25.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* **InputField:** allow numbers as value ([e70ed02](https://github.com/labor-digital/vuetiful/commit/e70ed0227f2e0966a5c1ae218d7044f30f5789c5))
+
 ## [1.25.0](https://github.com/labor-digital/vuetiful/compare/v1.24.1...v1.25.0) (2020-11-14)
 
 
