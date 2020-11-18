@@ -33,7 +33,7 @@
             <input class="inputField__input"
                    ref="input"
                    :style="stylesDate"
-                   :value="value"
+                   :value="value + ''"
                    :type="type"
                    :placeholder="isEmpty ? placeholder : ''"
                    :required="required"
@@ -142,7 +142,7 @@ export default {
         /**
          * The field value to be injected via v-model
          */
-        value: String,
+        value: [String, Number],
 
         /**
          * The label to show if the mail validation fails
