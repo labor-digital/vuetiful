@@ -21,11 +21,11 @@
 </template>
 
 <script lang="ts">
-import FormInputAbstract from './FormInputAbstract.vue';
+import VuFormInputAbstract from './VuFormInputAbstract.vue';
 
 export default {
     name: 'VuFormInput',
-    extends: FormInputAbstract
+    extends: VuFormInputAbstract
 };
 </script>
 

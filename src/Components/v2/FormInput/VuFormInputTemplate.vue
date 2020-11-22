@@ -106,10 +106,10 @@ import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject'
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 import {Component, Vue, Watch} from 'vue-property-decorator';
-import FormInputAbstract from './FormInputAbstract.vue';
+import VuFormInputAbstract from './VuFormInputAbstract.vue';
 
 @Component
-export default class FormInputTemplate extends Vue
+export default class VuFormInputTemplate extends Vue
 {
     /**
      * True when the field is in focus
@@ -133,7 +133,7 @@ export default class FormInputTemplate extends Vue
         return isEmpty(this.p._value);
     }
 
-    get p(): FormInputAbstract
+    get p(): VuFormInputAbstract
     {
         return this.$parent as any;
     }

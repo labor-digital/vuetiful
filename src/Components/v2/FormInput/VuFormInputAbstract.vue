@@ -30,8 +30,8 @@ import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import {resolveId} from '../../../Utils/resolveId';
 import viewFactory from '../../../Utils/viewFactory';
-import {FormInputFormatter, FormInputValidator, FormInputValueType, FormInputValueUpdateType} from './FormInput.interfaces';
-import FormInputTemplate from './FormInputTemplate.vue';
+import {FormInputFormatter, FormInputValidator, FormInputValueType, FormInputValueUpdateType} from './VuFormInput.interfaces';
+import VuFormInputTemplate from './VuFormInputTemplate.vue';
 
 
 @Component({
@@ -53,10 +53,10 @@ import FormInputTemplate from './FormInputTemplate.vue';
         max: null
     },
     components: {
-        VuView: viewFactory(FormInputTemplate)
+        VuView: viewFactory(VuFormInputTemplate)
     }
 })
-export default class FormInputAbstract extends Vue
+export default class VuFormInputAbstract extends Vue
 {
     readonly min: null | number | string;
     readonly max: null | number | string;
