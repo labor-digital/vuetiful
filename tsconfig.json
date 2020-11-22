@@ -1,33 +1,39 @@
 {
-  "compilerOptions": {
-	"moduleResolution": "node",
-	"target": "es5",
-	"sourceMap": false,
-	"declaration": true,
-	"noImplicitAny": false,
-	"noEmitOnError": false,
-	"outDir": "lib",
-	"esModuleInterop": true,
-	"pretty": true,
-	"lib": [
-	  "dom",
-	  "es6",
-	  "es5",
-	  "es2015.promise",
-	  "es2015",
-	  "es2016",
-	  "es2017",
-	  "es2015.symbol.wellknown",
-	  "es2015.symbol",
-	  "es2015.iterable",
-	  "esnext",
-	  "es2018"
-	]
-  },
-  "include": [
-	"src/**/*"
-  ],
-  "exclude": [
-	"node_modules", "dist"
-  ]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "moduleResolution": "node",
+        "target": "es5",
+        "sourceMap": true,
+        "declaration": true,
+        "noImplicitAny": false,
+        "emitDecoratorMetadata": true,
+        "noEmitOnError": false,
+        "esModuleInterop": true,
+        "listEmittedFiles": true,
+        "importHelpers": true,
+        "pretty": true,
+        "noEmit": false,
+        "declarationDir": "dist/types",
+        "experimentalDecorators": true,
+        "lib": [
+            "dom",
+            "es6",
+            "es5",
+            "es2015.promise",
+            "es2015",
+            "es2016",
+            "es2017",
+            "es2015.symbol.wellknown",
+            "es2015.symbol",
+            "es2015.iterable",
+            "esnext",
+            "es2018"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "stories",
+        "build"
+    ]
 }
