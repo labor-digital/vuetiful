@@ -400,5 +400,3 @@ export default class VuFormInputAbstract extends Vue
 
 }
 </script>
-
-<style lang="sass" src="FormInput.basic.sass"></style>

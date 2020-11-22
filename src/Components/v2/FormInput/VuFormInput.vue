@@ -28,5 +28,3 @@ export default {
     extends: VuFormInputAbstract
 };
 </script>
-
-<style lang="sass"></style>

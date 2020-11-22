@@ -199,4 +199,4 @@ export default class VuFormInputTemplate extends Vue
 }
 </script>
 
-<style lang="sass"></style>
+<style lang="sass" src="VuFormInput.basic.sass"></style>
