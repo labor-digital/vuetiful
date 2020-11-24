@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/labor-digital/vuetiful/compare/v1.25.1...v1.26.0) (2020-11-24)
+
+
+### Features
+
+* begin to implement version 2 with FormInput element ([aaf4224](https://github.com/labor-digital/vuetiful/commit/aaf4224cdbee7b926b8c128810f1f4b310cdbf5a))
+* implement build process for v2 components ([c3e86aa](https://github.com/labor-digital/vuetiful/commit/c3e86aa6025097c5bbcf0c1d0b2cfd6cbaf76327))
+* implement typeahead ([ee45225](https://github.com/labor-digital/vuetiful/commit/ee45225f5c6f1f4fb55148ed98033bd7a9d3844a))
+* implement v2 dropdown ([67f75eb](https://github.com/labor-digital/vuetiful/commit/67f75ebab9bdbbd3068e4bc9091faa996518e734))
+* prepare build in the pipeline ([3f019a0](https://github.com/labor-digital/vuetiful/commit/3f019a040a761ee165fc25f51308e09c01c886ba))
+* prepare es6 module export ([c491720](https://github.com/labor-digital/vuetiful/commit/c4917203abfbdf2f22816850f552e9ddb304614c))
+
+
+### Bug Fixes
+
+* **FormInput:** add Vu Prefix to all class names ([de2333b](https://github.com/labor-digital/vuetiful/commit/de2333b4bbb4b4adf273c15bab217d22c4017d36))
+* **FormInput:** import sass file from template ([38b83f0](https://github.com/labor-digital/vuetiful/commit/38b83f0f41ac3d9c2bd5d1690c59b7e1220b1613))
+
 ### [1.25.1](https://github.com/labor-digital/vuetiful/compare/v1.25.0...v1.25.1) (2020-11-18)
 
 
