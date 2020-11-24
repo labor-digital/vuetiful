@@ -38,13 +38,13 @@
                     <slot name="loader">Loading...</slot>
                 </li>
 
-                <slot name="items">
+                <slot name="items" :setValue="setValue" :items="p.filteredListItems">
                     <component
                         :is="p.dropdownItemComponent"
                         v-for="item in p.filteredListItems"
                         :key="item.label"
-                        @click.native="setValue(item.label)"
-                        @keyup.native="onDropdownKeyUp($event, item.label)"
+                        @click.native="setValue(item)"
+                        @keyup.native="onDropdownKeyUp($event, item)"
                     >
                         {{ item.label }}
                     </component>
@@ -57,6 +57,7 @@
 <script lang="ts">
 import {focusNextElement, getPath, isObject} from '@labor-digital/helferlein';
 import {Component, Vue} from 'vue-property-decorator';
+import {PreparedListItem} from '../../../Utils/Mixin/ListItemMixin';
 import viewFactory from '../../../Utils/viewFactory';
 import VuDropdownItem from '../Dropdown/Item/VuDropdownItem.vue';
 import VuDropdown from '../Dropdown/VuDropdown.vue';
@@ -94,20 +95,21 @@ export default class VuFormTypeaheadTemplate extends Vue
         }
     }
 
-    protected setValue(value: string): void
+    protected setValue(item: PreparedListItem): void
     {
         const el: HTMLElement = getPath(this.$refs, 'input.$refs.view.$refs.input');
         if (isObject(el)) {
             el.focus();
         }
-        this.p.$emit('input', value);
+        this.p.$emit('input', item.label);
+        this.p.$emit('select', item);
         this.p.closeDropdown();
     }
 
-    protected onDropdownKeyUp(e: KeyboardEvent, value: string)
+    protected onDropdownKeyUp(e: KeyboardEvent, item: PreparedListItem)
     {
         if (e.code === 'Enter') {
-            this.setValue(value);
+            this.setValue(item);
         }
     }
 }
