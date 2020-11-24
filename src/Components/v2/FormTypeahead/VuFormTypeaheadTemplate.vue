@@ -34,8 +34,8 @@
             >
                 <li
                     class="vuTypeahead__dropdownLoader"
-                    v-if="p.isWaitingForResolver">
-                    <slot name="loader">Loading...</slot>
+                    v-if="!p.noLoader && p.isWaitingForResolver">
+                    <slot name="loader">{{ p.loadingLabel }}</slot>
                 </li>
 
                 <slot name="items" :setValue="setValue" :items="p.filteredListItems">
