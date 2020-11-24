@@ -40,10 +40,14 @@
                    :readonly="readOnly"
                    :disabled="disabled"
                    v-bind="filteredAttributes"
+                   v-on="{...getFilteredListeners()}"
                    @input="updateValue"
                    @change="updateValue"
                    @blur="onBlur"
                    @focus="onFocus"/>
+
+            <!-- @slot Internal slot to add addons like the typeahead to the field -->
+            <slot name="addons"></slot>
 
             <!-- @slot if you want to place an icon inside the input. Dont forget to style it! -->
             <slot name="icon"></slot>
@@ -67,6 +71,7 @@
 </template>
 
 <script lang="ts">
+import {filter} from '@labor-digital/helferlein';
 import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
 import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
@@ -212,6 +217,11 @@ export default {
         }
     },
     methods: {
+
+        getFilteredListeners(): PlainObject
+        {
+            return filter(this.$listeners, (l, k) => k !== 'input');
+        },
         updateValue(event: Event)
         {
             this.$emit('input', event.target.value ?? '');

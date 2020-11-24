@@ -39,7 +39,7 @@
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-property-decorator": "^9.1.2",
-        "@labor-digital/helferlein": "^3.31.3"
+        "@labor-digital/helferlein": "^3.31.4"
     },
     "dependencies": {
         "@popperjs/core": "^2.5.4",
@@ -48,7 +48,7 @@
     "devDependencies": {
         "@labor-digital/asset-building": "8.0.13",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
-        "@labor-digital/helferlein": "^3.31.3",
+        "@labor-digital/helferlein": "^3.31.4",
         "@storybook/addon-actions": "6.0.28",
         "@storybook/addon-docs": "6.0.28",
         "@storybook/addon-knobs": "6.0.28",
