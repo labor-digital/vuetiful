@@ -9,8 +9,6 @@
         "emitDecoratorMetadata": true,
         "noEmitOnError": false,
         "esModuleInterop": true,
-        "listEmittedFiles": true,
-        "importHelpers": true,
         "pretty": true,
         "noEmit": false,
         "declarationDir": "dist/types",
