@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.28.0](https://github.com/labor-digital/vuetiful/compare/v1.27.0...v1.28.0) (2020-11-24)
+
+
+### Features
+
+* **FormInput:** consolidate events + add example ([5e26429](https://github.com/labor-digital/vuetiful/commit/5e264291d45ac4596342516dca8bdbc48429b98b))
+* **VuFormTypeahead:** emit "select" event when "enter" is pressed or a dropdown item was selected ([3cb66f1](https://github.com/labor-digital/vuetiful/commit/3cb66f1073865877ffe3523cb4892143ce6cd3dc))
+* use vue-functional-data-merge to merge view data ([40a3ec5](https://github.com/labor-digital/vuetiful/commit/40a3ec5421e7dabbb1f3c8906bd6f9bea5c2d0eb))
+
 ## [1.27.0](https://github.com/labor-digital/vuetiful/compare/v1.26.4...v1.27.0) (2020-11-24)
 
 
