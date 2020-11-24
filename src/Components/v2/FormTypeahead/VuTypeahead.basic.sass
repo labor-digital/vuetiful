@@ -13,43 +13,15 @@
  / See the License for the specific language governing permissions and
  / limitations under the License.
  /
- / Last modified: 2020.11.22 at 12:56
+ / Last modified: 2020.11.23 at 17:59
  /
-.vuFormInput
 
-  &--focus
-    & .vuFormInput__fieldWrap
-      outline: 2px solid $vuFormInputLineColor
+.vuTypeahead
 
-  &--range
-    & .vuFormInput__fieldWrap
-      border-color: transparent
-      outline-color: transparent
-
-  &--withLabel
-    display: flex
-
-  &__field
-    width: 100%
-    border: none
-
-    &:focus,
-    &:active
-      outline: none
-
-  &__fieldWrap
-    position: relative
-    display: flex
-    border-radius: 1px
-    border: 1px solid $vuFormInputLineColor
-
-  &__clear
-    +buttonStyleReset
-    cursor: pointer
-    line-height: 0.8rem
-
-  &__virtualPlaceholder
+  &__dropdown
     position: absolute
-    pointer-events: none
-    padding-right: 2rem
+    width: 100%
+    bottom: 0
 
+  .vuFormInput__fieldWrap
+    position: relative

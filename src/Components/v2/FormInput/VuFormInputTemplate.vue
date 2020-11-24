@@ -53,10 +53,14 @@
                     :aria-invalid="(p._inputFieldAttr.ariaInvalid ? p._inputFieldAttr.ariaInvalid : (p.isValid ? null : 'true'))"
 
                     v-bind="p._inputFieldAttr"
+                    v-on="{...getFilteredListeners()}"
 
                     @blur="onBlur"
                     @focus="onFocus"
                 >
+
+                <!-- @slot Internal slot to add addons like the typeahead to the field -->
+                <slot name="addons"></slot>
 
                 <!-- Pseudo-Placeholder for date and time input fields -->
                 <span v-if="showVirtualPlaceholder"
@@ -71,6 +75,7 @@
 
                 <button v-show="!isEmpty"
                         v-if="!p.noClear"
+                        :tabindex="isEmpty ? -1 : null"
                         class="vuFormInput__clear"
                         @click.prevent="onClearClick"
                         :aria-label="p.ariaClearLabel"
@@ -81,6 +86,7 @@
 
                 <!-- @slot Optional content at the end of the input wrap -->
                 <slot name="afterInput"></slot>
+
             </div>
 
             <div v-if="!p.isValid" class="vuFormInput__error">
@@ -100,11 +106,7 @@
 </template>
 
 <script lang="ts">
-import {getSize} from '@labor-digital/helferlein/lib/Dom/getSize';
-import {isBrowser} from '@labor-digital/helferlein/lib/Environment/isBrowser';
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import {filter, getSize, isBrowser, isEmpty, isFunction, isUndefined, PlainObject} from '@labor-digital/helferlein';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import VuFormInputAbstract from './VuFormInputAbstract.vue';
 
@@ -125,7 +127,7 @@ export default class VuFormInputTemplate extends Vue
 
     get hasLabel(): boolean
     {
-        return !isEmpty(this.$scopedSlots.default({}));
+        return isFunction(this.$scopedSlots.default) && !isEmpty(this.$scopedSlots.default({}));
     }
 
     get isEmpty(): boolean
@@ -166,16 +168,24 @@ export default class VuFormInputTemplate extends Vue
                ['date', 'time'].indexOf(this.p.type) !== -1;
     }
 
+    protected getFilteredListeners(): PlainObject
+    {
+        console.log(filter(this.p.$listeners, (l, k) => k !== 'input'));
+        return filter(this.p.$listeners, (l, k) => k !== 'input');
+    }
+
     protected onBlur()
     {
         this.hasFocus = false;
         this.p._triggerProcessing('blur');
+        this.p.$emit('blur');
     }
 
     protected onFocus()
     {
         this.hasFocus = true;
         this.p._triggerProcessing('focus');
+        this.p.$emit('focus');
     }
 
     protected onClearClick(): void

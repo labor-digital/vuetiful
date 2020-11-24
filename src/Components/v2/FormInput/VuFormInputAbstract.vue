@@ -19,14 +19,7 @@
 <template></template>
 
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {filter} from '@labor-digital/helferlein/lib/Lists/filter';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isFunction} from '@labor-digital/helferlein/lib/Types/isFunction';
-import {isNumber} from '@labor-digital/helferlein/lib/Types/isNumber';
-import {isNumeric} from '@labor-digital/helferlein/lib/Types/isNumeric';
-import {isString} from '@labor-digital/helferlein/lib/Types/isString';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import {filter, isEmpty, isFunction, isNumber, isNumeric, isString, isUndefined, PlainObject} from '@labor-digital/helferlein';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import {resolveId} from '../../../Utils/resolveId';
 import viewFactory from '../../../Utils/viewFactory';
