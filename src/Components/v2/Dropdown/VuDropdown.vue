@@ -23,6 +23,16 @@
 <script lang="ts">
 import VuDropdownAbstract from './VuDropdownAbstract.vue';
 
+export * from './VuDropdownApi';
+export {default as VuDropdownTemplate} from './VuDropdownTemplate.vue';
+export {default as VuDropdownAbstract} from './VuDropdownAbstract.vue';
+export {default as VuDropdownItem} from './Item/VuDropdownItem.vue';
+export {default as VuDropdownItemAbstract} from './Item/VuDropdownItemAbstract.vue';
+export {default as VuDropdownItemTemplate} from './Item/VuDropdownItemTemplate.vue';
+export {default as VuDropdownTrigger} from './Trigger/VuDropdownTrigger.vue';
+export {default as VuDropdownTriggerAbstract} from './Trigger/VuDropdownTriggerAbstract.vue';
+export {default as VuDropdownTriggerTemplate} from './Trigger/VuDropdownTriggerTemplate.vue';
+
 export default {
     name: 'VuDropdown',
     extends: VuDropdownAbstract

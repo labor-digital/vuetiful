@@ -23,6 +23,10 @@
 <script lang="ts">
 import VuFormInputAbstract from './VuFormInputAbstract.vue';
 
+export * from './VuFormInput.interfaces';
+export {default as VuFormInputTemplate} from './VuFormInputTemplate';
+export {default as VuFormInputAbstract} from './VuFormInputAbstract';
+
 export default {
     name: 'VuFormInput',
     extends: VuFormInputAbstract

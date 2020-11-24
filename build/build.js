@@ -17,6 +17,7 @@
  */
 const path = require('path');
 const {Factory} = require('@labor-digital/asset-building/dist/Core/Factory');
+const {CoreFixes} = require('@labor-digital/asset-building/dist/Core/CoreFixes');
 const factory = new Factory();
 
 process.chdir(path.join(__dirname, '../'));
@@ -25,6 +26,7 @@ factory.makeCoreContext({
     laborConfig: {},
     mode: 'build'
 }).then(context => {
+    CoreFixes.resolveFilenameFix(context);
     context.eventEmitter.bind('assetBuilder__filterTypescriptOptions', (e) => {
         e.args.options.configFile = path.join(__dirname, '../tsconfig.json');
         e.args.options.compilerOptions.declaration = true;

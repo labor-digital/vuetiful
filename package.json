@@ -27,7 +27,8 @@
     "version": "1.25.0",
     "description": "A library of ui component skeletons for vue.js",
     "main": "dist/index.js",
-    "module": "dist/index.esm.js",
+    "module": "src/index.ts",
+    "types": "dist/types/index.d.ts",
     "scripts": {
         "storybook": "start-storybook -s ./.storybook/public -p 6006",
         "build-storybook": "build-storybook -s ./.storybook/public",
@@ -37,22 +38,21 @@
     "peerDependencies": {
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
-        "vue-property-decorator": "^9.1.1",
-        "@labor-digital/helferlein": "^3.26.0"
+        "vue-property-decorator": "^9.1.2",
+        "@labor-digital/helferlein": "^3.31.2"
     },
     "dependencies": {
-        "@ahrakio/witty-webpack-declaration-files": "^1.0.3",
-        "declaration-bundler-webpack-plugin": "^1.0.3",
-        "ts-declaration-webpack-plugin": "^1.2.3",
-        "typescript-declaration-webpack-plugin": "^0.1.1",
+        "@popperjs/core": "^2.5.4",
+        "@rollup/plugin-node-resolve": "^10.0.0",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
         "vue-cool-select": "^3.5.2"
     },
     "devDependencies": {
-        "@labor-digital/helferlein": "^3.26.0",
+        "@labor-digital/helferlein": "^3.31.2",
         "vue-class-component": "^7.2.6",
         "vue-property-decorator": "^9.0.2",
         "@babel/core": "^7.12.3",
-        "@labor-digital/asset-building": "8.0.8",
+        "@labor-digital/asset-building": "8.0.10",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
         "@storybook/addon-actions": "^6.0.28",
         "@storybook/addon-docs": "^6.0.28",

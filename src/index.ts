@@ -15,15 +15,29 @@
  *
  * Last modified: 2020.11.20 at 17:10
  */
-
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import 'vue-class-component/hooks';
-import V2Components from './Components/v2/Components';
 
-export const V2 = V2Components;
+// Import defaults and local components
+import VuDropdown, {VuDropdownItem, VuDropdownTrigger} from './Components/v2/Dropdown/VuDropdown.vue';
+import VuFormInput from './Components/v2/FormInput/VuFormInput.vue';
+import VuFormTypeahead from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
+
+// Reexport all child components
+export * from './Components/v2/Dropdown/VuDropdown.vue';
+export * from './Components/v2/FormInput/VuFormInput.vue';
+export * from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
+
+// Reexport component defaults
+export {VuDropdown, VuFormInput, VuFormTypeahead};
 
 export default {
     install(Vue)
     {
-        Vue.component(V2.FormInput.name, V2.FormInput);
+        forEach([
+            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem
+        ], (component) => {
+            Vue.component(component.name, component);
+        });
     }
 };

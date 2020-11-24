@@ -24,6 +24,9 @@
 
 import VuFormTypeaheadAbstract from './VuFormTypeaheadAbstract.vue';
 
+export {default as VuFormTypeaheadTemplate} from './VuFormTypeaheadTemplate';
+export {default as VuFormTypeaheadAbstract} from './VuFormTypeaheadAbstract';
+
 export default {
     name: 'VuFormTypeahead',
     extends: VuFormTypeaheadAbstract

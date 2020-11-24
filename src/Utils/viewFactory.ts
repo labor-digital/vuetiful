@@ -16,10 +16,7 @@
  * Last modified: 2020.11.19 at 12:05
  */
 
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
+import {forEach, isEmpty, isPlainObject, PlainObject} from '@labor-digital/helferlein';
 
 /**
  * Merges the props given to the view component into the props of the
@@ -64,20 +61,26 @@ function makeLocalProps(template)
 
 /**
  * Used to provide the View component definition on an abstract.
- * @param template
+ * @param template The template component that should be wrapped with the props of it's parent
+ * @param alternativeParent By default the generated component will inherit the context
+ * from it's direct parent. You can use the second parameter to inject a different parent/context if required.
  */
-export default function (template) {
+export default function (template, alternativeParent?: PlainObject) {
 
     return {
         functional: true,
+        inheritAttrs: false,
         props: makeLocalProps(template),
         render(h, ctx)
         {
+            let parent = alternativeParent ?? ctx.parent;
             return h(template, {
-                on: ctx.parent.$listeners,
-                props: mergeProps(ctx.parent.$props, ctx.props),
-                scopedSlots: {...ctx.scopedSlots, ...ctx.parent.$scopedSlots}
-            }, [ctx.slots().default]);
+                ref: 'view',
+                ...ctx.data,
+                on: {...ctx.listeners, ...parent.$listeners},
+                props: mergeProps(parent.$props, ctx.props),
+                scopedSlots: {...ctx.scopedSlots, ...parent.$scopedSlots}
+            }, [parent.children ?? ctx.slots().default]);
         }
     };
 };

@@ -15,8 +15,7 @@
  *
  * Last modified: 2020.11.11 at 19:06
  */
-import {cloneList} from '@labor-digital/helferlein/lib/Lists/cloneList';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {cloneList, forEach} from '@labor-digital/helferlein';
 import Vue from 'vue';
 
 /**

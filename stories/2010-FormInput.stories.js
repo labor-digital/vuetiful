@@ -17,12 +17,12 @@
  */
 
 import {boolean, number, select, text, withKnobs} from '@storybook/addon-knobs';
-import FormInput from '../src/Components/v2/FormInput/FormInput.vue';
+import VuFormInput from '../src/Components/v2/FormInput/VuFormInput.vue';
 
 // Global configuration of your component
 export default {
     title: 'v2.0 - Form Input',
-    component: FormInput,
+    component: VuFormInput,
     decorators: [withKnobs]
 };
 
@@ -30,13 +30,13 @@ export default {
 export const Default = () => {
     return (
         {
-            components: {FormInput},
+            components: {VuFormInput},
             template: `
                 <div>
                 <pre>
 - This field has a "formatter" that makes sure the text is lower-case when you focus the field and upper-case when you blur it again
 - It also has a "validator" which does not allow numbers in the field</pre>
-                <FormInput
+                <VuFormInput
                     v-model="value"
                     :validator="validator"
                     :formatter="formatter"
@@ -49,7 +49,7 @@ export const Default = () => {
                     :label-right="labelRight"
                     :debounce="debounce"
                 >Input field label
-                </FormInput>
+                </VuFormInput>
                 Characters left: {{
                 50 - (
                     value + ''
@@ -109,7 +109,6 @@ export const Default = () => {
                         return true;
                     }
 
-                    console.log('validate', v, type);
                     if (/[0-9]/g.test(v + '')) {
                         return 'Numbers are not allowed in here!';
                     }
@@ -143,31 +142,31 @@ export const Default = () => {
 export const SpecialTypes = () => {
     return (
         {
-            components: {FormInput},
+            components: {VuFormInput},
             template: `
                 <div>
                 <h3>Special field types</h3>
                 <pre>All html5 field types are supported, here are some examples:</pre>
-                <FormInput v-model="text">Type: "text" (default, no type required) ({{ text }})</FormInput>
+                <VuFormInput v-model="text">Type: "text" (default, no type required) ({{ text }})</VuFormInput>
                 <br>
-                <FormInput v-model="date" type="date">Type: "date" ({{ date }})</FormInput>
+                <VuFormInput v-model="date" type="date">Type: "date" ({{ date }})</VuFormInput>
                 <br>
-                <FormInput v-model="pw" type="password">Type: "password" ({{ pw }})</FormInput>
+                <VuFormInput v-model="pw" type="password">Type: "password" ({{ pw }})</VuFormInput>
                 <br>
-                <FormInput v-model="range" type="range" :min="10" :max="20">Type: "range" (min: 10, max: 20)
+                <VuFormInput v-model="range" type="range" :min="10" :max="20">Type: "range" (min: 10, max: 20)
                     ({{ range }})
-                </FormInput>
+                </VuFormInput>
                 <br>
-                <FormInput v-model="number" type="number" :min="10" :max="20">Type: "number" (min: 10, max: 20)
+                <VuFormInput v-model="number" type="number" :min="10" :max="20">Type: "number" (min: 10, max: 20)
                     ({{ number }})
-                </FormInput>
+                </VuFormInput>
                 <br>
 
                 <h3>Special cases&trade;</h3>
-                <FormInput v-model="date"
-                           placeholder="Placeholder"
-                           type="date">Type: "date" with placeholder ({{ date }})
-                </FormInput>
+                <VuFormInput v-model="date"
+                             placeholder="Placeholder"
+                             type="date">Type: "date" with placeholder ({{ date }})
+                </VuFormInput>
                 <br>
                 </div>`,
             props: {},
