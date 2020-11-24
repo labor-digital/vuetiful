@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.1](https://github.com/labor-digital/vuetiful/compare/v1.26.0...v1.26.1) (2020-11-24)
+
+
+### Bug Fixes
+
+* fix build issues ([8eab389](https://github.com/labor-digital/vuetiful/commit/8eab389462e29be4eb05d0686441a5fe781878dc))
+
 ## [1.26.0](https://github.com/labor-digital/vuetiful/compare/v1.25.1...v1.26.0) (2020-11-24)
 
 
