@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.3](https://github.com/labor-digital/vuetiful/compare/v1.26.2...v1.26.3) (2020-11-24)
+
+
+### Bug Fixes
+
+* **InputField:** compatibility to new VuFormInput ([9081a09](https://github.com/labor-digital/vuetiful/commit/9081a09e505a1768fb4784755f4230c9a2c233bf))
+* **VuFormInputTemplate:** remove console spam ([235a0b9](https://github.com/labor-digital/vuetiful/commit/235a0b970c87adf461e775e675599cf52b6f3b6a))
+
 ### [1.26.2](https://github.com/labor-digital/vuetiful/compare/v1.26.1...v1.26.2) (2020-11-24)
 
 
