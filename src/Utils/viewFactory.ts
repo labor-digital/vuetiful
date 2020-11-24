@@ -16,48 +16,8 @@
  * Last modified: 2020.11.19 at 12:05
  */
 
-import {forEach, isEmpty, isPlainObject, PlainObject} from '@labor-digital/helferlein';
-
-/**
- * Merges the props given to the view component into the props of the
- * implementation object. However, empty props of the view component will be ignored
- * and filled with the props of the parent
- *
- * @param parentProps
- * @param localProps
- */
-function mergeProps(parentProps: PlainObject, localProps: PlainObject)
-{
-    const props = {...parentProps};
-    forEach(localProps, (v, k) => {
-        if (!isEmpty(v) || isEmpty(parentProps[k])) {
-            props[k] = v;
-        }
-    });
-    return props;
-}
-
-/**
- * Helper to inherit the template props but without any required properties ->
- * If there is a missing property the real template component will still throw an error
- * but we, as a proxy should not
- * @param template
- */
-function makeLocalProps(template)
-{
-    if (!isPlainObject(template.props)) {
-        return {};
-    }
-    const localProps = {};
-    forEach(template.props, (v, k) => {
-        if (isPlainObject(v) && v.required) {
-            v = {...v};
-            v.required = false;
-        }
-        localProps[k] = v;
-    });
-    return localProps;
-}
+import {isPlainObject, map, PlainObject} from '@labor-digital/helferlein';
+import {mergeData} from 'vue-functional-data-merge';
 
 /**
  * Used to provide the View component definition on an abstract.
@@ -70,17 +30,17 @@ export default function (template, alternativeParent?: PlainObject) {
     return {
         functional: true,
         inheritAttrs: false,
-        props: makeLocalProps(template),
+        props: map(isPlainObject(template.props) ? template.props : {}, () => null),
         render(h, ctx)
         {
-            let parent = alternativeParent ?? ctx.parent;
-            return h(template, {
+            const parent = alternativeParent ?? ctx.parent;
+            const localData = {
                 ref: 'view',
-                ...ctx.data,
-                on: {...ctx.listeners, ...parent.$listeners},
-                props: mergeProps(parent.$props, ctx.props),
-                scopedSlots: {...ctx.scopedSlots, ...parent.$scopedSlots}
-            }, [parent.children ?? ctx.slots().default]);
+                on: parent.$listeners,
+                props: parent.$props,
+                scopedSlots: parent.$scopedSlots
+            };
+            return h(template, mergeData(ctx.data, localData), [parent.children ?? ctx.children]);
         }
     };
 };

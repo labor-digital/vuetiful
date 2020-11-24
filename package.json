@@ -43,7 +43,8 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.5.4",
-        "vue-cool-select": "^3.5.2"
+        "vue-cool-select": "^3.5.2",
+        "vue-functional-data-merge": "^3.1.0"
     },
     "devDependencies": {
         "@labor-digital/asset-building": "8.0.13",
