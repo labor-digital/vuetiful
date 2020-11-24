@@ -152,6 +152,10 @@ export class ListItemMixin extends Vue
 
         const regex = new RegExp(escapeRegex(prepared), 'ig');
         return filter(items, item => {
+            // No exact matches -> This "feels" wrong
+            if (item.label === value) {
+                return false;
+            }
             return regex.test(item.label);
         });
     }
@@ -167,12 +171,14 @@ export class ListItemMixin extends Vue
     protected triggerListItemResolver(value: string | number | undefined): Promise<void>
     {
         if (isFunction(this.listItemResolver) && !isEmpty(value)) {
+            this.$emit('resolve');
             const localId = getGuid() + '';
             this.limResolverId = localId;
 
             this.limWaitingForResolver = true;
             return this.listItemResolver(value).then(list => {
                 if (localId + '' === this.limResolverId + '') {
+                    this.$emit('resolveDone');
                     this.limResolverItems = list;
                     this.limWaitingForResolver = false;
                 }

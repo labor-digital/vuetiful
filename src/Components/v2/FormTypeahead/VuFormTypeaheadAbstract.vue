@@ -103,7 +103,10 @@ export default class VuFormTypeaheadAbstract extends Mixins(VuFormInputAbstract,
     public openDropdown(): void
     {
         if (!isEmpty(this.value) && (this.filteredListItems.length > 0 || this.isWaitingForResolver)) {
-            this.dropdownOpen = true;
+            if (!this.dropdownOpen) {
+                this.dropdownOpen = true;
+                this.$emit('open');
+            }
         } else {
             this.closeDropdown();
         }
@@ -115,7 +118,10 @@ export default class VuFormTypeaheadAbstract extends Mixins(VuFormInputAbstract,
      */
     public closeDropdown()
     {
-        this.dropdownOpen = false;
+        if (this.dropdownOpen) {
+            this.dropdownOpen = false;
+            this.$emit('close');
+        }
     }
 
     @Watch('value')

@@ -21,7 +21,7 @@
         :is="inputComponent"
         ref="input"
         class="vuTypeahead"
-        @keyup="onKeyUp"
+        @keyup.native="onKeyUp"
         @focus="onFocus"
     >
         <template v-slot:addons>
@@ -69,6 +69,8 @@ import VuFormTypeaheadAbstract from './VuFormTypeaheadAbstract.vue';
 })
 export default class VuFormTypeaheadTemplate extends Vue
 {
+    protected ignoreFocus: boolean = false;
+
     get p(): VuFormTypeaheadAbstract
     {
         return this.$parent as any;
@@ -81,7 +83,9 @@ export default class VuFormTypeaheadTemplate extends Vue
 
     protected onFocus()
     {
-        this.p.openDropdown();
+        if (!this.ignoreFocus) {
+            this.p.openDropdown();
+        }
     }
 
     protected onKeyUp(e: KeyboardEvent)
@@ -99,7 +103,9 @@ export default class VuFormTypeaheadTemplate extends Vue
     {
         const el: HTMLElement = getPath(this.$refs, 'input.$refs.view.$refs.input');
         if (isObject(el)) {
+            this.ignoreFocus = true;
             el.focus();
+            setTimeout(() => this.ignoreFocus, 100);
         }
         this.p.$emit('input', item.label);
         this.p.$emit('select', item);
