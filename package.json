@@ -31,7 +31,7 @@
     "types": "dist/types/index.d.ts",
     "scripts": {
         "storybook": "start-storybook --no-version-updates -s ./.storybook/public -p 6006",
-        "build-storybook": "build-storybook --no-version-updates -s ./.storybook/public",
+        "build-storybook": "build-storybook -s ./.storybook/public",
         "build": "cd build && node build.js"
     },
     "license": "Apache-2.0",
