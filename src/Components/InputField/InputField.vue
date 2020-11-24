@@ -33,7 +33,7 @@
             <input class="inputField__input"
                    ref="input"
                    :style="stylesDate"
-                   :value="value + ''"
+                   :value="value"
                    :type="type"
                    :placeholder="isEmpty ? placeholder : ''"
                    :required="required"

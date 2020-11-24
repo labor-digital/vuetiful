@@ -98,7 +98,7 @@ export const Default = () => {
             data()
             {
                 return {
-                    value: ''
+                    value: null
                 };
             },
             methods: {

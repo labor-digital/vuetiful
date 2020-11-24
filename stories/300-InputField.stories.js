@@ -44,7 +44,11 @@ export const Default = () => {
                 >
                     {{ label }}
                 </input-field>
-                Characters left: {{ 50 - value.length }}
+                Characters left: {{
+                50 - (
+                    value + ''
+                ).length
+                }}
                 <span style="display:block;color:#888;margin-top: 50px;">Emitted value:</span>
                 <span style="display:block;color:#333;margin-top: 10px">{{ value }}</span></div>`,
             props: {
@@ -78,7 +82,7 @@ export const Default = () => {
             data()
             {
                 return {
-                    value: ''
+                    value: null
                 };
             }
         }

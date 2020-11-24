@@ -250,9 +250,9 @@ export default class VuFormInputAbstract extends Vue
     /**
      * @internal value proxy
      */
-    public get _value()
+    public get _value(): string
     {
-        return this.value;
+        return isEmpty(this.value) ? '' : this.value + '';
     }
 
     /**
