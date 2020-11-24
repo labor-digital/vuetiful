@@ -331,7 +331,9 @@ export default class VuFormInputAbstract extends Vue
         }
 
         // Tell the world
-        this.$emit('input', v);
+        if (v !== this.value) {
+            this.$emit('input', v);
+        }
     }
 
     /**

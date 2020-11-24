@@ -53,7 +53,6 @@
                     :aria-invalid="(p._inputFieldAttr.ariaInvalid ? p._inputFieldAttr.ariaInvalid : (p.isValid ? null : 'true'))"
 
                     v-bind="p._inputFieldAttr"
-                    v-on="{...getFilteredListeners()}"
 
                     @blur="onBlur"
                     @focus="onFocus"
@@ -106,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import {filter, getSize, isBrowser, isEmpty, isFunction, isUndefined, PlainObject} from '@labor-digital/helferlein';
+import {getSize, isBrowser, isEmpty, isFunction, isUndefined, PlainObject} from '@labor-digital/helferlein';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import VuFormInputAbstract from './VuFormInputAbstract.vue';
 
@@ -168,11 +167,6 @@ export default class VuFormInputTemplate extends Vue
                ['date', 'time'].indexOf(this.p.type) !== -1;
     }
 
-    protected getFilteredListeners(): PlainObject
-    {
-        return filter(this.p.$listeners, (l, k) => k !== 'input');
-    }
-
     protected onBlur()
     {
         this.hasFocus = false;
@@ -190,6 +184,7 @@ export default class VuFormInputTemplate extends Vue
     protected onClearClick(): void
     {
         this.p._value = null;
+        this.p.$emit('clear');
     }
 
     @Watch('showVirtualPlaceholder')

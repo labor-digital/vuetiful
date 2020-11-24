@@ -100,3 +100,57 @@ export const WithAsyncData = () => {
         }
     );
 };
+
+export const Events = () => {
+    return (
+        {
+            components: {VuFormTypeahead},
+            template: `
+                <div>
+                <pre>Interact with the element to see which elements are emitted</pre>
+                <pre>Try some planet names...</pre>
+                <VuFormTypeahead
+                    v-model="value"
+                    :list-item-resolver="itemResolver"
+                    @focus="onEmit('focus')"
+                    @blur="onEmit('blur')"
+                    @input="onEmit('input (' + $event + ')')"
+                    @open="onEmit('open')"
+                    @close="onEmit('close')"
+                    @resolve="onEmit('resolve')"
+                    @resolveDone="onEmit('resolveDone')"
+                    @select="onEmit('select (' + $event.label + ')')"
+                    @keydown.native="onEmit('keydown.native (' + $event.code + ')')"
+                    @keyup.native="onEmit('keyup.native (' + $event.code + ')')"
+                    @clear="onEmit('clear')"
+                >field label
+                </VuFormTypeahead>
+                <ul style="margin-top: 150px">
+                    <li v-for="event in events">Emitted event: {{ event }}</li>
+                </ul>
+                </div>`,
+            props: {},
+            data()
+            {
+                return {
+                    value: null,
+                    events: []
+                };
+            },
+            methods: {
+                onEmit(event)
+                {
+                    this.events.unshift(event);
+                    setTimeout(() => {
+                        this.events.pop();
+                    }, 2000);
+                },
+                itemResolver()
+                {
+                    return Promise.resolve(
+                        ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto']);
+                }
+            }
+        }
+    );
+};

@@ -183,3 +183,45 @@ export const SpecialTypes = () => {
         }
     );
 };
+
+export const Events = () => {
+    return (
+        {
+            components: {VuFormInput},
+            template: `
+                <div>
+                <pre>Interact with the element to see which elements are emitted</pre>
+                <VuFormInput
+                    v-model="value"
+                    @focus="onEmit('focus')"
+                    @blur="onEmit('blur')"
+                    @input="onEmit('input (' + $event + ')')"
+                    @keydown.native="onEmit('keydown.native (' + $event.code + ')')"
+                    @keyup.native="onEmit('keyup.native (' + $event.code + ')')"
+                    @clear="onEmit('clear')"
+                >Input field label
+                </VuFormInput>
+                <ul>
+                    <li v-for="event in events">Emitted event: {{ event }}</li>
+                </ul>
+                </div>`,
+            props: {},
+            data()
+            {
+                return {
+                    value: null,
+                    events: []
+                };
+            },
+            methods: {
+                onEmit(event)
+                {
+                    this.events.unshift(event);
+                    setTimeout(() => {
+                        this.events.pop();
+                    }, 500);
+                }
+            }
+        }
+    );
+};
