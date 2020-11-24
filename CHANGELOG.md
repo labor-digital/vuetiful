@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.1](https://github.com/labor-digital/vuetiful/compare/v1.28.0...v1.28.1) (2020-11-24)
+
+
+### Bug Fixes
+
+* **viewFactory:** reimplement previous prop resolution ([503595c](https://github.com/labor-digital/vuetiful/commit/503595cafc0f5027f8df326dcfe296aa2b38cce0))
+* **VuFormTypeahead:** implement missing loader controls ([8f3d958](https://github.com/labor-digital/vuetiful/commit/8f3d958cb5049a82e478407e1243b17829f1ed38))
+
 ## [1.28.0](https://github.com/labor-digital/vuetiful/compare/v1.27.0...v1.28.0) (2020-11-24)
 
 
