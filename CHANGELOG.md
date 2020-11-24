@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.4](https://github.com/labor-digital/vuetiful/compare/v1.26.3...v1.26.4) (2020-11-24)
+
+
+### Bug Fixes
+
+* make InputField and VuFormInput compatible with NULL VALUES ([f992958](https://github.com/labor-digital/vuetiful/commit/f992958db7d8d7eae34c4a5252ee13e3d117ff8b))
+
 ### [1.26.3](https://github.com/labor-digital/vuetiful/compare/v1.26.2...v1.26.3) (2020-11-24)
 
 
