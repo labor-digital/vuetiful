@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/labor-digital/vuetiful/compare/v1.26.4...v1.27.0) (2020-11-24)
+
+
+### Features
+
+* **VuFormTypeahead:** emit "select" event when "enter" is pressed or a dropdown item was selected ([b586bec](https://github.com/labor-digital/vuetiful/commit/b586bec42dd5ce66d3117385797c322d03ba177d))
+
 ### [1.26.4](https://github.com/labor-digital/vuetiful/compare/v1.26.3...v1.26.4) (2020-11-24)
 
 
