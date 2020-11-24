@@ -170,7 +170,6 @@ export default class VuFormInputTemplate extends Vue
 
     protected getFilteredListeners(): PlainObject
     {
-        console.log(filter(this.p.$listeners, (l, k) => k !== 'input'));
         return filter(this.p.$listeners, (l, k) => k !== 'input');
     }
 
