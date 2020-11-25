@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.30.1](https://github.com/labor-digital/vuetiful/compare/v1.30.0...v1.30.1) (2020-11-25)
+
+
+### Bug Fixes
+
+* **VuDropdownAbstract:** use parentIsReference instead of f as prop name ([fb272d9](https://github.com/labor-digital/vuetiful/commit/fb272d95bfe9bd8ce8e0b655c59e3a8dd99b7b2c))
+
 ## [1.30.0](https://github.com/labor-digital/vuetiful/compare/v1.29.1...v1.30.0) (2020-11-25)
 
 
