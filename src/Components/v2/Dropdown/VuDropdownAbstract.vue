@@ -22,14 +22,14 @@
 import {ComponentProxy, PlainObject} from '@labor-digital/helferlein';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import {resolveId} from '../../../Utils/resolveId';
-import viewFactory from '../../../Utils/viewFactory';
+import templateFactory from '../../../Utils/templateFactory';
 import {VuDropdownApi} from './VuDropdownApi';
 import VuDropdownTemplate from './VuDropdownTemplate.vue';
 
 @Component({
     name: 'VuDropdownItem',
     components: {
-        VuView: viewFactory(VuDropdownTemplate)
+        VuTemplate: templateFactory(VuDropdownTemplate)
     },
     provide()
     {

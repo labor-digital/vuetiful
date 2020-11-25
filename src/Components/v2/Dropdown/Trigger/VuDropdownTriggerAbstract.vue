@@ -21,14 +21,14 @@
 <script lang="ts">
 import {Component, Inject, Prop, Vue} from 'vue-property-decorator';
 import {resolveId} from '../../../../Utils/resolveId';
-import viewFactory from '../../../../Utils/viewFactory';
+import templateFactory from '../../../../Utils/templateFactory';
 import {VuDropdownApi} from '../VuDropdownApi';
 import VuDropdownTriggerTemplate from './VuDropdownTriggerTemplate.vue';
 
 @Component({
     name: 'VuDropdownTrigger',
     components: {
-        VuView: viewFactory(VuDropdownTriggerTemplate)
+        VuTemplate: templateFactory(VuDropdownTriggerTemplate)
     }
 })
 export default class VuDropdownTriggerAbstract extends Vue

@@ -22,7 +22,7 @@
 import {filter, isEmpty, isFunction, isNumber, isNumeric, isString, isUndefined, PlainObject} from '@labor-digital/helferlein';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import {resolveId} from '../../../Utils/resolveId';
-import viewFactory from '../../../Utils/viewFactory';
+import templateFactory from '../../../Utils/templateFactory';
 import {FormInputFormatter, FormInputValidator, FormInputValueType, FormInputValueUpdateType} from './VuFormInput.interfaces';
 import VuFormInputTemplate from './VuFormInputTemplate.vue';
 
@@ -46,7 +46,7 @@ import VuFormInputTemplate from './VuFormInputTemplate.vue';
         max: null
     },
     components: {
-        VuView: viewFactory(VuFormInputTemplate)
+        VuTemplate: templateFactory(VuFormInputTemplate)
     }
 })
 export default class VuFormInputAbstract extends Vue

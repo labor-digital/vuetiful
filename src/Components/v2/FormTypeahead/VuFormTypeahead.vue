@@ -17,15 +17,15 @@
   -->
 
 <template>
-    <VuView/>
+    <VuTemplate/>
 </template>
 
 <script lang="ts">
 
 import VuFormTypeaheadAbstract from './VuFormTypeaheadAbstract.vue';
 
-export {default as VuFormTypeaheadTemplate} from './VuFormTypeaheadTemplate';
-export {default as VuFormTypeaheadAbstract} from './VuFormTypeaheadAbstract';
+export {default as VuFormTypeaheadTemplate} from './VuFormTypeaheadTemplate.vue';
+export {default as VuFormTypeaheadAbstract} from './VuFormTypeaheadAbstract.vue';
 
 export default {
     name: 'VuFormTypeahead',

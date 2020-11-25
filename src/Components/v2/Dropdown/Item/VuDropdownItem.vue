@@ -17,7 +17,7 @@
   -->
 
 <template>
-    <VuView/>
+    <VuTemplate/>
 </template>
 
 <script lang="ts">

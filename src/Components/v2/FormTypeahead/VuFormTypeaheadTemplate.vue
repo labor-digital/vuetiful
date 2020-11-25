@@ -21,12 +21,14 @@
         :is="inputComponent"
         ref="input"
         class="vuTypeahead"
+        v-bind="inputComponentProps"
         @keyup.native="onKeyUp"
         @focus="onFocus"
     >
         <template v-slot:addons>
             <component
                 :is="p.dropdownComponent"
+                v-bind="dropdownComponentProps"
                 class="vuTypeahead__dropdown"
                 v-model="p.dropdownOpen"
                 as-block
@@ -41,6 +43,7 @@
                 <slot name="items" :setValue="setValue" :items="p.filteredListItems">
                     <component
                         :is="p.dropdownItemComponent"
+                        v-bind="dropdownItemComponentProps"
                         v-for="item in p.filteredListItems"
                         :key="item.label"
                         @click.native="setValue(item)"
@@ -55,10 +58,10 @@
 </template>
 
 <script lang="ts">
-import {focusNextElement, getPath, isObject} from '@labor-digital/helferlein';
-import {Component, Vue} from 'vue-property-decorator';
+import {focusNextElement, getPath, isObject, PlainObject} from '@labor-digital/helferlein';
+import {Component, Prop, Vue} from 'vue-property-decorator';
 import {PreparedListItem} from '../../../Utils/Mixin/ListItemMixin';
-import viewFactory from '../../../Utils/viewFactory';
+import templateFactory from '../../../Utils/templateFactory';
 import VuDropdownItem from '../Dropdown/Item/VuDropdownItem.vue';
 import VuDropdown from '../Dropdown/VuDropdown.vue';
 import VuFormInput from '../FormInput/VuFormInput.vue';
@@ -71,6 +74,15 @@ export default class VuFormTypeaheadTemplate extends Vue
 {
     protected ignoreFocus: boolean = false;
 
+    @Prop({type: Object, default: () => ({})})
+    readonly inputComponentProps: PlainObject;
+
+    @Prop({type: Object, default: () => ({})})
+    readonly dropdownComponentProps: PlainObject;
+
+    @Prop({type: Object, default: () => ({})})
+    readonly dropdownItemComponentProps: PlainObject;
+
     get p(): VuFormTypeaheadAbstract
     {
         return this.$parent as any;
@@ -78,7 +90,7 @@ export default class VuFormTypeaheadTemplate extends Vue
 
     get inputComponent()
     {
-        return viewFactory(this.p.inputComponent, this.p);
+        return templateFactory(this.p.inputComponent, this.p);
     }
 
     protected onFocus()

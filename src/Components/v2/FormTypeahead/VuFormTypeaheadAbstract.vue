@@ -23,7 +23,7 @@ import {isEmpty} from '@labor-digital/helferlein';
 import {ComponentOptions} from 'vue';
 import {Component, Mixins, Prop, Vue, Watch} from 'vue-property-decorator';
 import {ListItemMixin, PreparedListItem} from '../../../Utils/Mixin/ListItemMixin';
-import viewFactory from '../../../Utils/viewFactory';
+import templateFactory from '../../../Utils/templateFactory';
 import VuDropdownItem from '../Dropdown/Item/VuDropdownItem.vue';
 import VuDropdown from '../Dropdown/VuDropdown.vue';
 import VuFormInput from '../FormInput/VuFormInput.vue';
@@ -34,7 +34,7 @@ import VuFormTypeaheadTemplate from './VuFormTypeaheadTemplate.vue';
     name: 'VuFormTypeahead',
     extends: VuFormInputAbstract,
     components: {
-        VuView: viewFactory(VuFormTypeaheadTemplate)
+        VuTemplate: templateFactory(VuFormTypeaheadTemplate)
     },
     mixins: [ListItemMixin]
 })
@@ -102,7 +102,7 @@ export default class VuFormTypeaheadAbstract extends Mixins(VuFormInputAbstract,
      */
     public openDropdown(): void
     {
-        if (!isEmpty(this.value) && (this.filteredListItems.length > 0 || this.isWaitingForResolver)) {
+        if (!isEmpty(this.value) && (this.filteredListItems.length > 0 || this.isWaitingForResolver && !this.noLoader)) {
             if (!this.dropdownOpen) {
                 this.dropdownOpen = true;
                 this.$emit('open');
