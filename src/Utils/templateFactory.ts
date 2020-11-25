@@ -33,7 +33,7 @@ export default function <T = any>(template: T, alternativeParent?: PlainObject):
         {
             const parent = alternativeParent ?? ctx.parent;
             const localData = {
-                ref: 'view',
+                ref: 'template',
                 on: parent.$listeners,
                 props: {
                     ...parent.$props,
