@@ -31,6 +31,7 @@
                 v-bind="dropdownComponentProps"
                 class="vuTypeahead__dropdown"
                 v-model="p.dropdownOpen"
+                parent-is-reference
                 as-block
                 as-list-box
             >
@@ -100,21 +101,31 @@ export default class VuFormTypeaheadTemplate extends Vue
         }
     }
 
+    protected getInputRef(): HTMLElement | null
+    {
+        return getPath(this.$refs, 'input.$refs.template.$refs.input');
+    }
+
     protected onKeyUp(e: KeyboardEvent)
     {
         if (e.code === 'ArrowDown') {
             if (!this.p.isDropdownOpen) {
                 this.p.openDropdown();
             } else {
-                focusNextElement(document.activeElement ?? document.body as any);
+                const el = this.getInputRef();
+                const active = (document.activeElement ?? document.body as any) as HTMLElement;
+                // @todo compare with getInputRef() if we dropped the old input fields
+                if (active && active.tagName === 'INPUT') {
+                    const it = focusNextElement(document.activeElement ?? document.body as any);
+                }
             }
         }
     }
 
     protected setValue(item: PreparedListItem): void
     {
-        const el: HTMLElement = getPath(this.$refs, 'input.$refs.template.$refs.input');
-        if (isObject(el)) {
+        const el = this.getInputRef();
+        if (isObject(this.inputRef)) {
             this.ignoreFocus = true;
             el.focus();
             setTimeout(() => this.ignoreFocus, 100);
