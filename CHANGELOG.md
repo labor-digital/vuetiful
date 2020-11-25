@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.30.0](https://github.com/labor-digital/vuetiful/compare/v1.29.1...v1.30.0) (2020-11-25)
+
+
+### Features
+
+* **VuDropdownAbstract:** implement parentIsReference prop ([fb4dbf6](https://github.com/labor-digital/vuetiful/commit/fb4dbf6fd1e52cd370dce81bddb8d1c6f6d883bb))
+
+
+### Bug Fixes
+
+* **FormTypeahead:** fix double down issue by arrowDown ([d32253b](https://github.com/labor-digital/vuetiful/commit/d32253b5c62b051b6dfc9c843728c6c2457a9d31))
+* **templateFactory:** use "template" as ref key ([04fe721](https://github.com/labor-digital/vuetiful/commit/04fe7214e4e7978c09db243f8321d3445eb5deae))
+
 ### [1.29.1](https://github.com/labor-digital/vuetiful/compare/v1.29.0...v1.29.1) (2020-11-25)
 
 
