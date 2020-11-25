@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.1](https://github.com/labor-digital/vuetiful/compare/v1.29.0...v1.29.1) (2020-11-25)
+
+
+### Bug Fixes
+
+* **VuDropdown:** remove list style from dropdown items ([b65b7b6](https://github.com/labor-digital/vuetiful/commit/b65b7b6a12aea10f0c2c07cf57bae16358af8891))
+
 ## [1.29.0](https://github.com/labor-digital/vuetiful/compare/v1.28.1...v1.29.0) (2020-11-25)
 
 
