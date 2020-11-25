@@ -74,7 +74,7 @@ export default class VuDropdownAbstract extends Vue
      * As a third option, you can set this to true which tells the dropdown to use its parent element as a reference.
      */
     @Prop({type: Boolean, default: false})
-    readonly f: boolean;
+    readonly parentIsReference: boolean;
 
     /**
      * Defines the direction in which the dropdown should open up
