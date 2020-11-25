@@ -95,7 +95,15 @@ export default class VuDropdownTemplate extends Vue
         this.destroyPopper();
 
         if (isBrowser() && this.p.isOpen) {
-            const reference = this.hasTrigger ? this.$refs.trigger : this.$el;
+            const reference = (() => {
+                if (this.hasTrigger) {
+                    return this.$refs.trigger;
+                }
+                if (this.p.parentIsReference) {
+                    return this.p.$parent.$el ?? this.p.$parent;
+                }
+                return this.$el;
+            })();
 
             const placement = ({
                 left: 'left-start',

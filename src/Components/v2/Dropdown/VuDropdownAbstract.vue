@@ -68,6 +68,15 @@ export default class VuDropdownAbstract extends Vue
     readonly asListBox: boolean;
 
     /**
+     * By default the dropdown will use itself as "size" reference when being opened, meaning
+     * it will pop above or below its own container.
+     * If something was set to the "trigger" slot, the trigger slot content is used as reference instead.
+     * As a third option, you can set this to true which tells the dropdown to use its parent element as a reference.
+     */
+    @Prop({type: Boolean, default: false})
+    readonly f: boolean;
+
+    /**
      * Defines the direction in which the dropdown should open up
      */
     @Prop({
