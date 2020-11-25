@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.29.0](https://github.com/labor-digital/vuetiful/compare/v1.28.1...v1.29.0) (2020-11-25)
+
+
+### Features
+
+* rename VuView to VuTemplate and viewFactory to templateFactory ([a6708f0](https://github.com/labor-digital/vuetiful/commit/a6708f031b093b10e97504c4c14e9e46211b63ea))
+
 ### [1.28.1](https://github.com/labor-digital/vuetiful/compare/v1.28.0...v1.28.1) (2020-11-24)
 
 
