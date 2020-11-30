@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.30.2](https://github.com/labor-digital/vuetiful/compare/v1.30.1...v1.30.2) (2020-11-30)
+
+
+### Bug Fixes
+
+* fix crash if container not exist ([74b2919](https://github.com/labor-digital/vuetiful/commit/74b29190bdad64e322350a271096bb0cc8f9a8b8))
+
 ### [1.30.1](https://github.com/labor-digital/vuetiful/compare/v1.30.0...v1.30.1) (2020-11-25)
 
 
