@@ -121,6 +121,7 @@ import {map} from '@labor-digital/helferlein/lib/Lists/map';
 import {getPath} from '@labor-digital/helferlein/lib/Lists/Paths/getPath';
 import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isNull} from '@labor-digital/helferlein/lib/Types/isNull';
 import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
 import {isString} from '@labor-digital/helferlein/lib/Types/isString';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
@@ -631,7 +632,7 @@ export default {
 
             const $inputEl = this.$refs.selectBoxInput.$el;
             this.inputHeight = $inputEl.scrollHeight;
-            const inputOffset = $inputEl.offsetParent.offsetTop;
+            const inputOffset = isNull($inputEl.offsetParent) ? 0 : $inputEl.offsetParent.offsetTop;
             const remainingHeight = window.innerHeight - inputOffset;
 
             const $menuEl = this.$refs.selectBoxMenu;
