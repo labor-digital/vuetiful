@@ -137,7 +137,7 @@ export default class VuFormTypeaheadTemplate extends Vue
 
     protected onDropdownKeyUp(e: KeyboardEvent, item: PreparedListItem)
     {
-        if (e.code === 'Enter') {
+        if (e.code === 'Enter' || e.code === 'NumpadEnter') {
             this.setValue(item);
         }
     }

@@ -31,7 +31,7 @@ import VuFormInputAbstract from '../FormInput/VuFormInputAbstract.vue';
 import VuFormTypeaheadTemplate from './VuFormTypeaheadTemplate.vue';
 
 @Component({
-    name: 'VuFormTypeahead',
+    name: 'VuFormTypeaheadAbstract',
     extends: VuFormInputAbstract,
     components: {
         VuTemplate: templateFactory(VuFormTypeaheadTemplate)

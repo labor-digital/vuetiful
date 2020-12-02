@@ -27,7 +27,7 @@ import {VuDropdownApi} from './VuDropdownApi';
 import VuDropdownTemplate from './VuDropdownTemplate.vue';
 
 @Component({
-    name: 'VuDropdownItem',
+    name: 'VuDropdownItemAbstract',
     components: {
         VuTemplate: templateFactory(VuDropdownTemplate)
     },

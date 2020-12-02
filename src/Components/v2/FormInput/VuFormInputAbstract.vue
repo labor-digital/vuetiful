@@ -28,7 +28,7 @@ import VuFormInputTemplate from './VuFormInputTemplate.vue';
 
 
 @Component({
-    name: 'VuFormInput',
+    name: 'VuFormInputAbstract',
     props: {
         // Props that have to be passed through to the real "input" field instead of the wrapper
         accept: null,
@@ -40,6 +40,7 @@ import VuFormInputTemplate from './VuFormInputTemplate.vue';
         list: null,
         maxlength: null,
         minlength: null,
+        name: null,
         size: null,
         ariaInvalid: null,
         min: null,
@@ -227,7 +228,7 @@ export default class VuFormInputAbstract extends Vue
         const allowedAttrs = [
             'accept', 'alt', 'autofocus', 'autocomplete', 'form', 'formaction',
             'list', 'maxlength', 'minlength', 'size', 'ariaLabel', 'ariaInvalid',
-            'min', 'max'
+            'min', 'max', 'name'
         ];
         return filter(this.$props, (v, k) => allowedAttrs.indexOf(k) !== -1);
     }
