@@ -70,6 +70,8 @@ object-assign
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
+/*! nouislider - 14.6.3 - 11/19/2020 */
+
 /**
   * vue-class-component v7.2.6
   * (c) 2015-present Evan You
