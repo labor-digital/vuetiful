@@ -84,7 +84,6 @@ export const Default = () => {
                     default: boolean('Hide clear icon', false)
                 },
                 error: {
-                    /* Error message for input field after your validation failed */
                     default: text('Force Error Message', '')
                 },
                 placeholder: {
