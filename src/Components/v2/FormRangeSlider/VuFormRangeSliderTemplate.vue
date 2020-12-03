@@ -59,6 +59,8 @@ import {Component, Prop, Vue} from 'vue-property-decorator';
 import VuFormRangeSliderAbstract from './VuFormRangeSliderAbstract.vue';
 
 const events = ['start', 'slide', 'update', 'change', 'set', 'end'];
+const classPrefix = 'vuFormRangeSlider';
+
 @Component({
     name: 'VuFormRangeSliderTemplate'
 })
@@ -95,14 +97,13 @@ export default class VuFormRangeSliderTemplate extends Vue
 
     get classes(): PlainObject
     {
-        const prefix = 'vuFormRangeSlider--';
         return {
-            [prefix + 'disabled']: this.p.disabled,
-            [prefix + 'fullWidth']: this.p.fullWidth,
-            [prefix + 'vertical']: this.p.vertical,
-            [prefix + 'horizontal']: !this.p.vertical,
-            [prefix + 'invalid']: this.hasError,
-            [prefix + 'withLabel']: this.hasLabel
+            [classPrefix + '--disabled']: this.p.disabled,
+            [classPrefix + '--fullWidth']: this.p.fullWidth,
+            [classPrefix + '--vertical']: this.p.vertical,
+            [classPrefix + '--horizontal']: !this.p.vertical,
+            [classPrefix + '--invalid']: this.hasError,
+            [classPrefix + '--withLabel']: this.hasLabel
         };
     }
 
@@ -123,7 +124,7 @@ export default class VuFormRangeSliderTemplate extends Vue
         // Create the slider
         const instance = p.instance = noUi.create(ref, {
             start: this.translateValue(p.value),
-            range: p.range,
+            range: p.range ? p.range : {min: p.min, max: p.max},
             orientation: p.vertical ? 'vertical' : 'horizontal',
             direction: p.rtl ? 'rtl' : 'ltr',
             step: p.step,
@@ -145,10 +146,10 @@ export default class VuFormRangeSliderTemplate extends Vue
 
         // Add some additional classes
         const handles = ref.querySelectorAll('.noUi-handle');
-        addClass(handles as any, 'vuFormRangeSlider__handle');
-        addClass(ref.querySelector('.noUi-base') as any, 'vuFormRangeSlider__base');
-        addClass(ref.querySelector('.noUi-connects') as any, 'vuFormRangeSlider__connects');
-        addClass(ref.querySelectorAll('.noUi-connect') as any, 'vuFormRangeSlider__connect');
+        addClass(handles as any, classPrefix + '__handle');
+        addClass(ref.querySelector('.noUi-base') as any, classPrefix + '__base');
+        addClass(ref.querySelector('.noUi-connects') as any, classPrefix + '__connects');
+        addClass(ref.querySelectorAll('.noUi-connect') as any, classPrefix + '__connect');
 
         // Add additional aria attributes
         if (handles) {

@@ -118,8 +118,22 @@ export default class VuFormRangeSliderAbstract extends Vue
      * @see https://refreshless.com/nouislider/slider-values/#section-range
      * @see RangeSliderRangeDefinition
      */
-    @Prop({type: Object, default: () => ({min: 0, max: 100})})
+    @Prop({type: Object})
     readonly range: RangeSliderRangeDefinition;
+
+    /**
+     * Allows you easily set the minimum slider value without providing a "range" object.
+     * ATTENTION: If you set the range prop, this value will be ignored!
+     */
+    @Prop({type: Number, default: 0})
+    readonly min: number;
+
+    /**
+     * Allows you easily set the maximum slider value without providing a "range" object.
+     * ATTENTION: If you set the range prop, this value will be ignored!
+     */
+    @Prop({type: Number, default: 100})
+    readonly max: number;
 
     /**
      * noUiSlider can provide a basic tooltip using the tooltips option.
