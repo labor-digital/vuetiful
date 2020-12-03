@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.32.0](https://github.com/labor-digital/vuetiful/compare/v1.31.2...v1.32.0) (2020-12-03)
+
+
+### Features
+
+* **VuFormRangeSlider:** add min and max as props ([d8c529c](https://github.com/labor-digital/vuetiful/commit/d8c529c8f6009db349f9ca1ad0cb09224782a1b9))
+
 ### [1.31.2](https://github.com/labor-digital/vuetiful/compare/v1.31.1...v1.31.2) (2020-12-03)
 
 
