@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.31.1](https://github.com/labor-digital/vuetiful/compare/v1.31.0...v1.31.1) (2020-12-03)
+
+
+### Bug Fixes
+
+* **FormRangeSlider:** add correct exports ([9665cc4](https://github.com/labor-digital/vuetiful/commit/9665cc426d2bbb6c1d2ed25e7d1aa9094950e35b))
+
 ## [1.31.0](https://github.com/labor-digital/vuetiful/compare/v1.30.2...v1.31.0) (2020-12-02)
 
 
