@@ -23,6 +23,8 @@
 <script lang="ts">
 import VuFormRangeSliderAbstract from './VuFormRangeSliderAbstract.vue';
 
+export * from './VuFormRangeSlider.interfaces';
+
 export default {
     name: 'VuFormRangeSlider',
     extends: VuFormRangeSliderAbstract

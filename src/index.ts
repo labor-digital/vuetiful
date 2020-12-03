@@ -21,21 +21,23 @@ import 'vue-class-component/hooks';
 // Import defaults and local components
 import VuDropdown, {VuDropdownItem, VuDropdownTrigger} from './Components/v2/Dropdown/VuDropdown.vue';
 import VuFormInput from './Components/v2/FormInput/VuFormInput.vue';
+import VuFormRangeSlider from './Components/v2/FormRangeSlider/VuFormRangeSlider.vue';
 import VuFormTypeahead from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
 
 // Reexport all child components
 export * from './Components/v2/Dropdown/VuDropdown.vue';
 export * from './Components/v2/FormInput/VuFormInput.vue';
 export * from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
+export * from './Components/v2/FormRangeSlider/VuFormRangeSlider.vue';
 
 // Reexport component defaults
-export {VuDropdown, VuFormInput, VuFormTypeahead};
+export {VuDropdown, VuFormInput, VuFormTypeahead, VuFormRangeSlider};
 
 export default {
     install(Vue)
     {
         forEach([
-            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem
+            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider
         ], (component) => {
             Vue.component(component.name, component);
         });
