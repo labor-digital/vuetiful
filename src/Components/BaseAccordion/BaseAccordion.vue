@@ -28,6 +28,18 @@
             v-for="label in legacyItems"
             :key="label"
             :label="label">
+            <template v-slot:beforeLabel>
+                <slot name="beforeLabel"/>
+            </template>
+            <template v-slot:afterLabel>
+                <slot name="afterLabel"/>
+            </template>
+            <template v-slot:beforeContent>
+                <slot name="beforeContent"/>
+            </template>
+            <template v-slot:afterContent>
+                <slot name="afterContent"/>
+            </template>
             <slot :name="label"/>
         </BaseAccordionItem>
 
