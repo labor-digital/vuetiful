@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.33.0](https://github.com/labor-digital/vuetiful/compare/v1.32.0...v1.33.0) (2020-12-07)
+
+
+### Features
+
+* implement link tag component ([08242cb](https://github.com/labor-digital/vuetiful/commit/08242cb37e36d64fb28f94fd3b694d0a7182facc))
+
+
+### Bug Fixes
+
+* **BaseAccordion:** pass through legacy item slots ([586f241](https://github.com/labor-digital/vuetiful/commit/586f2418ddbbb2a60267b6a4f5c59edc1b71c694))
+* **BaseAccordion:** reset labels correctly ([43fea3b](https://github.com/labor-digital/vuetiful/commit/43fea3bec4f27e65982ef68bbe38ead5f9883492))
+
 ## [1.32.0](https://github.com/labor-digital/vuetiful/compare/v1.31.2...v1.32.0) (2020-12-03)
 
 
