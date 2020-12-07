@@ -21,21 +21,27 @@
         :id="p.id"
         :class="classes">
 
-        <a
+
+        <component
+            :is="p.linkComponent"
+            :type="p.link === '' ? 'js' : 'auto'"
+            :link="p.link"
+            v-bind="linkComponentProps"
+
             v-if="p.type === 'default'"
-            href="#"
             ref="focusPoint"
             :tabindex="p.disabled ? '-1' : null"
             :aria-disabled="p.disabled ? 'true' : null"
             :role="p.api.isListBox ? 'option' : 'presentation'"
-            @keydown="onKeyDown"
-            @keyup.prevent="onKeyUp"
-            @focus="p.api.focusItem(p.id)"
-            @blur="p.api.blurItem(p.id)"
-            @click.prevent="onClick"
+
+            @keydown.native="onKeyDown"
+            @keyup.native.prevent="onKeyUp"
+            @focus.native="p.api.focusItem(p.id)"
+            @blur.native="p.api.blurItem(p.id)"
+            @click="onClick"
         >
             <slot/>
-        </a>
+        </component>
 
         <hr v-else-if="p.type==='line'" role="separator" aria-orientation="horizontal"/>
 
@@ -45,12 +51,15 @@
 
 <script lang="ts">
 import {focusNextElement, focusPreviousElement, PlainObject} from '@labor-digital/helferlein';
-import {Component, Vue} from 'vue-property-decorator';
+import {Component, Prop, Vue} from 'vue-property-decorator';
 import VuDropdownItemAbstract from './VuDropdownItemAbstract.vue';
 
 @Component
 export default class VuDropdownItemTemplate extends Vue
 {
+
+    @Prop({type: Object, default: () => ({})})
+    readonly linkComponentProps: PlainObject;
 
     get p(): VuDropdownItemAbstract
     {

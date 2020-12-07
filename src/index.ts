@@ -35,11 +35,15 @@ import VuFormRangeSliderTemplate from './Components/v2/FormRangeSlider/VuFormRan
 import VuFormTypeahead from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
 import VuFormTypeaheadAbstract from './Components/v2/FormTypeahead/VuFormTypeaheadAbstract.vue';
 import VuFormTypeaheadTemplate from './Components/v2/FormTypeahead/VuFormTypeaheadTemplate.vue';
+import VuLinkTag from './Components/v2/LinkTag/VuLinkTag.vue';
+import VuLinkTagAbstract from './Components/v2/LinkTag/VuLinkTagAbstract.vue';
+import VuLinkTagTemplate from './Components/v2/LinkTag/VuLinkTagTemplate.vue';
 
 // Reexport all ts interfaces
 export * from './Components/v2/Dropdown/VuDropdownApi';
 export * from './Components/v2/FormInput/VuFormInput.interfaces';
 export * from './Components/v2/FormRangeSlider/VuFormRangeSlider.interfaces';
+export * from './Components/v2/LinkTag/VuLinkTag.interfaces';
 
 // Reexport component defaults
 export {
@@ -65,14 +69,19 @@ export {
 
     VuFormRangeSlider,
     VuFormRangeSliderAbstract,
-    VuFormRangeSliderTemplate
+    VuFormRangeSliderTemplate,
+
+    VuLinkTag,
+    VuLinkTagAbstract,
+    VuLinkTagTemplate
 };
 
 export default {
     install(Vue)
     {
         forEach([
-            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider
+            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider,
+            VuLinkTag
         ], (component) => {
             Vue.component(component.name, component);
         });

@@ -19,9 +19,11 @@
 <template></template>
 
 <script lang="ts">
+import {ComponentOptions} from 'vue';
 import {Component, Inject, Prop, Vue} from 'vue-property-decorator';
 import {resolveId} from '../../../../Utils/resolveId';
 import templateFactory from '../../../../Utils/templateFactory';
+import VuLinkTag from '../../LinkTag/VuLinkTag.vue';
 import {VuDropdownApi} from '../VuDropdownApi';
 import VuDropdownItemTemplate from './VuDropdownItemTemplate.vue';
 
@@ -48,6 +50,18 @@ export default class VuDropdownItemAbstract extends Vue
         }
     })
     readonly type: 'default' | 'text' | 'header' | 'line';
+
+    /**
+     * Allows you to override the VuLinkTag component which is used for the dropdown item body
+     */
+    @Prop({type: [Object, String], default: () => VuLinkTag})
+    readonly linkComponent: ComponentOptions<Vue>;
+
+    /**
+     * Can be a link if you want to open a certain url when the user clicks on the item
+     */
+    @Prop({type: String, default: ''})
+    readonly link: string;
 
     /**
      * If set to true the item will be shown as disabled

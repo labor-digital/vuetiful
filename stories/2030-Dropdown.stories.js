@@ -49,12 +49,17 @@ export const Default = () => {
                         </VuDropdownTrigger>
                     </template>
                     <VuDropdownItem type="header">Header</VuDropdownItem>
-                    <VuDropdownItem>Item A</VuDropdownItem>
-                    <VuDropdownItem>Item B</VuDropdownItem>
+                    <VuDropdownItem @click="onClick('Item A')">Item A</VuDropdownItem>
+                    <VuDropdownItem @click="onClick('Item B')">Item B</VuDropdownItem>
                     <VuDropdownItem type="line"/>
-                    <VuDropdownItem :disabled="disableC">Item C{{ disableC ? '(disabled)' : '' }}</VuDropdownItem>
-                    <VuDropdownItem>Item D</VuDropdownItem>
+                    <VuDropdownItem @click="onClick('Item C')"
+                                    :disabled="disableC">Item C{{ disableC ? '(disabled)' : '' }}</VuDropdownItem>
+                    <VuDropdownItem @click="onClick('Item D')">Item D</VuDropdownItem>
+                    <VuDropdownItem link="https://www.google.com">Item E (external link)</VuDropdownItem>
                 </VuDropdown>
+                <ul style="margin-top: 150px">
+                    <li v-for="event in events">You clicked on: {{ event }}</li>
+                </ul>
                 </div>
             `,
             props: {
@@ -102,10 +107,19 @@ export const Default = () => {
             {
                 return {
                     value: false,
+                    events: [],
                     items: ['Hello', 'World', 'How', 'are', 'you']
                 };
             },
-            methods: {}
+            methods: {
+                onClick(event)
+                {
+                    this.events.unshift(event);
+                    setTimeout(() => {
+                        this.events.pop();
+                    }, 500);
+                }
+            }
         }
     );
 };
