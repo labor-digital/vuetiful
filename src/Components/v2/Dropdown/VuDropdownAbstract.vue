@@ -19,12 +19,19 @@
 <template></template>
 
 <script lang="ts">
-import {ComponentProxy, PlainObject} from '@labor-digital/helferlein';
-import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+import {ComponentProxy, forEach, isNull, PlainObject} from '@labor-digital/helferlein';
+import {Component, Inject, Prop, Vue, Watch} from 'vue-property-decorator';
+import {ReactiveMap} from '../../../Utils/ReactiveMap';
+import {ReactiveSet} from '../../../Utils/ReactiveSet';
 import {resolveId} from '../../../Utils/resolveId';
 import templateFactory from '../../../Utils/templateFactory';
 import {VuDropdownApi} from './VuDropdownApi';
 import VuDropdownTemplate from './VuDropdownTemplate.vue';
+
+/**
+ * Allows the communication between all dropdowns in the current instance
+ */
+const vuDropdownBus = new ReactiveMap<string, Function>();
 
 @Component({
     name: 'VuDropdownItemAbstract',
@@ -40,6 +47,9 @@ import VuDropdownTemplate from './VuDropdownTemplate.vue';
 })
 export default class VuDropdownAbstract extends Vue
 {
+    @Inject({from: 'dropdownApi', default: null})
+    readonly parent: VuDropdownApi;
+
     /**
      * Allows you to define a custom "type" of this dropdown.
      * This is useful if you want to specify multiple dropdown types in your css
@@ -51,8 +61,8 @@ export default class VuDropdownAbstract extends Vue
     /**
      * Allows to be bound via v-model to toggle the dropdown from the outside
      */
-    @Prop({type: Boolean, default: false})
-    readonly value: boolean;
+    @Prop({type: [Boolean], default: null})
+    readonly value: boolean | null;
 
     /**
      * If this property is set, the dropdown will be rendered as "block" instead of an "inline-block"
@@ -75,6 +85,20 @@ export default class VuDropdownAbstract extends Vue
      */
     @Prop({type: Boolean, default: false})
     readonly parentIsReference: boolean;
+
+    /**
+     * By default the dropdown will close all other dropdowns if it is opened.
+     * If you set this to true, this dropdown won't notify the other dropdowns if it was opened
+     */
+    @Prop({type: Boolean, default: false})
+    readonly keepOthersOpenWhenOpened: boolean;
+
+    /**
+     * By default the dropdown will be closed when another dropdown is opened.
+     * If you set this to true, this dropdown will ignore if another dropdown was opened.
+     */
+    @Prop({type: Boolean, default: false})
+    readonly stayOpenWhenOtherOpens: boolean;
 
     /**
      * Defines the direction in which the dropdown should open up
@@ -148,12 +172,28 @@ export default class VuDropdownAbstract extends Vue
     public triggerId: string = '';
 
     /**
+     * The list of related dropdowns that should be ignored on the global close event
+     * This is only used if you work with nested dropdowns
+     */
+    public related: ReactiveSet<string>;
+
+    /**
+     * The list of child dropdowns that should be closed if this dropdown is closed itself
+     */
+    public children: ReactiveSet<string> = new ReactiveSet<string>();
+
+    /**
+     * Providing v-model is optional, if it is not set we use this as internal state handler
+     */
+    protected fallbackValue: boolean = false;
+
+    /**
      * Returns true if the dropdown is currently open, false if not
      * @api
      */
     get isOpen(): boolean
     {
-        return this.value === true;
+        return !isNull(this.value) ? this.value === true : this.fallbackValue === true;
     }
 
     /**
@@ -166,14 +206,32 @@ export default class VuDropdownAbstract extends Vue
     }
 
     /**
+     * Returns true if the dropdown is placed inside another dropdown
+     * @api
+     */
+    get isNested(): boolean
+    {
+        return !!this.parent;
+    }
+
+    /**
      * Closes the dropdown
      * @api
      */
     public close()
     {
         if (this.isOpen) {
+            this.fallbackValue = false;
             this.$emit('input', false);
+            this.$emit('close');
             this.focusedItem = null;
+
+            // Close all children
+            forEach(this.children, childId => {
+                if (vuDropdownBus.has(childId)) {
+                    vuDropdownBus.get(childId)();
+                }
+            });
         }
     }
 
@@ -184,7 +242,20 @@ export default class VuDropdownAbstract extends Vue
      */
     public open()
     {
-        this.$emit('input', true);
+        if (!this.isOpen) {
+            this.fallbackValue = true;
+            this.$emit('input', true);
+            this.$emit('open');
+
+            // Close other dropdowns
+            if (!this.keepOthersOpenWhenOpened) {
+                forEach(vuDropdownBus, (closer, id) => {
+                    if (!this.related.has(id)) {
+                        closer();
+                    }
+                });
+            }
+        }
     }
 
     public mounted()
@@ -196,8 +267,32 @@ export default class VuDropdownAbstract extends Vue
         });
     }
 
+    public created()
+    {
+        // Handle children an parent relations
+        if (this.isNested) {
+            this.related = this.parent.related;
+            this.parent.children.add(this.id);
+        } else {
+            this.related = new ReactiveSet<string>();
+        }
+        this.related.add(this.id);
+
+        // Register us for the global state management
+        vuDropdownBus.set(this.id, () => {
+            if (!this.stayOpenWhenOtherOpens) {
+                this.close();
+            }
+        });
+    }
+
     public beforeDestroy()
     {
+        vuDropdownBus.delete(this.id);
+        this.related.delete(this.id);
+        if (this.isNested) {
+            this.parent.children.delete(this.id);
+        }
         this.proxy.destroy();
     }
 

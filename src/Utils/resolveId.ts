@@ -36,7 +36,5 @@ export function resolveId(component: Vue): string
         componentName = componentNameCache.get(componentName);
     }
 
-    return (
-               component.$attrs.id ?? component.$vnode.key ?? getGuid(componentName + '-')
-           ) + '';
+    return (component.$attrs.id ?? component.$vnode.key ?? getGuid(componentName + '-')) + '';
 }

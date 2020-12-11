@@ -16,6 +16,7 @@
  * Last modified: 2020.11.23 at 01:07
  */
 import {AbstractItemApi} from '../../../Utils/AbstractItemApi';
+import {ReactiveSet} from '../../../Utils/ReactiveSet';
 import VuDropdownAbstract from './VuDropdownAbstract.vue';
 
 export class VuDropdownApi extends AbstractItemApi
@@ -51,6 +52,22 @@ export class VuDropdownApi extends AbstractItemApi
     public get isDisabled(): boolean
     {
         return this.parent.isDisabled;
+    }
+
+    /**
+     * Returns a list of related dropdowns (used if dropdowns are nested into another)
+     */
+    public get related(): ReactiveSet<string>
+    {
+        return this.parent.related;
+    }
+
+    /**
+     * Returns a list of all direct children of this dropdown (used if dropdowns are nested into another)
+     */
+    public get children(): ReactiveSet<string>
+    {
+        return this.parent.children;
     }
 
     /**

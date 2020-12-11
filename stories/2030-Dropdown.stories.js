@@ -226,3 +226,102 @@ export const LongDropdowns = () => {
         }
     );
 };
+
+export const Interactions = () => {
+    return (
+        {
+            components: {VuDropdown, VuDropdownItem, VuDropdownTrigger},
+            template: `
+                <div>
+                <pre>You can nest multiple dropdowns inside eachother.
+Children are closed automatically, if the parent is closed.</pre>
+                <VuDropdown>
+                    <template v-slot:trigger>
+                        <VuDropdownTrigger>
+                            Click to toggle the dropdown
+                        </VuDropdownTrigger>
+                    </template>
+                    <VuDropdownItem disabled>Item A</VuDropdownItem>
+                    <VuDropdownItem type="text">
+                        <VuDropdown>
+                            <template v-slot:trigger>
+                                <VuDropdownTrigger>
+                                    Nested Item
+                                </VuDropdownTrigger>
+                            </template>
+                            <VuDropdownItem>Item A</VuDropdownItem>
+                            <VuDropdownItem>Item B</VuDropdownItem>
+                            <VuDropdownItem>Item C</VuDropdownItem>
+                        </VuDropdown>
+                    </VuDropdownItem>
+                    <VuDropdownItem disabled>Item C</VuDropdownItem>
+                </VuDropdown>
+                <br>
+                <pre>Only a single dropdown can be opened at a time. (If not configured otherwise)</pre>
+                <div style="width: 800px; display: flex">
+                    <div>
+                        <strong>Dropdown A</strong>
+                        <VuDropdown>
+                            <template v-slot:trigger>
+                                <VuDropdownTrigger>
+                                    Click me
+                                </VuDropdownTrigger>
+                            </template>
+                            <VuDropdownItem>Item A</VuDropdownItem>
+                            <VuDropdownItem>Item B</VuDropdownItem>
+                            <VuDropdownItem>Item C</VuDropdownItem>
+                        </VuDropdown>
+                    </div>
+                    <div>
+                        <strong>Dropdown B</strong>
+                        <VuDropdown>
+                            <template v-slot:trigger>
+                                <VuDropdownTrigger>
+                                    Click me
+                                </VuDropdownTrigger>
+                            </template>
+                            <VuDropdownItem>Item A</VuDropdownItem>
+                            <VuDropdownItem>Item B</VuDropdownItem>
+                            <VuDropdownItem>Item C</VuDropdownItem>
+                        </VuDropdown>
+                    </div>
+                    <div>
+                        <strong>Don't close others when opened</strong>
+                        <VuDropdown keep-others-open-when-opened>
+                            <template v-slot:trigger>
+                                <VuDropdownTrigger>
+                                    Click me
+                                </VuDropdownTrigger>
+                            </template>
+                            <VuDropdownItem>Item A</VuDropdownItem>
+                            <VuDropdownItem>Item B</VuDropdownItem>
+                            <VuDropdownItem>Item C</VuDropdownItem>
+                        </VuDropdown>
+                    </div>
+                    <div>
+                        <strong>Stay open even if another opens</strong>
+                        <VuDropdown stay-open-when-other-opens>
+                            <template v-slot:trigger>
+                                <VuDropdownTrigger>
+                                    Click me
+                                </VuDropdownTrigger>
+                            </template>
+                            <VuDropdownItem>Item A</VuDropdownItem>
+                            <VuDropdownItem>Item B</VuDropdownItem>
+                            <VuDropdownItem>Item C</VuDropdownItem>
+                        </VuDropdown>
+                    </div>
+                </div>
+
+                <pre style="margin-top:50px">Pro tip: v-model is optional for dropdowns. If none is provided it holds its own state.</pre>
+                </div>
+            `,
+            props: {},
+            data()
+            {
+                return {};
+            },
+            methods: {}
+        }
+    );
+};

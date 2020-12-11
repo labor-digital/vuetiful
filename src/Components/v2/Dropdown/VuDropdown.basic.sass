@@ -22,7 +22,7 @@ $vuDropdownArrowSize: 10px !default
 .vuDropdown
 
   &--open
-    & .vuDropdown__body
+    & > .vuDropdown__body
       display: block
 
   &--dynWidth
@@ -70,6 +70,7 @@ $vuDropdownArrowSize: 10px !default
       transform: rotate(45deg)
 
   .vuDropdownItem
+    display: block
 
     &--disabled
       a

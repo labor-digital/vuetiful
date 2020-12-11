@@ -56,9 +56,7 @@ export abstract class AbstractItemApi
      */
     public makeItemId(itemId: string): string
     {
-        const parent = (
-                           this as any
-                       ).parent ?? {};
+        const parent = (this as any).parent ?? {};
         const baseId = parent.id ?? parent.identifier ?? 'vu-root-parent-';
         return baseId + '-' + itemId;
     }

@@ -73,13 +73,14 @@ export default class VuDropdownTemplate extends Vue
 
     get classes(): PlainObject
     {
+        const baseClass = 'vuDropdown--';
         return {
-            ['vuDropdown--' + this.p.type]: true,
-            ['vuDropdown--' + this.p.direction]: true,
-            'vuDropdown--open': this.p.isOpen,
-            'vuDropdown--dynWidth': !this.p.asBlock,
-            'vuDropdown--disabled': this.p.disabled,
-            'vuDropdown--withArrow': this.p.withArrow
+            [baseClass + this.p.type]: true,
+            [baseClass + this.p.direction]: true,
+            [baseClass + 'open']: this.p.isOpen,
+            [baseClass + 'dynWidth']: !this.p.asBlock,
+            [baseClass + 'disabled']: this.p.disabled,
+            [baseClass + 'withArrow']: this.p.withArrow
         };
     }
 
@@ -149,7 +150,7 @@ export default class VuDropdownTemplate extends Vue
     public created()
     {
         forEach([
-            'noFlip', 'direction', 'value', 'popperOptions', 'asBlock', 'withArrow'
+            'noFlip', 'direction', 'value', 'popperOptions', 'asBlock', 'withArrow', 'fallbackValue'
         ], (field) => {
             this.$watch(() => this.p[field], () => this.recreatePopper());
         });
