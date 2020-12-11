@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.34.0](https://github.com/labor-digital/vuetiful/compare/v1.33.0...v1.34.0) (2020-12-11)
+
+
+### Features
+
+* **Dropdown:** implement better interaction between dropdowns ([1dee47a](https://github.com/labor-digital/vuetiful/commit/1dee47aba2e4bf69249dd25006daf1576dac74f8))
+
 ## [1.33.0](https://github.com/labor-digital/vuetiful/compare/v1.32.0...v1.33.0) (2020-12-07)
 
 
