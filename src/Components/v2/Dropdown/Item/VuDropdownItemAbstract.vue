@@ -20,20 +20,20 @@
 
 <script lang="ts">
 import {ComponentOptions} from 'vue';
-import {Component, Inject, Prop, Vue} from 'vue-property-decorator';
-import {resolveId} from '../../../../Utils/resolveId';
+import {Component, Inject, Mixins, Prop, Vue} from 'vue-property-decorator';
+import {ElementIdAwareMixin} from '../../../../Utils/Mixin/ElementIdAwareMixin';
 import templateFactory from '../../../../Utils/templateFactory';
 import VuLinkTag from '../../LinkTag/VuLinkTag.vue';
 import {VuDropdownApi} from '../VuDropdownApi';
 import VuDropdownItemTemplate from './VuDropdownItemTemplate.vue';
 
 @Component({
-    name: 'VuDropdownItem',
+    name: 'VuDropdownItemAbstract',
     components: {
         VuTemplate: templateFactory(VuDropdownItemTemplate)
     }
 })
-export default class VuDropdownItemAbstract extends Vue
+export default class VuDropdownItemAbstract extends Mixins(ElementIdAwareMixin)
 {
     @Inject({from: 'dropdownApi'})
     readonly api: VuDropdownApi;
@@ -69,14 +69,9 @@ export default class VuDropdownItemAbstract extends Vue
     @Prop({type: Boolean, default: false})
     readonly disabled: boolean;
 
-    /**
-     * The unique id of this element
-     */
-    public id = '';
-
     public created()
     {
-        this.id = this.api.makeItemId(resolveId(this));
+        this.id = this.api.makeItemId(this.id);
         this.api.registerInstance(this.id, this);
     }
 

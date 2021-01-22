@@ -19,8 +19,8 @@
 <template></template>
 
 <script lang="ts">
-import {Component, Inject, Prop, Vue} from 'vue-property-decorator';
-import {resolveId} from '../../../../Utils/resolveId';
+import {Component, Inject, Mixins, Prop} from 'vue-property-decorator';
+import {ElementIdAwareMixin} from '../../../../Utils/Mixin/ElementIdAwareMixin';
 import templateFactory from '../../../../Utils/templateFactory';
 import {VuDropdownApi} from '../VuDropdownApi';
 import VuDropdownTriggerTemplate from './VuDropdownTriggerTemplate.vue';
@@ -31,7 +31,7 @@ import VuDropdownTriggerTemplate from './VuDropdownTriggerTemplate.vue';
         VuTemplate: templateFactory(VuDropdownTriggerTemplate)
     }
 })
-export default class VuDropdownTriggerAbstract extends Vue
+export default class VuDropdownTriggerAbstract extends Mixins(ElementIdAwareMixin)
 {
     @Inject({from: 'dropdownApi'})
     readonly api: VuDropdownApi;
@@ -41,11 +41,6 @@ export default class VuDropdownTriggerAbstract extends Vue
      */
     @Prop({type: String, default: 'a'})
     readonly tag: string;
-
-    /**
-     * The unique id of this element
-     */
-    public id = '';
 
     /**
      * Allows you to toggle the linked value
@@ -60,7 +55,7 @@ export default class VuDropdownTriggerAbstract extends Vue
 
     public created()
     {
-        this.id = this.api.makeItemId(resolveId(this));
+        this.id = this.api.makeItemId(this.id);
         this.api.setTriggerId(this.id);
     }
 

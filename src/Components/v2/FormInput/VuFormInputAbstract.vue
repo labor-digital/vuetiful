@@ -20,8 +20,8 @@
 
 <script lang="ts">
 import {filter, isEmpty, isFunction, isNumber, isNumeric, isString, isUndefined, PlainObject} from '@labor-digital/helferlein';
-import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
-import {resolveId} from '../../../Utils/resolveId';
+import {Component, Mixins, Prop, Watch} from 'vue-property-decorator';
+import {ElementIdAwareMixin} from '../../../Utils/Mixin/ElementIdAwareMixin';
 import templateFactory from '../../../Utils/templateFactory';
 import {FormInputFormatter, FormInputValidator, FormInputValueType, FormInputValueUpdateType} from './VuFormInput.interfaces';
 import VuFormInputTemplate from './VuFormInputTemplate.vue';
@@ -50,7 +50,7 @@ import VuFormInputTemplate from './VuFormInputTemplate.vue';
         VuTemplate: templateFactory(VuFormInputTemplate)
     }
 })
-export default class VuFormInputAbstract extends Vue
+export default class VuFormInputAbstract extends Mixins(ElementIdAwareMixin)
 {
     readonly min: null | number | string;
     readonly max: null | number | string;
@@ -176,11 +176,6 @@ export default class VuFormInputAbstract extends Vue
      */
     @Prop({type: Number, default: 0})
     readonly debounce: number;
-
-    /**
-     * The unique id of this element
-     */
-    public id = resolveId(this);
 
     /**
      * True as long as the error prop contains something

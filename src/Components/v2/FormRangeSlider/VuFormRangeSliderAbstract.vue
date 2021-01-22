@@ -39,8 +39,8 @@
 <script lang="ts">
 import {PlainObject} from '@labor-digital/helferlein';
 import {noUiSlider} from 'nouislider';
-import {Component, Prop, Vue} from 'vue-property-decorator';
-import {resolveId} from '../../../Utils/resolveId';
+import {Component, Mixins, Prop} from 'vue-property-decorator';
+import {ElementIdAwareMixin} from '../../../Utils/Mixin/ElementIdAwareMixin';
 import templateFactory from '../../../Utils/templateFactory';
 import {RangeSliderFormatter, RangeSliderRangeDefinition} from './VuFormRangeSlider.interfaces';
 import VuFormRangeSliderTemplate from './VuFormRangeSliderTemplate.vue';
@@ -51,7 +51,7 @@ import VuFormRangeSliderTemplate from './VuFormRangeSliderTemplate.vue';
         VuTemplate: templateFactory(VuFormRangeSliderTemplate)
     }
 })
-export default class VuFormRangeSliderAbstract extends Vue
+export default class VuFormRangeSliderAbstract extends Mixins(ElementIdAwareMixin)
 {
     /**
      * The value of either a single handle (as number) or multiple handle values (as an array)
@@ -183,11 +183,6 @@ export default class VuFormRangeSliderAbstract extends Vue
      */
     @Prop({type: Object, default: () => ({})})
     readonly options: PlainObject;
-
-    /**
-     * The unique id of this element
-     */
-    public id = resolveId(this);
 
     /**
      * The reference of the slider instance in the template

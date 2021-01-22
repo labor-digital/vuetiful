@@ -19,11 +19,12 @@
 <template></template>
 
 <script lang="ts">
-import {ComponentProxy, forEach, isNull, PlainObject} from '@labor-digital/helferlein';
-import {Component, Inject, Prop, Vue, Watch} from 'vue-property-decorator';
+import {forEach, isBrowser, isNull, PlainObject} from '@labor-digital/helferlein';
+import {Component, Inject, Mixins, Prop, Watch} from 'vue-property-decorator';
+import {ElementIdAwareMixin} from '../../../Utils/Mixin/ElementIdAwareMixin';
+import {ProxyAwareMixin} from '../../../Utils/Mixin/ProxyAwareMixin';
 import {ReactiveMap} from '../../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../../Utils/ReactiveSet';
-import {resolveId} from '../../../Utils/resolveId';
 import templateFactory from '../../../Utils/templateFactory';
 import {VuDropdownApi} from './VuDropdownApi';
 import VuDropdownTemplate from './VuDropdownTemplate.vue';
@@ -34,7 +35,7 @@ import VuDropdownTemplate from './VuDropdownTemplate.vue';
 const vuDropdownBus = new ReactiveMap<string, Function>();
 
 @Component({
-    name: 'VuDropdownItemAbstract',
+    name: 'VuDropdownAbstract',
     components: {
         VuTemplate: templateFactory(VuDropdownTemplate)
     },
@@ -45,7 +46,7 @@ const vuDropdownBus = new ReactiveMap<string, Function>();
         };
     }
 })
-export default class VuDropdownAbstract extends Vue
+export default class VuDropdownAbstract extends Mixins(ElementIdAwareMixin, ProxyAwareMixin)
 {
     @Inject({from: 'dropdownApi', default: null})
     readonly parent: VuDropdownApi;
@@ -148,16 +149,6 @@ export default class VuDropdownAbstract extends Vue
     @Prop({type: Object, default: () => ({})})
     readonly popperOptions: PlainObject;
 
-    /**
-     * The unique id of this element
-     */
-    public id = resolveId(this);
-
-    /**
-     * The event handler proxy
-     */
-    public proxy = new ComponentProxy(this);
-
     protected listenForGlobalEvents: boolean = true;
     protected listenForGlobalEventsTimeout: number = 0;
 
@@ -175,7 +166,7 @@ export default class VuDropdownAbstract extends Vue
      * The list of related dropdowns that should be ignored on the global close event
      * This is only used if you work with nested dropdowns
      */
-    public related: ReactiveSet<string>;
+    public related: ReactiveSet<string> = new ReactiveSet<string>();
 
     /**
      * The list of child dropdowns that should be closed if this dropdown is closed itself
@@ -279,11 +270,13 @@ export default class VuDropdownAbstract extends Vue
         this.related.add(this.id);
 
         // Register us for the global state management
-        vuDropdownBus.set(this.id, () => {
-            if (!this.stayOpenWhenOtherOpens) {
-                this.close();
-            }
-        });
+        if (isBrowser()) {
+            vuDropdownBus.set(this.id, () => {
+                if (!this.stayOpenWhenOtherOpens) {
+                    this.close();
+                }
+            });
+        }
     }
 
     public beforeDestroy()
@@ -293,7 +286,6 @@ export default class VuDropdownAbstract extends Vue
         if (this.isNested) {
             this.parent.children.delete(this.id);
         }
-        this.proxy.destroy();
     }
 
     @Watch('disabled')
