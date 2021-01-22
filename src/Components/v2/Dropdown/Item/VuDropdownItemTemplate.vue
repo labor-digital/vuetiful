@@ -26,7 +26,7 @@
             :is="p.linkComponent"
             :type="p.link === '' ? 'js' : 'auto'"
             :link="p.link"
-            v-bind="linkComponentProps"
+            v-bind="{...linkComponentProps, ...p.linkComponentProps}"
 
             v-if="p.type === 'default'"
             ref="focusPoint"

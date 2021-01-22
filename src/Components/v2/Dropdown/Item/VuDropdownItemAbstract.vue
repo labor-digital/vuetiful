@@ -19,6 +19,7 @@
 <template></template>
 
 <script lang="ts">
+import {PlainObject} from '@labor-digital/helferlein';
 import {ComponentOptions} from 'vue';
 import {Component, Inject, Mixins, Prop, Vue} from 'vue-property-decorator';
 import {ElementIdAwareMixin} from '../../../../Utils/Mixin/ElementIdAwareMixin';
@@ -56,6 +57,12 @@ export default class VuDropdownItemAbstract extends Mixins(ElementIdAwareMixin)
      */
     @Prop({type: [Object, String], default: () => VuLinkTag})
     readonly linkComponent: ComponentOptions<Vue>;
+
+    /**
+     * Allows you to add additional props to be passed to the link component
+     */
+    @Prop({type: Object, default: () => ({})})
+    readonly linkComponentProps: PlainObject;
 
     /**
      * Can be a link if you want to open a certain url when the user clicks on the item
