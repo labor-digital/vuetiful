@@ -39,19 +39,19 @@
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-property-decorator": "^9.1.2",
-        "@labor-digital/helferlein": "^3.32.0",
+        "@labor-digital/helferlein": "^3.33.1",
         "nouislider": "^14.6.3"
     },
     "dependencies": {
-        "@popperjs/core": "^2.5.4",
-        "url-parse": "^1.4.7",
+        "@popperjs/core": "^2.7.0",
+        "url-parse": "^1.5.0",
         "vue-cool-select": "^3.5.2",
         "vue-functional-data-merge": "^3.1.0"
     },
     "devDependencies": {
         "@labor-digital/asset-building": "8.0.13",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
-        "@labor-digital/helferlein": "^3.32.0",
+        "@labor-digital/helferlein": "^3.33.1",
         "@storybook/addon-actions": "6.0.28",
         "@storybook/addon-docs": "6.0.28",
         "@storybook/addon-knobs": "6.0.28",
@@ -59,7 +59,7 @@
         "@storybook/addon-viewport": "6.0.28",
         "@storybook/addons": "6.0.28",
         "@storybook/vue": "6.0.28",
-        "@types/nouislider": "^9.0.7",
+        "@types/nouislider": "^9.0.9",
         "@types/url-parse": "^1.4.3",
         "fork-ts-checker-webpack-plugin": "^6.0.3",
         "nouislider": "^14.6.3",

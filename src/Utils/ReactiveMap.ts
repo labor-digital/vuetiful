@@ -128,7 +128,7 @@ export class ReactiveMap<K, V> implements Iterable<{ key: K, value: V }>
     {
         // Clone the list before looping it -> So we keep all children while we iterate and delete them
         forEach(cloneList(this._byOrder), (key) => {
-            callback(this.state.data[key], key);
+            callback(this.state.data[key], key as any);
         });
     }
 

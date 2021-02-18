@@ -125,7 +125,7 @@ export default class VuFormTypeaheadTemplate extends Vue
     protected setValue(item: PreparedListItem): void
     {
         const el = this.getInputRef();
-        if (isObject(this.inputRef)) {
+        if (isObject(el)) {
             this.ignoreFocus = true;
             el.focus();
             setTimeout(() => this.ignoreFocus, 100);

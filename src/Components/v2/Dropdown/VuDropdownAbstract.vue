@@ -19,7 +19,7 @@
 <template></template>
 
 <script lang="ts">
-import {forEach, isBrowser, isNull, PlainObject} from '@labor-digital/helferlein';
+import {forEach, isBrowser, isFunction, isNull, PlainObject} from '@labor-digital/helferlein';
 import {Component, Inject, Mixins, Prop, Watch} from 'vue-property-decorator';
 import {ElementIdAwareMixin} from '../../../Utils/Mixin/ElementIdAwareMixin';
 import {ProxyAwareMixin} from '../../../Utils/Mixin/ProxyAwareMixin';
@@ -241,7 +241,7 @@ export default class VuDropdownAbstract extends Mixins(ElementIdAwareMixin, Prox
             // Close other dropdowns
             if (!this.keepOthersOpenWhenOpened) {
                 forEach(vuDropdownBus, (closer, id) => {
-                    if (!this.related.has(id)) {
+                    if (!this.related.has(id) && isFunction(closer)) {
                         closer();
                     }
                 });
