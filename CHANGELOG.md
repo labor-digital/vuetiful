@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.35.0](https://github.com/labor-digital/vuetiful/compare/v1.34.0...v1.35.0) (2021-01-22)
+
+
+### Features
+
+* **DropdownItem:** pass through link component props from a dropdown item ([89eb552](https://github.com/labor-digital/vuetiful/commit/89eb552c832ea50a4e77e2724fbb976ecef22282))
+
+
+### Bug Fixes
+
+* resolve issues with "this" in data definition ([7b0d788](https://github.com/labor-digital/vuetiful/commit/7b0d788bcd064d7608a930976df918b00623bd31))
+
 ## [1.34.0](https://github.com/labor-digital/vuetiful/compare/v1.33.0...v1.34.0) (2020-12-11)
 
 
