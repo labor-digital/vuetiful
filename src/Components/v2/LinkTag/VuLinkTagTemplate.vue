@@ -139,7 +139,7 @@ export default class VuLinkTagTemplate extends Vue
                     const pattern = new RegExp('^' + escapeRegex(url.protocol + '//' + url.host));
                     return link.replace(pattern, '');
                 case 'external':
-                    if (link.match(/^https?:/) === null) {
+                    if (link.match(/^https?:/) === null && link.charAt(0) !== '/') {
                         return 'http://' + link;
                     }
                     return link;
