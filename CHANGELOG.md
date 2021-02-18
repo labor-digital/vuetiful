@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.35.1](https://github.com/labor-digital/vuetiful/compare/v1.35.0...v1.35.1) (2021-02-18)
+
+
+### Bug Fixes
+
+* update dependencies ([ce90aa4](https://github.com/labor-digital/vuetiful/commit/ce90aa4f47c99363f9ab9a8e87cb7e887e40af85))
+* **LinkTag:** don't attach a http:// prefix for relative, external links ([734b067](https://github.com/labor-digital/vuetiful/commit/734b0673784465c98c9498b131d4301ea658c092))
+* **VueDropdownItemTemplate:** pass on all props using v-bind to allow overrides ([5aa2a74](https://github.com/labor-digital/vuetiful/commit/5aa2a74a0b017f750f9a20f054b30e1547a91d68))
+
 ## [1.35.0](https://github.com/labor-digital/vuetiful/compare/v1.34.0...v1.35.0) (2021-01-22)
 
 
