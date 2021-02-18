@@ -24,15 +24,18 @@
 
         <component
             :is="p.linkComponent"
-            :type="p.link === '' ? 'js' : 'auto'"
-            :link="p.link"
-            v-bind="{...linkComponentProps, ...p.linkComponentProps}"
+            v-bind="{
+                type: p.link === '' ? 'js' : 'auto',
+                link: p.link,
+                tabindex: p.disabled ? '-1' : null,
+                'aria-disabled': p.disabled ? 'true' : null,
+                role: p.api.isListBox ? 'option' : 'presentation',
+                ...linkComponentProps,
+                ...p.linkComponentProps
+            }"
 
             v-if="p.type === 'default'"
             ref="focusPoint"
-            :tabindex="p.disabled ? '-1' : null"
-            :aria-disabled="p.disabled ? 'true' : null"
-            :role="p.api.isListBox ? 'option' : 'presentation'"
 
             @keydown.native="onKeyDown"
             @keyup.native.prevent="onKeyUp"
