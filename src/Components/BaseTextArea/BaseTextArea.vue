@@ -29,6 +29,7 @@
                   :required="required"
                   :readonly="readOnly"
                   :disabled="disabled"
+                  v-bind="filteredAttributes"
                   @blur="$emit('blur')"
                   @focus="$emit('focus')"/>
         <!-- @slot if you want to place an icon inside the textArea. Dont forget to style it! -->
@@ -38,6 +39,8 @@
 </template>
 
 <script lang="ts">
+import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
 import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
 
@@ -95,6 +98,20 @@ export default {
         value: String
     },
     computed: {
+        filteredAttributes(): PlainObject
+        {
+            const allowedAttrs = [
+                'accept', 'alt', 'autofocus', 'autocomplete', 'form', 'formaction',
+                'list', 'maxlength', 'minlength', 'size'
+            ];
+            const result = {};
+            forEach(allowedAttrs, (attr) => {
+                if (this.$attrs[attr]) {
+                    result[attr] = this.$attrs[attr];
+                }
+            });
+            return result;
+        },
         valueInternal: {
             get()
             {
