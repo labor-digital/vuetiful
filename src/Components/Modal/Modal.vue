@@ -18,7 +18,7 @@
 
 <template>
     <transition name="fade" @after-leave="onCloseComplete">
-        <div class="modal" v-if="value" @click="close" :class="classes">
+        <div class="modal" v-if="value" @click.prevent.stop="close" :class="classes">
             <!-- @slot The outer wrap around both background and scroll wrapper -->
             <slot name="outer-wrap">
                 <!-- @slot The template of the modal backdrop -->
