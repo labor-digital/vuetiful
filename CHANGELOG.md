@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.3](https://github.com/labor-digital/vuetiful/compare/v1.36.2...v1.36.3) (2021-03-17)
+
+
+### Bug Fixes
+
+* prevent default event if closed outside of the modal ([4ba743f](https://github.com/labor-digital/vuetiful/commit/4ba743f96ee72f5a4564f21558b8f38b19645ff0))
+
 ### [1.36.2](https://github.com/labor-digital/vuetiful/compare/v1.36.1...v1.36.2) (2021-03-15)
 
 ### [1.36.1](https://github.com/labor-digital/vuetiful/compare/v1.36.0...v1.36.1) (2021-03-15)
