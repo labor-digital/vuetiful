@@ -29,6 +29,9 @@ import VuDropdownTemplate from './Components/v2/Dropdown/VuDropdownTemplate.vue'
 import VuFormInput from './Components/v2/FormInput/VuFormInput.vue';
 import VuFormInputAbstract from './Components/v2/FormInput/VuFormInputAbstract.vue';
 import VuFormInputTemplate from './Components/v2/FormInput/VuFormInputTemplate.vue';
+import VuFormRangeSlider from './Components/v2/FormRangeSlider/VuFormRangeSlider.vue';
+import VuFormRangeSliderAbstract from './Components/v2/FormRangeSlider/VuFormRangeSliderAbstract.vue';
+import VuFormRangeSliderTemplate from './Components/v2/FormRangeSlider/VuFormRangeSliderTemplate.vue';
 import VuFormTypeahead from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
 import VuFormTypeaheadAbstract from './Components/v2/FormTypeahead/VuFormTypeaheadAbstract.vue';
 import VuFormTypeaheadTemplate from './Components/v2/FormTypeahead/VuFormTypeaheadTemplate.vue';
@@ -41,20 +44,6 @@ export * from './Components/v2/Dropdown/VuDropdownApi';
 export * from './Components/v2/FormInput/VuFormInput.interfaces';
 export * from './Components/v2/FormRangeSlider/VuFormRangeSlider.interfaces';
 export * from './Components/v2/LinkTag/VuLinkTag.interfaces';
-
-// Import nouislider if possible
-export let VuFormRangeSlider = null;
-export let VuFormRangeSliderAbstract = null;
-export let VuFormRangeSliderTemplate = null;
-try {
-    require('nouislider');
-
-    VuFormRangeSlider = require('./Components/v2/FormRangeSlider/VuFormRangeSlider.vue').default;
-    VuFormRangeSliderAbstract = require('./Components/v2/FormRangeSlider/VuFormRangeSliderAbstract.vue').default;
-    VuFormRangeSliderTemplate = require('./Components/v2/FormRangeSlider/VuFormRangeSliderTemplate.vue').default;
-
-} catch (ex) {
-}
 
 // Reexport component defaults
 export {
@@ -78,11 +67,14 @@ export {
     VuFormTypeaheadAbstract,
     VuFormTypeaheadTemplate,
 
+    VuFormRangeSlider,
+    VuFormRangeSliderAbstract,
+    VuFormRangeSliderTemplate,
+
     VuLinkTag,
     VuLinkTagAbstract,
     VuLinkTagTemplate
 };
-
 
 export default {
     install(Vue)
@@ -91,9 +83,7 @@ export default {
             VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider,
             VuLinkTag
         ], (component) => {
-            if (component !== null) {
-                Vue.component(component.name, component);
-            }
+            Vue.component(component.name, component);
         });
     }
 };
