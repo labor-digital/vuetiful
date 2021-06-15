@@ -103,7 +103,7 @@ export default class VuFormTypeaheadTemplate extends Vue
 
     protected getInputRef(): HTMLElement | null
     {
-        return getPath(this.$refs, 'input.$refs.template.$refs.input');
+        return getPath(this.$refs, 'input.$refs.template.$refs.input') as any;
     }
 
     protected onKeyUp(e: KeyboardEvent)
