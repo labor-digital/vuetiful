@@ -72,16 +72,16 @@
                 <!-- @slot Optional content in front of the clear icon -->
                 <slot name="beforeClearIcon"></slot>
 
-                <button v-show="!isEmpty"
-                        v-if="!p.noClear"
-                        :tabindex="isEmpty ? -1 : null"
-                        class="vuFormInput__clear"
-                        @click.prevent="onClearClick"
-                        :aria-label="p.ariaClearLabel"
+                <a href="#" v-show="!isEmpty"
+                   v-if="!p.noClear"
+                   :tabindex="isEmpty ? -1 : null"
+                   class="vuFormInput__clear"
+                   @click.prevent="onClearClick"
+                   :aria-label="p.ariaClearLabel"
                 >
                     <!-- @slot set your custom clear icon. As default: &times; -->
                     <slot name="clearIcon">&times;</slot>
-                </button>
+                </a>
 
                 <!-- @slot Optional content at the end of the input wrap -->
                 <slot name="afterInput"></slot>
