@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.4](https://github.com/labor-digital/vuetiful/compare/v1.36.3...v1.36.4) (2021-06-15)
+
+
+### Bug Fixes
+
+* **FormInput:** replace clear "button" with "a" tag, to avoid issues inside of <form> elements ([df4b609](https://github.com/labor-digital/vuetiful/commit/df4b6097f6bcbfcb9fa89d4c3bb16f059a25d640))
+* **FormTypeahead:** fix broken return type ([c65457f](https://github.com/labor-digital/vuetiful/commit/c65457fce57150bff1f3cc6e2caa5d07432899e2))
+* export nouislider dependent components only if the dependency actually exists ([7977656](https://github.com/labor-digital/vuetiful/commit/79776564597bf4a685412b65c0ed67eae13f4fe6))
+
 ### [1.36.3](https://github.com/labor-digital/vuetiful/compare/v1.36.2...v1.36.3) (2021-03-17)
 
 
