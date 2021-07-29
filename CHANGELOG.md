@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.1](https://github.com/labor-digital/vuetiful/compare/v1.37.0...v1.37.1) (2021-07-29)
+
+
+### Bug Fixes
+
+* fix operator in string conversion ([80395a5](https://github.com/labor-digital/vuetiful/commit/80395a574237e2c9446ede625ce6bd4b7f890caa))
+* update peer dependence ([172cc3d](https://github.com/labor-digital/vuetiful/commit/172cc3d2da2617e558f4ef89ea0d8f8190a656ee))
+
 ## [1.37.0](https://github.com/labor-digital/vuetiful/compare/v1.36.4...v1.37.0) (2021-07-29)
 
 
