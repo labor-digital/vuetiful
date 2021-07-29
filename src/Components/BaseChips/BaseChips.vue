@@ -45,12 +45,7 @@
 </template>
 
 <script lang="ts">
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
-import {md5} from '@labor-digital/helferlein/lib/Misc/md5';
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
-import {isObject} from '@labor-digital/helferlein/lib/Types/isObject';
-import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
+import {forEach, getGuid, isArray, isObject, isPlainObject, md5} from '@labor-digital/helferlein';
 import BaseChip from './BaseChip.vue';
 
 export interface ChipItemDefinition

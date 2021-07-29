@@ -44,12 +44,7 @@ It will be removed in the next major version!
 </template>
 
 <script lang="ts">
-import {asArray} from '@labor-digital/helferlein/lib/FormatAndConvert/asArray';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
-import {isBool} from '@labor-digital/helferlein/lib/Types/isBool';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import {asArray, forEach, isArray, isBool, isEmpty, isUndefined} from '@labor-digital/helferlein';
 import {CheckboxInputs} from '../Checkbox/Checkbox.interfaces';
 
 /**

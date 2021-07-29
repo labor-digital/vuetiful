@@ -96,8 +96,7 @@
     </div>
 </template>
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
+import {getGuid, PlainObject} from '@labor-digital/helferlein';
 import {AccordionApi} from './AccordionApi';
 
 export default {
@@ -246,4 +245,4 @@ export default {
 };
 </script>
 
-<style lang="sass" src="BaseAccordionItem.sass"></style>
+<style lang="sass" src="./BaseAccordionItem.sass"></style>

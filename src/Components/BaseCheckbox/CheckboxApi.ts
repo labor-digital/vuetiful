@@ -16,7 +16,7 @@
  * Last modified: 2020.11.12 at 15:19
  */
 
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {PlainObject} from '@labor-digital/helferlein';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 
 export class CheckboxApi

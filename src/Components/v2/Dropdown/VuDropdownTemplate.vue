@@ -164,4 +164,4 @@ export default class VuDropdownTemplate extends Vue
 }
 </script>
 
-<style lang="sass" src="VuDropdown.basic.sass"></style>
+<style lang="sass" src="./VuDropdown.basic.sass"></style>

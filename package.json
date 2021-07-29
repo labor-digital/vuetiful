@@ -51,7 +51,7 @@
     "devDependencies": {
         "@labor-digital/asset-building": "8.0.13",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
-        "@labor-digital/helferlein": "^3.33.1",
+        "@labor-digital/helferlein": "^4.2.0",
         "@storybook/addon-actions": "6.0.28",
         "@storybook/addon-docs": "6.0.28",
         "@storybook/addon-knobs": "6.0.28",

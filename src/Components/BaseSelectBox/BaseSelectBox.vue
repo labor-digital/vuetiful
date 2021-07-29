@@ -112,19 +112,21 @@
 </template>
 
 <script lang="ts">
-import {ComponentProxy} from '@labor-digital/helferlein/lib/Entities/ComponentProxy';
-import {isBrowser} from '@labor-digital/helferlein/lib/Environment/isBrowser';
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {filter} from '@labor-digital/helferlein/lib/Lists/filter';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {map} from '@labor-digital/helferlein/lib/Lists/map';
-import {getPath} from '@labor-digital/helferlein/lib/Lists/Paths/getPath';
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isNull} from '@labor-digital/helferlein/lib/Types/isNull';
-import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
-import {isString} from '@labor-digital/helferlein/lib/Types/isString';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import {
+    ComponentProxy,
+    filter,
+    forEach,
+    getPath,
+    isArray,
+    isBrowser,
+    isEmpty,
+    isNull,
+    isPlainObject,
+    isString,
+    isUndefined,
+    map,
+    PlainObject
+} from '@labor-digital/helferlein';
 import Checkbox from '../Checkbox/Checkbox.vue';
 import Chips from '../Chips/Chips.vue';
 import InputField from '../InputField/InputField.vue';

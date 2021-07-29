@@ -40,9 +40,7 @@
 </template>
 
 <script lang="ts">
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {forEach, isArray, isEmpty} from '@labor-digital/helferlein';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 import BaseRadio from './BaseRadio.vue';
 import {RadioGroupApi} from './RadioGroupApi';

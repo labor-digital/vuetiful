@@ -16,7 +16,7 @@
  * Last modified: 2020.11.12 at 10:49
  */
 
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
+import {PlainObject} from '@labor-digital/helferlein';
 import {ReactiveMap} from '../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 

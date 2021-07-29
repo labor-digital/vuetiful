@@ -71,11 +71,7 @@
 </template>
 
 <script lang="ts">
-import {filter} from '@labor-digital/helferlein';
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isUndefined} from '@labor-digital/helferlein/lib/Types/isUndefined';
+import {filter, forEach, isEmpty, isUndefined, PlainObject} from '@labor-digital/helferlein';
 
 export default {
     name: 'InputField',

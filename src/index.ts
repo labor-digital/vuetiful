@@ -15,7 +15,7 @@
  *
  * Last modified: 2020.11.20 at 17:10
  */
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
+import {forEach} from '@labor-digital/helferlein';
 import 'vue-class-component/hooks';
 import VuDropdownItem from './Components/v2/Dropdown/Item/VuDropdownItem.vue';
 import VuDropdownItemAbstract from './Components/v2/Dropdown/Item/VuDropdownItemAbstract.vue';

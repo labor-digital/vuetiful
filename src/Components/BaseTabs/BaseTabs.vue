@@ -18,6 +18,7 @@
 
 <template>
     <div class="tabs" :id="identifier">
+
         <!-- @todo remove tabs__titleContainer class -->
         <div role="tablist" class="tabs__labels tabs__titleContainer">
 
@@ -91,10 +92,7 @@
 
 <script lang="ts">
 
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {forEach, getGuid, isEmpty, PlainObject} from '@labor-digital/helferlein';
 import {ReactiveMap} from '../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 import BaseTabItem from './BaseTabItem.vue';
