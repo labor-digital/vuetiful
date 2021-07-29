@@ -39,7 +39,7 @@
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-property-decorator": "^9.1.2",
-        "@labor-digital/helferlein": "^3.33.1",
+        "@labor-digital/helferlein": "^4.2.0",
         "nouislider": "^14.6.3"
     },
     "dependencies": {
