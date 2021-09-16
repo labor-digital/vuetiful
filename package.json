@@ -24,7 +24,7 @@
             "email": "k.martini@labor.digital"
         }
     ],
-    "version": "1.37.0-beta.0",
+    "version": "2.0.0-beta.0",
     "description": "A library of ui component skeletons for vue.js",
     "main": "dist/index.js",
     "module": "src/index.ts",
