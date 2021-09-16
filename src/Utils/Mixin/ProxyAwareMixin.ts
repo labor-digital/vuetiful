@@ -26,7 +26,7 @@ export class ProxyAwareMixin extends Vue
      * Holds the created reference to the component proxy
      * @protected
      */
-    protected xElProxy: ComponentProxy = null;
+    protected xElProxy: ComponentProxy = null as any;
 
     /**
      * Returns either the existing component proxy instance or a new once

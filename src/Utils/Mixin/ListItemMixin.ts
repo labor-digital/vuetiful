@@ -16,27 +16,17 @@
  * Last modified: 2020.11.23 at 00:30
  */
 
-import {
-    escapeRegex,
-    filter,
-    forEach,
-    getGuid,
-    isArray,
-    isEmpty,
-    isFunction,
-    isObject,
-    PlainObject
-} from '@labor-digital/helferlein';
+import {escapeRegex, filter, forEach, getGuid, isArray, isEmpty, isFunction, isObject, PlainObject} from '@labor-digital/helferlein';
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
-export interface PreparedListItem
+export interface IPreparedListItem
 {
-    value: string | number
-    label: string
-    raw: string | number | PlainObject
+    value: string | number;
+    label: string;
+    raw: string | number | PlainObject;
 }
 
-export interface ListItemResolver
+export interface IListItemResolver
 {
     (value: string | number | undefined): Promise<Array<string | PlainObject>>;
 }
@@ -48,26 +38,26 @@ export class ListItemMixin extends Vue
      * Determines the property to use as "label" when an array of objects is passed
      */
     @Prop({type: String, default: 'label'})
-    readonly labelKey: string;
+    readonly labelKey!: string;
 
     /**
      * Determines the property to use as "value" when an array of objects is passed
      */
     @Prop({type: String, default: 'value'})
-    readonly valueKey: string;
+    readonly valueKey!: string;
 
     /**
      * Defines the item list that should be used
      */
     @Prop({type: Array, default: () => []})
-    readonly listItems: Array<string | PlainObject>;
+    readonly listItems!: Array<string | PlainObject>;
 
     /**
      * You can use this resolver function INSTEAD OF listItems to fetch items dynamically
      * based on the current input
      */
     @Prop({type: Function, default: null})
-    readonly listItemResolver: ListItemResolver | null;
+    readonly listItemResolver!: IListItemResolver | null;
 
     /**
      * A cached list of resolved items returned by the listItemResolver
@@ -104,9 +94,9 @@ export class ListItemMixin extends Vue
      * This list always contains objects with both value and label no matter the input type
      * @api
      */
-    public get preparedListItems(): Array<PreparedListItem>
+    public get preparedListItems(): Array<IPreparedListItem>
     {
-        const items: Array<PreparedListItem> = [];
+        const items: Array<IPreparedListItem> = [];
         const resolvedItems = isArray(this.limResolverItems)
             ? this.limResolverItems
             : this.listItems;
@@ -138,9 +128,9 @@ export class ListItemMixin extends Vue
      * @protected
      */
     protected applyValueFilter(
-        items: Array<PreparedListItem>,
+        items: Array<IPreparedListItem>,
         value: string | number | undefined
-    ): Array<PreparedListItem>
+    ): Array<IPreparedListItem>
     {
         const prepared = (
             value + ''

@@ -15,35 +15,34 @@
  *
  * Last modified: 2020.11.20 at 17:10
  */
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
 import 'vue-class-component/hooks';
-import VuDropdownItem from './Components/v2/Dropdown/Item/VuDropdownItem.vue';
-import VuDropdownItemAbstract from './Components/v2/Dropdown/Item/VuDropdownItemAbstract.vue';
-import VuDropdownItemTemplate from './Components/v2/Dropdown/Item/VuDropdownItemTemplate.vue';
-import VuDropdownTrigger from './Components/v2/Dropdown/Trigger/VuDropdownTrigger.vue';
-import VuDropdownTriggerAbstract from './Components/v2/Dropdown/Trigger/VuDropdownTriggerAbstract.vue';
-import VuDropdownTriggerTemplate from './Components/v2/Dropdown/Trigger/VuDropdownTriggerTemplate.vue';
-import VuDropdown from './Components/v2/Dropdown/VuDropdown.vue';
-import VuDropdownAbstract from './Components/v2/Dropdown/VuDropdownAbstract.vue';
-import VuDropdownTemplate from './Components/v2/Dropdown/VuDropdownTemplate.vue';
-import VuFormInput from './Components/v2/FormInput/VuFormInput.vue';
-import VuFormInputAbstract from './Components/v2/FormInput/VuFormInputAbstract.vue';
-import VuFormInputTemplate from './Components/v2/FormInput/VuFormInputTemplate.vue';
-import VuFormRangeSlider from './Components/v2/FormRangeSlider/VuFormRangeSlider.vue';
-import VuFormRangeSliderAbstract from './Components/v2/FormRangeSlider/VuFormRangeSliderAbstract.vue';
-import VuFormRangeSliderTemplate from './Components/v2/FormRangeSlider/VuFormRangeSliderTemplate.vue';
-import VuFormTypeahead from './Components/v2/FormTypeahead/VuFormTypeahead.vue';
-import VuFormTypeaheadAbstract from './Components/v2/FormTypeahead/VuFormTypeaheadAbstract.vue';
-import VuFormTypeaheadTemplate from './Components/v2/FormTypeahead/VuFormTypeaheadTemplate.vue';
-import VuLinkTag from './Components/v2/LinkTag/VuLinkTag.vue';
-import VuLinkTagAbstract from './Components/v2/LinkTag/VuLinkTagAbstract.vue';
-import VuLinkTagTemplate from './Components/v2/LinkTag/VuLinkTagTemplate.vue';
+import VuDropdownItem from './Components/Dropdown/Item/VuDropdownItem.vue';
+import VuDropdownItemAbstract from './Components/Dropdown/Item/VuDropdownItemAbstract';
+import VuDropdownItemTemplate from './Components/Dropdown/Item/VuDropdownItemTemplate.vue';
+import VuDropdownTrigger from './Components/Dropdown/Trigger/VuDropdownTrigger.vue';
+import VuDropdownTriggerAbstract from './Components/Dropdown/Trigger/VuDropdownTriggerAbstract';
+import VuDropdownTriggerTemplate from './Components/Dropdown/Trigger/VuDropdownTriggerTemplate.vue';
+import VuDropdown from './Components/Dropdown/VuDropdown.vue';
+import VuDropdownAbstract from './Components/Dropdown/VuDropdownAbstract';
+import VuDropdownTemplate from './Components/Dropdown/VuDropdownTemplate.vue';
+import VuFormInput from './Components/FormInput/VuFormInput.vue';
+import VuFormInputAbstract from './Components/FormInput/VuFormInputAbstract';
+import VuFormInputTemplate from './Components/FormInput/VuFormInputTemplate.vue';
+import VuFormRangeSlider from './Components/FormRangeSlider/VuFormRangeSlider.vue';
+import VuFormRangeSliderAbstract from './Components/FormRangeSlider/VuFormRangeSliderAbstract';
+import VuFormRangeSliderTemplate from './Components/FormRangeSlider/VuFormRangeSliderTemplate.vue';
+import VuFormTypeahead from './Components/FormTypeahead/VuFormTypeahead.vue';
+import VuFormTypeaheadAbstract from './Components/FormTypeahead/VuFormTypeaheadAbstract';
+import VuFormTypeaheadTemplate from './Components/FormTypeahead/VuFormTypeaheadTemplate.vue';
+import VuLinkTag from './Components/LinkTag/VuLinkTag.vue';
+import VuLinkTagAbstract from './Components/LinkTag/VuLinkTagAbstract';
+import VuLinkTagTemplate from './Components/LinkTag/VuLinkTagTemplate.vue';
 
 // Reexport all ts interfaces
-export * from './Components/v2/Dropdown/VuDropdownApi';
-export * from './Components/v2/FormInput/VuFormInput.interfaces';
-export * from './Components/v2/FormRangeSlider/VuFormRangeSlider.interfaces';
-export * from './Components/v2/LinkTag/VuLinkTag.interfaces';
+export * from './Components/Dropdown/VuDropdownApi';
+export * from './Components/FormInput/types';
+export * from './Components/FormRangeSlider/types';
+export * from './Components/LinkTag/types';
 
 // Reexport component defaults
 export {
@@ -76,14 +75,14 @@ export {
     VuLinkTagTemplate
 };
 
-export default {
-    install(Vue)
-    {
-        forEach([
-            VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider,
-            VuLinkTag
-        ], (component) => {
-            Vue.component(component.name, component);
-        });
-    }
-};
+// export default {
+//     install(Vue: VueConstructor)
+//     {
+//         [
+//             VuFormInput, VuDropdown, VuDropdownTrigger, VuFormTypeahead, VuDropdownItem, VuFormRangeSlider,
+//             VuLinkTag
+//         ].forEach((component) => {
+//             Vue.component(component!.name, component);
+//         });
+//     }
+// };

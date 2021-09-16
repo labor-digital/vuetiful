@@ -27,24 +27,25 @@ export abstract class AbstractItemApi
 
     protected constructor()
     {
-
         const that = this;
         this.state = new Vue({
             data()
             {
-                const itemSet = new ReactiveSet();
-                const itemMap = new ReactiveMap();
+                const itemSet = new ReactiveSet<string>();
+                const itemMap = new ReactiveMap<string, PlainObject>();
                 const data = {itemSet, itemMap};
+
                 forEach(that.defineFlagLists(), (property: string) => {
                     data['dynamicFlagList_' + property] = function () {
                         const set = new ReactiveSet();
                         forEach(itemSet, (id) => {
-                            if (itemMap.get(id)[property] === true) {
+                            if (itemMap.get(id)![property] === true) {
                                 set.add(id);
                             }
                         });
                     };
                 });
+
                 return data;
             }
         });

@@ -1,6 +1,7 @@
 node_modules
 !.keep
 storybook-static
+.log
 
 # Don't commit compiled sources
 dist

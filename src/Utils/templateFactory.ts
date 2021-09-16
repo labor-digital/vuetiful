@@ -17,7 +17,10 @@
  */
 
 import {filter, isPlainObject, map, PlainObject} from '@labor-digital/helferlein';
+import type {ComponentOptions} from 'vue';
 import {mergeData} from 'vue-functional-data-merge';
+import type {FunctionalComponentOptions} from 'vue/types/options';
+import type {VNode} from 'vue/types/vnode';
 
 /**
  * Used to provide the View component definition on an abstract.
@@ -25,11 +28,14 @@ import {mergeData} from 'vue-functional-data-merge';
  * @param alternativeParent By default the generated component will inherit the context
  * from it's direct parent. You can use the second parameter to inject a different parent/context if required.
  */
-export default function <T = any>(template: T, alternativeParent?: PlainObject): T {
+export default function (
+    template: FunctionalComponentOptions | ComponentOptions<any> | any,
+    alternativeParent?: PlainObject
+): FunctionalComponentOptions {
     return {
         functional: true,
-        props: map(isPlainObject((<any>template).props) ? (template as any).props : {}, v => null),
-        render(h, ctx)
+        props: map(isPlainObject((<any>template).props) ? (template as any).props : {}, () => null) as any,
+        render(h, ctx): VNode | VNode[]
         {
             const parent = alternativeParent ?? ctx.parent;
             const localData = {
@@ -43,5 +49,5 @@ export default function <T = any>(template: T, alternativeParent?: PlainObject):
             };
             return h(template, mergeData(ctx.data, localData), [ctx.children]);
         }
-    } as any;
+    };
 };

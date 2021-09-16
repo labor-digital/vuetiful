@@ -16,7 +16,7 @@
  * Last modified: 2020.11.20 at 23:23
  */
 import {getGuid, inflectToDashed, isString} from '@labor-digital/helferlein';
-import Vue from 'vue';
+import type Vue from 'vue';
 import {ReactiveMap} from './ReactiveMap';
 
 const componentNameCache = new ReactiveMap<string, string>();
@@ -30,10 +30,12 @@ export function resolveId(component: Vue): string
     let componentName = 'vue-el';
     if (isString(component.$options.name)) {
         componentName = component.$options.name;
+
         if (!componentNameCache.has(componentName)) {
             componentNameCache.set(componentName, inflectToDashed(componentName));
         }
-        componentName = componentNameCache.get(componentName);
+
+        componentName = componentNameCache.get(componentName)!;
     }
 
     return (component.$attrs.id ?? component.$vnode.key ?? getGuid(componentName + '-')) + '';

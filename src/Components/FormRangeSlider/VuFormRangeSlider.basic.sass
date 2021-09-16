@@ -1,0 +1,291 @@
+/*!
+ / Copyright 2020 LABOR.digital
+ /
+ / Licensed under the Apache License, Version 2.0 (the "License");
+ / you may not use this file except in compliance with the License.
+ / You may obtain a copy of the License at
+ /
+ /     http://www.apache.org/licenses/LICENSE-2.0
+ /
+ / Unless required by applicable law or agreed to in writing, software
+ / distributed under the License is distributed on an "AS IS" BASIS,
+ / WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ / See the License for the specific language governing permissions and
+ / limitations under the License.
+ /
+ / Last modified: 2020.12.03 at 00:10
+ /
+$vuFormRangeSliderBaseColor: gray !default
+$vuFormRangeSliderBaseDisabledColor: lightgray !default
+$vuFormRangeSliderHandleColor: black !default
+$vuFormRangeSliderHandleDisabledColor: gray !default
+$vuFormRangeSliderConnectColor: aqua !default
+$vuFormRangeSliderConnectDisabledColor: lightblue !default
+
+$vuFormRangeSliderBaseWidth: 10px !default
+$vuFormRangeSliderHandleWidth: 40px !default
+$vuFormRangeSliderHandleHeight: 20px !default
+
+$vuFormRangeSliderVerticalHeight: 200px !default
+
+.vuFormRangeSlider
+
+  &--horizontal
+
+    & .vuFormRangeSlider__slider
+      height: $vuFormRangeSliderBaseWidth
+      margin-top: $vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5
+      margin-bottom: $vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5
+
+    & .vuFormRangeSlider__handle
+      width: $vuFormRangeSliderHandleWidth
+      height: $vuFormRangeSliderHandleHeight
+      right: -$vuFormRangeSliderHandleWidth * 0.5
+      top: -($vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5)
+
+    &:not(.vuFormRangeSlider--fullWidth)
+      .vuFormRangeSlider__slider
+        padding-left: $vuFormRangeSliderHandleWidth * 0.5
+        padding-right: $vuFormRangeSliderHandleWidth * 0.5
+
+      .vuFormRangeSlider__connects
+        margin-left: -$vuFormRangeSliderHandleWidth * 0.5
+        width: calc(100% + #{$vuFormRangeSliderHandleWidth})
+
+  &--vertical
+    padding-left: $vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5
+    padding-right: $vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5
+
+    & .vuFormRangeSlider__handle
+      height: $vuFormRangeSliderHandleWidth
+      width: $vuFormRangeSliderHandleHeight
+      top: -$vuFormRangeSliderHandleWidth * 0.5
+      right: -($vuFormRangeSliderHandleHeight * 0.5 - $vuFormRangeSliderBaseWidth * 0.5)
+
+    & .vuFormRangeSlider__slider
+      width: $vuFormRangeSliderBaseWidth
+      height: $vuFormRangeSliderVerticalHeight
+
+    &:not(.vuFormRangeSlider--fullWidth)
+      .vuFormRangeSlider__slider
+        padding-top: $vuFormRangeSliderHandleWidth * 0.5
+        padding-bottom: $vuFormRangeSliderHandleWidth * 0.5
+
+      .vuFormRangeSlider__connects
+        margin-top: -$vuFormRangeSliderHandleWidth * 0.5
+        height: calc(100% + #{$vuFormRangeSliderHandleWidth})
+
+      .vuFormRangeSlider__handle
+        top: 0
+
+  &--disabled
+
+    & .vuFormRangeSlider__connect
+      background: $vuFormRangeSliderConnectDisabledColor
+
+    & .vuFormRangeSlider__handle
+      background: $vuFormRangeSliderHandleDisabledColor
+
+    & .vuFormRangeSlider__slider
+      background: $vuFormRangeSliderBaseDisabledColor
+
+    & .vuFormRangeSlider__base
+      cursor: not-allowed
+
+  &__slider
+    background: $vuFormRangeSliderBaseColor
+
+    &,
+    & *
+      position: relative
+      touch-action: none
+      user-select: none
+      box-sizing: border-box
+
+  &__base,
+  &__connects
+    width: 100%
+    height: 100%
+    position: relative
+    z-index: 1
+
+  &__connects
+    overflow: hidden
+    z-index: 0
+
+  &__connect
+    background: $vuFormRangeSliderConnectColor
+    height: 100%
+    width: 100%
+
+  &__handle
+    backface-visibility: hidden
+    position: absolute
+    background: $vuFormRangeSliderHandleColor
+
+
+  /*! nouislider - 14.6.3 - 11/19/2020 */
+  /* Functional styling;
+   * These styles are required for noUiSlider to function.
+   * You don't need to change these rules to apply your design.
+   */
+
+  // Wrapper for all connect elements.//
+  .noUi-connect,
+  .noUi-origin
+    will-change: transform
+    position: absolute
+    z-index: 1
+    top: 0
+    right: 0
+    transform-origin: 0 0
+    transform-style: flat
+
+  .noUi-origin
+    height: 10%
+    width: 10%
+
+  // Offset direction
+  .noUi-txt-dir-rtl.noUi-horizontal .noUi-origin
+    left: 0
+    right: auto
+
+  // Give origins 0 height/width so they don't interfere with clicking the
+  // connect elements.
+  .noUi-vertical .noUi-origin
+    width: 0
+
+  .noUi-horizontal .noUi-origin
+    height: 0
+
+  .noUi-touch-area
+    height: 100%
+    width: 100%
+
+  .noUi-state-tap .noUi-connect,
+  .noUi-state-tap .noUi-origin
+    transition: transform 0.3s
+
+  .noUi-state-drag *
+    cursor: inherit !important
+
+  // Handles and cursors
+  .noUi-draggable
+    cursor: ew-resize
+
+  .noUi-vertical .noUi-draggable
+    cursor: ns-resize
+
+  .noUi-pips,
+  .noUi-pips *
+    box-sizing: border-box
+
+  .noUi-pips
+    position: absolute
+    color: #999
+
+  // Values
+  .noUi-value
+    position: absolute
+    white-space: nowrap
+    text-align: center
+
+  .noUi-value-sub
+    color: #ccc
+    font-size: 10px
+
+  // Markings
+  .noUi-marker
+    position: absolute
+    background: #CCC
+
+  .noUi-marker-sub
+    background: #AAA
+
+  .noUi-marker-large
+    background: #AAA
+
+  // Horizontal layout
+  .noUi-pips-horizontal
+    padding: 10px 0
+    height: 80px
+    top: 100%
+    left: 0
+    width: 100%
+
+  .noUi-value-horizontal
+    transform: translate(-50%, 50%)
+
+  .noUi-rtl .noUi-value-horizontal
+    transform: translate(50%, 50%)
+
+  .noUi-marker-horizontal
+    &.noUi-marker
+      margin-left: -1px
+      width: 2px
+      height: 5px
+
+    &.noUi-marker-sub
+      height: 10px
+
+    &.noUi-marker-large
+      height: 15px
+
+  // Vertical layout
+  .noUi-pips-vertical
+    padding: 0 10px
+    height: 100%
+    top: 0
+    left: 100%
+
+  .noUi-value-vertical
+    transform: translate(0, -50%)
+    padding-left: 25px
+
+  .noUi-rtl .noUi-value-vertical
+    transform: translate(0, 50%)
+
+  .noUi-marker-vertical
+    &.noUi-marker
+      width: 5px
+      height: 2px
+      margin-top: -1px
+
+    &.noUi-marker-sub
+      width: 10px
+
+    &.noUi-marker-large
+      width: 15px
+
+  .noUi-tooltip
+    display: block
+    position: absolute
+    background: #fff
+    text-align: center
+    white-space: nowrap
+
+  .noUi-horizontal .noUi-tooltip
+    -webkit-transform: translate(-50%, 0)
+    transform: translate(-50%, 0)
+    left: 50%
+    bottom: 120%
+
+  .noUi-vertical .noUi-tooltip
+    -webkit-transform: translate(0, -50%)
+    transform: translate(0, -50%)
+    top: 50%
+    right: 120%
+
+  .noUi-horizontal .noUi-origin > .noUi-tooltip
+    -webkit-transform: translate(50%, 0)
+    transform: translate(50%, 0)
+    left: auto
+    bottom: 10px
+
+  .noUi-vertical .noUi-origin > .noUi-tooltip
+    -webkit-transform: translate(0, -18px)
+    transform: translate(0, -18px)
+    top: auto
+    right: 28px
+
+

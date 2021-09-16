@@ -15,7 +15,7 @@
  *
  * Last modified: 2020.11.11 at 19:06
  */
-import {cloneList, forEach, isUndefined} from '@labor-digital/helferlein';
+import {cloneList, forEach, ForEachCallback, isUndefined} from '@labor-digital/helferlein';
 import Vue from 'vue';
 
 /**
@@ -112,7 +112,7 @@ export class ReactiveMap<K, V> implements Iterable<{ key: K, value: V }>
      */
     public getBefore(key: K, returnKey?: boolean): V | K | null
     {
-        let previousKey;
+        let previousKey: K;
         let result = null;
         forEach(this._byOrder, (k) => {
             if (k === key) {
@@ -127,8 +127,9 @@ export class ReactiveMap<K, V> implements Iterable<{ key: K, value: V }>
     public forEach(callback: ForEachCallback): void
     {
         // Clone the list before looping it -> So we keep all children while we iterate and delete them
-        forEach(cloneList(this._byOrder), (key) => {
-            callback(this.state.data[key], key as any);
+        const list = cloneList(this._byOrder);
+        forEach(list, (key) => {
+            callback(this.state.data[key], key as any, list);
         });
     }
 
@@ -139,7 +140,7 @@ export class ReactiveMap<K, V> implements Iterable<{ key: K, value: V }>
         {
             protected _i = 0;
 
-            public next(...args: [] | [undefined]): IteratorResult<{ key: K, value: V }, any>
+            public next(): IteratorResult<{ key: K, value: V }, any>
             {
                 if (this._i < that._byOrder.length) {
                     return {

@@ -15,11 +15,11 @@
  *
  * Last modified: 2020.11.11 at 19:06
  */
-import {cloneList, forEach} from '@labor-digital/helferlein';
+import {cloneList, forEach, ForEachCallback} from '@labor-digital/helferlein';
 import Vue from 'vue';
 
 /**
- * A super simple set implementation that can be watched by vue's reactivity
+ * A super simple set implementation that can be watched by vues reactivity
  */
 export class ReactiveSet<T> implements Iterable<T>
 {
@@ -77,7 +77,7 @@ export class ReactiveSet<T> implements Iterable<T>
         {
             protected _i = 0;
 
-            public next(...args: [] | [undefined]): IteratorResult<T, any>
+            public next(): IteratorResult<T, any>
             {
                 if (this._i < that.state.data.length) {
                     return {value: that.state.data[this._i++], done: false};
