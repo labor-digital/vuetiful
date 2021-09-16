@@ -55,6 +55,7 @@
         "@types/clone": "^2.1.1",
         "@types/nouislider": "^9.0.10",
         "@types/url-parse": "^1.4.4",
+        "@vue/compiler-sfc": "^3.2.11",
         "autoprefixer": "^10.3.4",
         "cssnano": "^5.0.8",
         "gulp": "^4.0.2",
