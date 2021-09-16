@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.37.0-beta.0](https://github.com/labor-digital/vuetiful/compare/v1.36.3...v1.37.0-beta.0) (2021-09-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* restructure code and build process - not compatible
+with earlier versions
+
+### Features
+
+* migrate to v2 ([e555cc5](https://github.com/labor-digital/vuetiful/commit/e555cc5b4224528cc42c15d4651dd26720806fad))
+
+
+### Bug Fixes
+
+* add missing @vue/compiler-sfc dependency ([6d6bc7e](https://github.com/labor-digital/vuetiful/commit/6d6bc7e42119c049f7650b90a373332724ccc4ac))
+* add missing vue to dev dependencies ([0af27b2](https://github.com/labor-digital/vuetiful/commit/0af27b28afe3258032505cf59904e357c3779b7b))
+* **FormInput:** replace clear "button" with "a" tag, to avoid issues inside of <form> elements ([df4b609](https://github.com/labor-digital/vuetiful/commit/df4b6097f6bcbfcb9fa89d4c3bb16f059a25d640))
+* **FormTypeahead:** fix broken return type ([c65457f](https://github.com/labor-digital/vuetiful/commit/c65457fce57150bff1f3cc6e2caa5d07432899e2))
+* export nouislider dependent components only if the dependency actually exists ([7977656](https://github.com/labor-digital/vuetiful/commit/79776564597bf4a685412b65c0ed67eae13f4fe6))
+
 ### [1.36.3](https://github.com/labor-digital/vuetiful/compare/v1.36.2...v1.36.3) (2021-03-17)
 
 
