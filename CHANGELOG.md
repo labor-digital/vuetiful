@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.2](https://github.com/labor-digital/vuetiful/compare/v1.37.1...v1.37.2) (2021-10-03)
+
+
+### Bug Fixes
+
+* import PlainObject correctly ([a8070fd](https://github.com/labor-digital/vuetiful/commit/a8070fda912fd33bbd354a0ba6c29dfd5e4e19f3))
+
 ### [1.37.1](https://github.com/labor-digital/vuetiful/compare/v1.37.0...v1.37.1) (2021-07-29)
 
 
