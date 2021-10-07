@@ -47,13 +47,7 @@
 </template>
 
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {forEach} from '@labor-digital/helferlein/lib/Lists/forEach';
-import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
-import {isArray} from '@labor-digital/helferlein/lib/Types/isArray';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
-import {isPlainObject} from '@labor-digital/helferlein/lib/Types/isPlainObject';
-import {isString} from '@labor-digital/helferlein/lib/Types/isString';
+import {forEach, getGuid, isArray, isEmpty, isPlainObject, isString, PlainObject} from '@labor-digital/helferlein';
 import {ReactiveMap} from '../../Utils/ReactiveMap';
 import {ReactiveSet} from '../../Utils/ReactiveSet';
 import {AccordionApi} from './AccordionApi';

@@ -246,4 +246,4 @@ export default class VuFormRangeSliderTemplate extends Vue
 }
 </script>
 
-<style lang="sass" src="VuFormRangeSlider.basic.sass"></style>
+<style lang="sass" src="./VuFormRangeSlider.basic.sass"></style>

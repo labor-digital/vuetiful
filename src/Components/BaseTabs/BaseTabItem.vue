@@ -33,8 +33,7 @@
 </template>
 
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {getGuid} from '@labor-digital/helferlein/lib/Misc/getGuid';
+import {getGuid, PlainObject} from '@labor-digital/helferlein';
 import Vue from 'vue';
 import {TabsApi} from './TabsApi';
 

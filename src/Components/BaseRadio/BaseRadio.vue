@@ -58,8 +58,7 @@
 </template>
 
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isEmpty, PlainObject} from '@labor-digital/helferlein';
 import {RadioGroupApi} from './RadioGroupApi';
 
 // @todo we could abstract methods from baseCheckbox and baseRadio into a mixin to save one half of the code

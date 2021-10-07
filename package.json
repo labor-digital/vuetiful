@@ -24,7 +24,7 @@
             "email": "k.martini@labor.digital"
         }
     ],
-    "version": "1.36.3",
+    "version": "1.37.2",
     "description": "A library of ui component skeletons for vue.js",
     "main": "dist/index.js",
     "module": "src/index.ts",
@@ -39,7 +39,7 @@
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-property-decorator": "^9.1.2",
-        "@labor-digital/helferlein": "^3.33.1",
+        "@labor-digital/helferlein": "^4.2.0",
         "nouislider": "^14.6.3"
     },
     "dependencies": {
@@ -51,7 +51,7 @@
     "devDependencies": {
         "@labor-digital/asset-building": "8.0.13",
         "@labor-digital/asset-building-env-vuejs": "^4.0.2",
-        "@labor-digital/helferlein": "^3.33.1",
+        "@labor-digital/helferlein": "^4.2.0",
         "@storybook/addon-actions": "6.0.28",
         "@storybook/addon-docs": "6.0.28",
         "@storybook/addon-knobs": "6.0.28",

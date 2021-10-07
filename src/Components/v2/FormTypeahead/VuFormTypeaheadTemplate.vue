@@ -144,4 +144,4 @@ export default class VuFormTypeaheadTemplate extends Vue
 }
 </script>
 
-<style lang="sass" src="VuTypeahead.basic.sass"></style>
+<style lang="sass" src="./VuTypeahead.basic.sass"></style>

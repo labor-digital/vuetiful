@@ -58,8 +58,7 @@
 </template>
 
 <script lang="ts">
-import {PlainObject} from '@labor-digital/helferlein/lib/Interfaces/PlainObject';
-import {isEmpty} from '@labor-digital/helferlein/lib/Types/isEmpty';
+import {isEmpty, PlainObject} from '@labor-digital/helferlein';
 import {RadioGroupApi} from '../BaseRadio/RadioGroupApi';
 import {CheckboxApi} from './CheckboxApi';
 

@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.2](https://github.com/labor-digital/vuetiful/compare/v1.37.1...v1.37.2) (2021-10-03)
+
+
+### Bug Fixes
+
+* import PlainObject correctly ([a8070fd](https://github.com/labor-digital/vuetiful/commit/a8070fda912fd33bbd354a0ba6c29dfd5e4e19f3))
+
+### [1.37.1](https://github.com/labor-digital/vuetiful/compare/v1.37.0...v1.37.1) (2021-07-29)
+
+
+### Bug Fixes
+
+* fix operator in string conversion ([80395a5](https://github.com/labor-digital/vuetiful/commit/80395a574237e2c9446ede625ce6bd4b7f890caa))
+* update peer dependence ([172cc3d](https://github.com/labor-digital/vuetiful/commit/172cc3d2da2617e558f4ef89ea0d8f8190a656ee))
+
+## [1.37.0](https://github.com/labor-digital/vuetiful/compare/v1.36.4...v1.37.0) (2021-07-29)
+
+
+### Features
+
+* update dependencies ([8cc9adb](https://github.com/labor-digital/vuetiful/commit/8cc9adb38cf2dfba6a1f62e74699e09b34121503))
+
+### [1.36.4](https://github.com/labor-digital/vuetiful/compare/v1.36.3...v1.36.4) (2021-06-15)
+
+
+### Bug Fixes
+
+* **FormInput:** replace clear "button" with "a" tag, to avoid issues inside of <form> elements ([df4b609](https://github.com/labor-digital/vuetiful/commit/df4b6097f6bcbfcb9fa89d4c3bb16f059a25d640))
+* **FormTypeahead:** fix broken return type ([c65457f](https://github.com/labor-digital/vuetiful/commit/c65457fce57150bff1f3cc6e2caa5d07432899e2))
+* export nouislider dependent components only if the dependency actually exists ([7977656](https://github.com/labor-digital/vuetiful/commit/79776564597bf4a685412b65c0ed67eae13f4fe6))
+
 ### [1.36.3](https://github.com/labor-digital/vuetiful/compare/v1.36.2...v1.36.3) (2021-03-17)
 
 

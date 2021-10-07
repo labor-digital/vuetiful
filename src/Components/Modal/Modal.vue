@@ -54,8 +54,7 @@
 </template>
 
 <script lang="ts">
-import {ComponentProxy} from '@labor-digital/helferlein/lib/Entities/ComponentProxy';
-import {stopBodyScrolling} from '@labor-digital/helferlein/lib/Ui/stopBodyScrolling';
+import {ComponentProxy, stopBodyScrolling} from '@labor-digital/helferlein';
 
 /**
  * A simple modal component, nothing more - nothing less
