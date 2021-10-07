@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.3](https://github.com/labor-digital/vuetiful/compare/v1.37.2...v1.37.3) (2021-10-07)
+
+
+### Bug Fixes
+
+* **Modal:** make sure modal behaves correctly ([54c41af](https://github.com/labor-digital/vuetiful/commit/54c41afa73595fa7418733bcb60cfe4037b58c3a))
+
 ### [1.37.2](https://github.com/labor-digital/vuetiful/compare/v1.37.1...v1.37.2) (2021-10-03)
 
 
