@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.4](https://github.com/labor-digital/vuetiful/compare/v1.37.3...v1.37.4) (2021-11-16)
+
+
+### Bug Fixes
+
+* **Modal:** only destroy proxy if it exists ([88af1d5](https://github.com/labor-digital/vuetiful/commit/88af1d52d75c4c9e5c4fa8c76c7e28b7ae8ac0f9))
+
 ### [1.37.3](https://github.com/labor-digital/vuetiful/compare/v1.37.2...v1.37.3) (2021-10-07)
 
 
