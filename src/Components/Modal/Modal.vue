@@ -156,7 +156,9 @@ export default {
     },
     beforeDestroy(): void
     {
-        this.proxy.destroy();
+        if (this.proxy) {
+            this.proxy.destroy();
+        }
     }
 };
 </script>
