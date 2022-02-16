@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.5](https://github.com/labor-digital/vuetiful/compare/v1.37.4...v1.37.5) (2022-02-16)
+
+
+### Bug Fixes
+
+* replace unreliable .test ([97b1079](https://github.com/labor-digital/vuetiful/commit/97b107909e4b57ade90e95f528d5e7e0ec56d60d))
+
 ### [1.37.4](https://github.com/labor-digital/vuetiful/compare/v1.37.3...v1.37.4) (2021-11-16)
 
 
