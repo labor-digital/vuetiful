@@ -156,7 +156,7 @@ export class ListItemMixin extends Vue
             if (item.label === value) {
                 return false;
             }
-            return regex.test(item.label);
+            return !!(item.label + '').match(regex)
         });
     }
 
