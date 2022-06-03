@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.6](https://github.com/labor-digital/vuetiful/compare/v1.37.5...v1.37.6) (2022-06-03)
+
+
+### Bug Fixes
+
+* use multiplcation or calc instead of division ([60ad1c8](https://github.com/labor-digital/vuetiful/commit/60ad1c8ce83f2c287ca35980ab2e1acca94c56b1))
+
 ### [1.37.5](https://github.com/labor-digital/vuetiful/compare/v1.37.4...v1.37.5) (2022-02-16)
 
 
