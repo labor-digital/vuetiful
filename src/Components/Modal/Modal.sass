@@ -103,7 +103,7 @@ $modal-animation-time: 0.3s !default
     right: -40px
 
     @media (max-width: $modal-bp-sm)
-      right: $modal-padding / 2
+      right: $modal-padding * 0.5
       top: -40px
 
     &Icon:after
@@ -133,7 +133,7 @@ $modal-animation-time: 0.3s !default
       @media (max-width: $modal-bp-xs)
         width: $modal-width-xs
         min-width: $modal-min-width-xs
-        padding: $modal-padding $modal-padding / 2 $modal-padding * 2 $modal-padding / 2
+        padding: $modal-padding $modal-padding * 0.5 $modal-padding * 2 $modal-padding * 0.5
 
   &__scrollWrapper
     position: absolute
